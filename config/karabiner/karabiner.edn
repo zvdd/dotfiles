@@ -3,7 +3,22 @@
          :sim     50
          :delay   80
          :alone   120
-         :held    70}}
+         :held    70}
+  :pDQ {:default false
+        :sim     50
+        :delay   80
+        :alone   120
+        :held    70}
+    :DQ {:default false
+        :sim     50
+        :delay   80
+        :alone   120
+        :held    70}
+    :test {:default false
+        :sim     50
+        :delay   80
+        :alone   120
+        :held    70}}
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""
@@ -37,6 +52,7 @@
              :m-mode {:key :m}
              :dot-mode {:key :period}
              :spacebar-mode {:key :spacebar}
+             :slash-mode {:key :slash}
              :go-mode {:key :period :condi ["in-go" 1]}
              :js-mode {:key :period :condi ["in-js" 1]}
              :swift-mode {:key :period :condi ["in-swift" 1]}
@@ -82,11 +98,85 @@
                  [:b :!Sb]
                  [:n :!Sn]
                  [:m :!Sm]]}
-        {:des "right cmd -> Alfred"
-         :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
-        {:des "left cmd -> cmd+tab"
-         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
-       {:des "akey (ctrl)"
+ {:des "colonkey (shift)"
+         :rules [:pDQ
+                 :semicolon-mode
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 [:grave_accent_and_tilde [:!Sgrave_accent_and_tilde]] ; -> ~
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 [:quote :!Squote]
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 [:n :!Sn]
+                 [:m :!Sm]]}
+ {:des "colonkey (shift)"
+         :rules [:DQ
+                 :semicolon-mode
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 [:grave_accent_and_tilde [:!Sgrave_accent_and_tilde]] ; -> ~
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 [:quote :!Squote]
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 [:n :!Sn]
+                 [:m :!Sm]]}
+  {:des "akey (ctrl)"
          :rules [:a-mode
                  [:tab :!Ttab]
                  [:spacebar :!Tspacebar]
@@ -133,51 +223,200 @@
                  [:8 :!T8]
                  [:9 :!T9]
                  [:0 :!T0]]}
-        {:des "qkey (cmd + shift)"
-         :rules [:q-mode
-                 [:3 :!CS3]
-                 [:4 :!CS4]
-                 [:5 :!CS5]
-                 [:6 :!CS6]
-                 [:7 :!CS7]
-                 [:8 :!CS8]
-                 [:9 :!CS9]
-                 [:0 :!CS0]
-                 [:w :!CSw]
-                 [:e :!CSe]
-                 [:r :!CSr]
-                 [:t :!CSt]
-                 [:y :!CSy]
-                 [:u :!CSu]
-                 [:i :!CSi]
-                 [:o :!CSo]
-                 [:p :!CSp]
-                 [:open_bracket :!CSopen_bracket]
-                 [:close_bracket :!CSclose_bracket]
-                 [:a :!CSa]
-                 [:s :!CSs]
-                 [:d :!CSd]
-                 [:f :!CSf]
-                 [:g :!CSg]
-                 [:h :!CSh]
-                 [:j :!CSj]
-                 [:k :!CSk]
-                 [:l :!CSl]
-                 [:semicolon :!CSsemicolon]
-                 [:quote :!CSquote]
-                 [:z :!CSz]
-                 [:x :!CSx]
-                 [:c :!CSc]
-                 [:v :!CSv]
-                 [:b :!CSb]
-                 [:n :!CSn]
-                 [:m :!CSm]
-                 [:comma :!CScomma]
-                 [:period :!CSperiod]
-                 [:slash :!CSslash]
-                 [:spacebar :!CSOe]]} ; Selection -> YouTube
+  {:des "akey (ctrl)"
+         :rules [:pDQ
+                 :a-mode
+                 [:tab :!Ttab]
+                 [:spacebar :!Tspacebar]
+                 [:return_or_enter :!Treturn_or_enter]
+                 [:open_bracket :!Topen_bracket]
+                 [:close_bracket :!Tclose_bracket]
+                 [:semicolon :!Tsemicolon]
+                 [:quote :!Tquote]
+                 [:comma :!Tcomma]
+                 [:period :!Tperiod]
+                 [:slash :!Tslash]
+                 [:b :!Tb]
+                 [:c :!Tc]
+                 [:d :!Td]
+                 [:e :!Te]
+                 [:f :!Tf]
+                 [:g :!Tg]
+                 [:h :!Th]
+                 [:i :!Ti]
+                 [:j :!Tj]
+                 [:k :!Tk]
+                 [:l :!Tl]
+                 [:m :!Tm]
+                 [:n :!Tn]
+                 [:o :!To]
+                 [:p :!Tp]
+                 [:q :!Tq]
+                 [:r :!Tr]
+                 [:s :!Ts]
+                 [:t :!Tt]
+                 [:u :!Tu]
+                 [:v :!Tv]
+                 [:w :!Tw]
+                 [:x :!Tx]
+                 [:y :!Ty]
+                 [:z :!Tz]
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 [:6 :!T6]
+                 [:7 :!T7]
+                 [:8 :!T8]
+                 [:9 :!T9]
+                 [:0 :!T0]]}
+  {:des "akey (ctrl)"
+         :rules [:DQ
+                 :a-mode
+                 [:tab :!Ttab]
+                 [:spacebar :!Tspacebar]
+                 [:return_or_enter :!Treturn_or_enter]
+                 [:open_bracket :!Topen_bracket]
+                 [:close_bracket :!Tclose_bracket]
+                 [:semicolon :!Tsemicolon]
+                 [:quote :!Tquote]
+                 [:comma :!Tcomma]
+                 [:period :!Tperiod]
+                 [:slash :!Tslash]
+                 [:b :!Tb]
+                 [:c :!Tc]
+                 [:d :!Td]
+                 [:e :!Te]
+                 [:f :!Tf]
+                 [:g :!Tg]
+                 [:h :!Th]
+                 [:i :!Ti]
+                 [:j :!Tj]
+                 [:k :!Tk]
+                 [:l :!Tl]
+                 [:m :!Tm]
+                 [:n :!Tn]
+                 [:o :!To]
+                 [:p :!Tp]
+                 [:q :!Tq]
+                 [:r :!Tr]
+                 [:s :!Ts]
+                 [:t :!Tt]
+                 [:u :!Tu]
+                 [:v :!Tv]
+                 [:w :!Tw]
+                 [:x :!Tx]
+                 [:y :!Ty]
+                 [:z :!Tz]
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 [:6 :!T6]
+                 [:7 :!T7]
+                 [:8 :!T8]
+                 [:9 :!T9]
+                 [:0 :!T0]]}
         {:des "ekey (cmd)"
          :rules [:e-mode
+                 [:tab :!Ctab]
+                 [:spacebar :!Cspacebar]
+                 [:return_or_enter :!Creturn_or_enter]
+                 [:open_bracket :!Copen_bracket]
+                 [:close_bracket :!Cclose_bracket]
+                 [:semicolon :!Csemicolon]
+                 [:quote :!Cquote]
+                 [:comma :!Ccomma]
+                 [:period :!Cperiod]
+                 [:slash :!Cslash]
+                 [:a :!Ca]
+                 [:b :!Cb]
+                 [:c :!Cc]
+                 [:d :!Cd]
+                 [:f :!Cf]
+                 [:g :!Cg]
+                 [:h :!Ch]
+                 [:i :!Ci]
+                 [:j :!Cj]
+                 [:k :!Ck]
+                 [:l :!Cl]
+                 [:m :!Cm]
+                 [:n :!Cn]
+                 [:o :!Co]
+                 [:p :!Cp]
+                 [:q :!Cq]
+                 [:r :!Cr]
+                 [:s :!Cs]
+                 [:t :!Ct]
+                 [:u :!Cu]
+                 [:v :!Cv]
+                 [:w :!Cw]
+                 [:x :!Cx]
+                 [:y :!Cy]
+                 [:z :!Cz]
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]]}
+        {:des "ekey (cmd)"
+         :rules [:pDQ
+                 :e-mode
+                 [:tab :!Ctab]
+                 [:spacebar :!Cspacebar]
+                 [:return_or_enter :!Creturn_or_enter]
+                 [:open_bracket :!Copen_bracket]
+                 [:close_bracket :!Cclose_bracket]
+                 [:semicolon :!Csemicolon]
+                 [:quote :!Cquote]
+                 [:comma :!Ccomma]
+                 [:period :!Cperiod]
+                 [:slash :!Cslash]
+                 [:a :!Ca]
+                 [:b :!Cb]
+                 [:c :!Cc]
+                 [:d :!Cd]
+                 [:f :!Cf]
+                 [:g :!Cg]
+                 [:h :!Ch]
+                 [:i :!Ci]
+                 [:j :!Cj]
+                 [:k :!Ck]
+                 [:l :!Cl]
+                 [:m :!Cm]
+                 [:n :!Cn]
+                 [:o :!Co]
+                 [:p :!Cp]
+                 [:q :!Cq]
+                 [:r :!Cr]
+                 [:s :!Cs]
+                 [:t :!Ct]
+                 [:u :!Cu]
+                 [:v :!Cv]
+                 [:w :!Cw]
+                 [:x :!Cx]
+                 [:y :!Cy]
+                 [:z :!Cz]
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]]}
+        {:des "ekey (cmd)"
+         :rules [:DQ
+                 :e-mode
                  [:tab :!Ctab]
                  [:spacebar :!Cspacebar]
                  [:return_or_enter :!Creturn_or_enter]
@@ -265,10 +504,116 @@
                  [:comma :!CScomma]
                  [:period :!CSperiod]
                  [:slash :!CSslash]
-                 [:spacebar :!CSOe]]} ; Selection -> YouTube
+                 [:spacebar :!CSOe]]} ; Selection -> YouTube        {:des "ekey (cmd)"
+        {:des "qkey (cmd + shift)"
+         :rules [:pDQ
+                 :q-mode
+                 [:3 :!CS3]
+                 [:4 :!CS4]
+                 [:5 :!CS5]
+                 [:6 :!CS6]
+                 [:7 :!CS7]
+                 [:8 :!CS8]
+                 [:9 :!CS9]
+                 [:0 :!CS0]
+                 [:w :!CSw]
+                 [:e :!CSe]
+                 [:r :!CSr]
+                 [:t :!CSt]
+                 [:y :!CSy]
+                 [:u :!CSu]
+                 [:i :!CSi]
+                 [:o :!CSo]
+                 [:p :!CSp]
+                 [:open_bracket :!CSopen_bracket]
+                 [:close_bracket :!CSclose_bracket]
+                 [:a :!CSa]
+                 [:s :!CSs]
+                 [:d :!CSd]
+                 [:f :!CSf]
+                 [:g :!CSg]
+                 [:h :!CSh]
+                 [:j :!CSj]
+                 [:k :!CSk]
+                 [:l :!CSl]
+                 [:semicolon :!CSsemicolon]
+                 [:quote :!CSquote]
+                 [:z :!CSz]
+                 [:x :!CSx]
+                 [:c :!CSc]
+                 [:v :!CSv]
+                 [:b :!CSb]
+                 [:n :!CSn]
+                 [:m :!CSm]
+                 [:comma :!CScomma]
+                 [:period :!CSperiod]
+                 [:slash :!CSslash]
+                 [:spacebar :!CSOe]]} ; Selection -> YouTube        {:des "ekey (cmd)"
+        {:des "qkey (cmd + shift)"
+         :rules [:DQ
+                 :q-mode
+                 [:3 :!CS3]
+                 [:4 :!CS4]
+                 [:5 :!CS5]
+                 [:6 :!CS6]
+                 [:7 :!CS7]
+                 [:8 :!CS8]
+                 [:9 :!CS9]
+                 [:0 :!CS0]
+                 [:w :!CSw]
+                 [:e :!CSe]
+                 [:r :!CSr]
+                 [:t :!CSt]
+                 [:y :!CSy]
+                 [:u :!CSu]
+                 [:i :!CSi]
+                 [:o :!CSo]
+                 [:p :!CSp]
+                 [:open_bracket :!CSopen_bracket]
+                 [:close_bracket :!CSclose_bracket]
+                 [:a :!CSa]
+                 [:s :!CSs]
+                 [:d :!CSd]
+                 [:f :!CSf]
+                 [:g :!CSg]
+                 [:h :!CSh]
+                 [:j :!CSj]
+                 [:k :!CSk]
+                 [:l :!CSl]
+                 [:semicolon :!CSsemicolon]
+                 [:quote :!CSquote]
+                 [:z :!CSz]
+                 [:x :!CSx]
+                 [:c :!CSc]
+                 [:v :!CSv]
+                 [:b :!CSb]
+                 [:n :!CSn]
+                 [:m :!CSm]
+                 [:comma :!CScomma]
+                 [:period :!CSperiod]
+                 [:slash :!CSslash]
+                 [:spacebar :!CSOe]]} ; Selection -> YouTube        {:des "ekey (cmd)"
+        {:des "right cmd -> Alfred"
+         :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
+        {:des "left cmd -> cmd+tab"
+         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
+        {:des "right cmd -> Alfred"
+         :rules [:pDQ
+                 [:right_command :right_command nil {:alone :!CTOSspacebar}]]}
+        {:des "left cmd -> cmd+tab"
+         :rules [:pDQ
+                 [:left_command :left_command nil {:alone :!Ctab}]]}
+        {:des "right cmd -> Alfred"
+         :rules [:DQ
+                 [:right_command :right_command nil {:alone :!CTOSspacebar}]]}
+        {:des "left cmd -> cmd+tab"
+         :rules [:DQ
+                 [:left_command :left_command nil {:alone :!Ctab}]]}
         {:des "skey (essential)"      
          :rules [:s-mode
-                 [:spacebar :!CT9] ; Selection -> Google
+                 ;[:spacebar :!CT9] ; Selection -> Google
+                 [:spacebar [:open "/System/Applications/Siri.app"]]
+                 [:semicolon :return_or_enter]
                  [:e :tab]
                  [:r :!Stab]
                  [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
@@ -286,100 +631,62 @@
                  [:##m :!Cright_arrow]
                  [:a :!Cc] ; Copy
                  [:u :!Cx]]} ; Cut
-        {:des "fkey (essential)"
-         :rules [:f-mode
-                 ;[:spacebar :!CTp] ; Selection -> Web Searches
-                 [:spacebar [:open "/System/Applications/Siri.app"]]
-                 [:e :!CO8] ; Alfred clipboard history search
-                 [:j [:km "Open 1st iTerm tab"]]
-                 [:semicolon [:km "edit: 3rd iTerm tab"]]
-                 [:period :!CTO4] ; Alfred file action
-                 [:s [:km "edit: 2nd iTerm tab"]]
-                 [:q [:km "Centre mouse to active app"]]
-                 ;[:period :!CTOi] ; Tester
-                 [:h [:km "Make markdown link from selection {link}"]]
-                 [:comma  [:km "Add safari link to selected markdown text"]]
-                 [:k :return_or_enter]
-                 [:l :!Creturn_or_enter]
-                 [:m :!Sreturn_or_enter]
-                 [:i :!Treturn_or_enter]
-                 [:n :!Freturn_or_enter]
-                 [:o :!Oreturn_or_enter]]}
-        {:des "ckey (test + dots)"
-         :rules [:c-mode
-                 ; [:u [:alfred "search build to learn" "nikivi.private.directories"]]
-                 [:i [:km "edit: Aliases"]]
-                 [:o [:km "edit: Zsh functions"]]
-                 [:a [:km "Clone repo to ~/src/clones"]]
-                 [:j [:km "test: JS"]]
-                 [:k [:km "test: Go"]]
-                 [:l [:km "test: Python"]]
-                 [:n [:km "test: TS"]]
-                 [:m [:km "test: Rust"]]
-                 [:period [:km "proj: Dotfiles"]]
-                 [:semicolon [:km "Clone repo to ~/src/clones and open with VS Code"]]
-                 [:spacebar :!CSOy]]} ; Selection -> Stack Overflow
-        {:des "okey (alfred + apps)"
-         :rules [:o-mode
-                 [:1 :!C1]
-                 [:2 :!C2]
-                 [:3 :!C3]
-                 [:4 :!C4]
-                 [:5 :!C5]
-                 [:6 :!C6]
-                 [:p [:km "Make 2Do task"]]
-                 [:r [:km "Make 2Do task with note as current URL"]]
-                 [:t [:km "Make 2Do task with Safari title as name + note as current URL"]]
-                 [:caps_lock [:alfred "search desktop" "com.vitorgalvao.alfred.directories"]]
-                 [:a [:alfred "search files" "nikivi.manage.notes"]] ; TODO: add blog, drafts
-                 [:s [:alfred "search code" "nikivi.manage.notes"]]
-                 [:d [:alfred "search folders" "nikivi.search.folders"]]
-                 [:f [:alfred "search repos" "net.deanishe.alfred-git-repos"]]
-                 [:g [:km "2Do with current url as note (github)"]]
-                 [:j [:alfred "run" "iansinnott.keyboardmaestro"]]
-                 [:i [:alfred "search menu bar" "com.tedwise.menubarsearch"]]
-                 [:m [:km "open: Karabiner Elements"]]
-                 [:k [:km "open: Keyboard Maestro"]]
-                 [:e [:km "open: Emacs"]]
-                 [:c [:km "open: KeyCastr"]]
-         ]}
         {:des "vkey (websites)"
          :rules [:v-mode
-                 [:o [:km "w: Learning.Oreilly"]]]}
+                 [:a [:km "w: GitHub"]]
+                 [:o [:km "w: Learning.Oreilly"]]
+]}
         {:des "wkey (apps)"
          :rules [:w-mode
-                 [:period [:km "open: SnippetsLab"]]
-                 [:p [:km "open: PyCharm"]]
-                 [:k [:km "open: Safari"]]
-                 [:f [:km "open: Firefox Developer Edition"]]
-                 [:j [:km "open: iTerm"]]
-                 [:l [:km "open: Code"]]
+                 [:a :!OSC1]
+                 [:b [:km "open: BetterTouchTool"]]
+                 [:c [:km "open: Coda"]]
                  [:d [:km "open: Dash"]]
-                 [:g [:km "open: GitKraken"]]
-                 [:h [:km "open: Paw"]]
                  [:e [:km "open: Path Finder"]]
+                 [:f [:km "open: Firefox Developer Edition"]]
+                 [:g [:km "open: Paw"]]
+                 [:h [:km "open: Paw"]]
+                 [:i [:km "open: "]]
+                 [:j [:km "open: iTerm"]]
+                 [:k [:km "open: Safari"]]
+                 [:l [:km "open: Code"]]
+                 [:m [:km "open: "]]
+                 [:n [:km "open: "]]
+                 [:o [:km "open: "]]
+                 [:p [:km "open: PyCharm"]]
+                 [:q [:km "open: Code Insiders"]]
                  [:r [:km "open: Finder"]]
+                 [:s [:km "open: "]]
+                 [:t [:km "open: "]]
+                 [:u [:km "open: "]]                 
+                 [:v [:km "open: Vivaldi"]]
+                 [:x [:km "open: "]]
+                 [:y [:km "open: "]]
+                 [:z [:km "open: "]]
+                 [:o [:km "open: "]]
+                 [:caps_lock [:km "open: "]]
+                 [:semicolon [:km "open: "]]
+                 [:spacebar [:km "open: "]]
+                 [:quote [:km "open: "]]
+                 [:comma [:km "open: "]]
+                 [:slash [:km "open: "]]
+                 [:open_bracket [:km "open: "]]
+                 [:close_bracket [:km "open: "]]
+                 [:backslash [:km "open: Moom"]]
+                 [:period [:km "open: SnippetsLab"]]
                  ]}
         {:des "rkey (apps)"
          :rules [:r-mode
-                 [:2 [:km "open: PIA"]]
-                 [:tab [:km "open: Transmission"]]
-                 [:q [:km "open: IINA"]]
-                 [:w [:km "open: 1Password"]]
-                 [:u [:km "open: Flume"]]
-                 [:i [:km "Run selected text as command in iterm"]]
-                 [:o :!CO7] ; Open Typinator
-                 [:caps_lock [:km "open: Preview"]]
                  [:a [:km "open: Alfred Preferences"]]
+
+                 [:i [:km "Run selected text as command in iterm"]]
+                 [:caps_lock [:km "open: Preview"]]
                  [:h [:km "open: Photos"]]
-                 [:j [:km "open: Dictionary"]]
+                 [:j [:km "open: "]]
                  [:k [:km "open: PDF Expert"]]
-                 [:l [:km "open: Reeder"]]
-                 [:semicolon [:km "open: Books"]]
-                 [:b [:km "Edit keyboard shortcuts"]]
-                 [:n [:km "open: ScreenFlow"]]
-                 [:m [:km "open: OBS"]]
-                 [:comma [:km "open: Arq"]]
-                 [:period [:km "open: Final Cut Pro"]]
-                 [:spacebar :!COSx]]} ; Selection -> Reddit
+                 [:semicolon [:km "open: Books"]]]}
+        {:des "slashkey (custom)"
+         :rules [:slash-mode
+          [:1 :!COT1]
+          [:2 :!COT2]]}
  ]}
