@@ -29,6 +29,12 @@ zinit wait lucid light-mode for \
   blockf atpull'zinit creinstall -q .' \
       zsh-users/zsh-completions
 
+ # zdharma/history-search-multi-word
+zstyle ":history-search-multi-word" page-size "11"
+zinit ice wait"1" lucid
+zinit load zdharma/history-search-multi-word
+
+
 zinit ice wait lucid
 zinit load "skywind3000/z.lua"
 
@@ -38,6 +44,9 @@ zinit wait"1" lucid from"gh-r" as"null" for \
      sbin"**/bat"       @sharkdp/bat \
      sbin"exa* -> exa"  ogham/exa
 
+# zsh-autopair
+zinit ice wait lucid
+zinit load hlissner/zsh-autopair
 
 # forgit
 zinit ice wait lucid
@@ -47,6 +56,13 @@ zinit load 'wfxr/forgit'
 zinit ice wait"2" lucid as"program" pick"bin/git-dsf"
 zinit load zdharma/zsh-diff-so-fancy
 
+# alias tips
+zinit ice from'gh-r' as'program'
+zinit light sei40kr/fast-alias-tips-bin
+zinit light sei40kr/zsh-fast-alias-tips
+
 source ~/.zshaliases
 source ~/.zshfunctions
 eval "$(starship init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

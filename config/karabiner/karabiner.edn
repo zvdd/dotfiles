@@ -641,23 +641,23 @@
                  [:a :!OSC1]
                  [:b [:km "open: BetterTouchTool"]]
                  [:c [:km "open: Coda"]]
-                 [:d [:km "open: Dash"]]
+                 [:d [:km "open: Paw"]]
                  [:e [:km "open: Path Finder"]]
                  [:f [:km "open: Firefox Developer Edition"]]
-                 [:g [:km "open: Paw"]]
-                 [:h [:km "open: Paw"]]
+                 [:g [:km "open: GitKraken"]]
+                 [:h [:km "open: "]]
                  [:i [:km "open: "]]
                  [:j [:km "open: iTerm"]]
                  [:k [:km "open: Safari"]]
                  [:l [:km "open: Code"]]
-                 [:m [:km "open: "]]
+                 [:m [:km "open: Music"]]
                  [:n [:km "open: "]]
                  [:o [:km "open: "]]
                  [:p [:km "open: PyCharm"]]
                  [:q [:km "open: Code Insiders"]]
                  [:r [:km "open: Finder"]]
                  [:s [:km "open: "]]
-                 [:t [:km "open: "]]
+                 [:t [:km "open: Tower"]]
                  [:u [:km "open: "]]                 
                  [:v [:km "open: Vivaldi"]]
                  [:x [:km "open: "]]
@@ -678,15 +678,16 @@
         {:des "rkey (apps)"
          :rules [:r-mode
                  [:a [:km "open: Alfred Preferences"]]
-
+                 [:k [:km "open: Keyboard Maestro"]]
                  [:i [:km "Run selected text as command in iterm"]]
                  [:caps_lock [:km "open: Preview"]]
                  [:h [:km "open: Photos"]]
                  [:j [:km "open: "]]
-                 [:k [:km "open: PDF Expert"]]
-                 [:semicolon [:km "open: Books"]]]}
+                 [:e [:km "open: PDF Expert"]]
+                 [:semicolon [:km "open: Books"]]
+                 ]}
         {:des "slashkey (custom)"
          :rules [:slash-mode
-          [:1 :!COT1]
-          [:2 :!COT2]]}
- ]}
+                [:1 :!COT1]
+                [:2 :!COT2]
+                [:a :!FS1]]}]}
