@@ -1,0 +1,4 @@
+--type-set=markdown=.md,.mkd,.markdown
+--sort-files
+--color
+
