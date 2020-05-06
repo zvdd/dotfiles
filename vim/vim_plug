@@ -515,7 +515,7 @@ let g:UltiSnipsEditSplit="horizontal"
 autocmd Filetype snippet set shiftwidth=4
  " }}} ultisnips && vim-snippets "
 
-" ale {{{ "
+"   {{{ "
 " Best lint engine(require neovim or vim version > 8)
 let g:error_symbol = '══'
 let g:warning_symbol = '──'
