@@ -7,11 +7,13 @@ logerror() { printf "%b[error]%b %s\n" '\e[0;31m\033[1m' '\e[0m' "$@" >&2; }
 SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
 ln -sf "$SDIR/zshrc"         ~/.zshrc
-ln -sf "$SDIR/zshfunctions"  ~/.zshfunctions
+ln -sf "$SDIR/zpath"         ~/.zpath
+ln -sf "$SDIR/zprofile"         ~/.zprofile
+#ln -sf "$SDIR/zshfunctions"  ~/.functions
 # ln -sf "$SDIR/zshenv"        ~/.zshenv
 # ln -sf "$SDIR/zsh_misc"      ~/.zsh_misc
-ln -sf "$SDIR/zshaliases"    ~/.zshaliases
-# ln -sf "$SDIR/zsh_custom"    ~/.zsh_custom
+ln -sf "$SDIR/aliases.zsh"    ~/.zsh_aliases
+ln -sf "$SDIR/zsh_custom"    ~/.zsh_custom
 # ln -sf "$SDIR/zsh_theme"     ~/.zsh_theme
 # ln -sf "$SDIR/zsh_fzf_extra" ~/.zsh_fzf_extra
 # ln -sf "$SDIR/zsh_secret"    ~/.zsh_secret
