@@ -1,9 +1,9 @@
 #!/bin/bash
 
 git config --global user.name "Brenden Durham"
-git config --global user.email "bdurhamgm@gmail.com"
+git config --global user.email "zvddacc@gmail.com"
 
-git config --global github.user "brendendurham"
+git config --global github.user "zvdd"
 
 git config --global color.ui true
 

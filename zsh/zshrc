@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+bindkey -e # should be on top!
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then

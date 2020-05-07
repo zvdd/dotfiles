@@ -9,7 +9,12 @@
         :delay   80
         :alone   120
         :held    70}
-    :DQ {:default false
+  :US {:default false
+        :sim     50
+        :delay   80
+        :alone   120
+        :held    70}
+  :DQ {:default false
         :sim     50
         :delay   80
         :alone   120
@@ -675,7 +680,48 @@
                  [:backslash [:km "open: Moom"]]
                  [:period [:km "open: SnippetsLab"]]
                  ]}
-        {:des "rkey (apps)"
+        {:des "okey (apps)"
+         :rules [:o-mode
+                 [:a :!OSC1]
+                 [:b [:km "open: Books"]]
+                 [:c [:km "open: "]]
+                 [:d [:km "open: "]]
+                 [:e [:km "open: "]]
+                 [:f [:km "open: "]]
+                 [:g [:km "open: "]]
+                 [:h [:km "open: "]]
+                 [:i [:km "open: "]]
+                 [:j [:km "open: Terminal"]]
+                 [:k [:km "open: Kitty"]]
+                 [:l [:km "open: "]]
+                 [:m [:km "open: Mail"]]
+                 [:n [:km "open: "]]
+                 [:p [:km "open: "]]
+                 [:q [:km "open: qutebrowser"]]
+                 [:r [:km "open: Remote Mouse"]]
+                 [:s [:km "open: "]]
+                 [:t [:km "open: Time Out"]]
+                 [:u [:km "open: "]]                 
+                 [:v [:km "open: Vivaldi (MySpeed)"]]
+                 [:x [:km "open: "]]
+                 [:y [:km "open: "]]
+                 [:z [:km "open: "]]
+                 [:caps_lock [:km "open: "]]
+                 [:semicolon [:km "open: "]]
+                 [:spacebar [:km "open: "]]
+                 [:quote [:km "open: "]]
+                 [:comma [:km "open: "]]
+                 [:slash [:km "open: "]]
+                 [:open_bracket [:km "open: "]]
+                 [:close_bracket [:km "open: "]]
+                 [:backslash [:km "open: iBoy"]]
+                 [:period [:km "open: SnippetsLab"]]
+                 ]}
+        {:des "fkey (essential)"
+         :rules [:f-mode
+                 [:i [:km "Run selected text as command in iterm"]]
+                 ]}
+         {:des "rkey (apps)"
          :rules [:r-mode
                  [:a [:km "open: Alfred Preferences"]]
                  [:k [:km "open: Keyboard Maestro"]]
@@ -686,6 +732,48 @@
                  [:e [:km "open: PDF Expert"]]
                  [:semicolon [:km "open: Books"]]
                  ]}
+        {:des "spacebar-mode"
+          :rules [:spacebar-mode
+                  [:0 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'Default'"]]
+                  [:1 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'goku'"]]
+                  [:2 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'pDQ'"]]
+                  [:3 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'DQ'"]]
+                  [:4 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'US'"]]
+                  [:5 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'test'"]]
+                  ]}
+        {:des "spacebar-mode"
+          :rules [:rules 
+                  :pDQ
+                  :spacebar-mode
+                  [:0 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'Default'"]]
+                  [:1 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'goku'"]]
+                  [:2 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'pDQ'"]]
+                  [:3 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'DQ'"]]
+                  [:4 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'US'"]]
+                  [:5 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'test'"]]
+                  ]}
+        {:des "spacebar-mode"
+          :rules [:rules 
+                  :DQ
+                  :spacebar-mode
+                  [:0 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'Default'"]]
+                  [:1 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'goku'"]]
+                  [:2 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'pDQ'"]]
+                  [:3 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'DQ'"]]
+                  [:4 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'US'"]]
+                  [:5 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'test'"]]
+                  ]}
+        {:des "spacebar-mode"
+          :rules [:rules 
+                   :US
+                  :spacebar-mode
+                  [:0 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'Default'"]]
+                  [:1 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'goku'"]]
+                  [:2 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'pDQ'"]]
+                  [:3 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'DQ'"]]
+                  [:4 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'US'"]]
+                  [:5 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'test'"]]
+                  ]}
         {:des "slashkey (custom)"
          :rules [:slash-mode
                 [:1 :!COT1]
