@@ -7,6 +7,8 @@ git config --global github.user "zvdd"
 
 git config --global color.ui true
 
+
+git config --global core.editor nvim
 # Prettier diffs
 git config --global diff.compactionHeuristic true
 git config --global diff.indentHeuristic on
