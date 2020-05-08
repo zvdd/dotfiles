@@ -650,8 +650,8 @@
                  [:e [:km "open: Path Finder"]]
                  [:f [:km "open: Firefox Developer Edition"]]
                  [:g [:km "open: GitKraken"]]
-                 [:h [:km "open: "]]
-                 [:i [:km "open: "]]
+                 [:h [:km "open: Chrome Canary"]]
+                 [:i [:km "open: Code Insiders"]]
                  [:j [:km "open: iTerm"]]
                  [:k [:km "open: Safari"]]
                  [:l [:km "open: Code"]]
@@ -659,7 +659,7 @@
                  [:n [:km "open: "]]
                  [:o [:km "open: "]]
                  [:p [:km "open: PyCharm"]]
-                 [:q [:km "open: Code Insiders"]]
+                 [:q [:km "open: Araxis Merge"]]
                  [:r [:km "open: Finder"]]
                  [:s [:km "open: "]]
                  [:t [:km "open: Tower"]]
@@ -670,7 +670,7 @@
                  [:z [:km "open: "]]
                  [:o [:km "open: "]]
                  [:caps_lock [:km "open: "]]
-                 [:semicolon [:km "open: "]]
+                 [:semicolon [:km "open: Sublime Text"]]
                  [:spacebar [:km "open: "]]
                  [:quote [:km "open: "]]
                  [:comma [:km "open: "]]
@@ -692,7 +692,7 @@
                  [:h [:km "open: "]]
                  [:i [:km "open: "]]
                  [:j [:km "open: Terminal"]]
-                 [:k [:km "open: Kitty"]]
+                 [:k [:km "open: Keyboard Maestro"]]
                  [:l [:km "open: "]]
                  [:m [:km "open: Mail"]]
                  [:n [:km "open: "]]
@@ -731,7 +731,11 @@
                  [:j [:km "open: "]]
                  [:e [:km "open: PDF Expert"]]
                  [:semicolon [:km "open: Books"]]
+                 [:t [:km "open: Trello"]]
                  ]}
+        {:des "3key (projects)"
+         :rules [:3-mode
+                        [:k [:km "edit: Karabiner.edn"]]]}
         {:des "spacebar-mode"
           :rules [:spacebar-mode
                   [:0 ["'/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli' --select-profile 'Default'"]]

@@ -1,9 +1,10 @@
 source ~/.zpath
-# Homebrew
-export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 
 # Node
 eval "$(nodenv init -)"
+
+# Homebrew
+export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 
 # Ruby
 eval "$(rbenv init -)"

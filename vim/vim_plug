@@ -11,6 +11,7 @@
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'phanviet/vim-monokai-pro'
 Plug 'itchyny/lightline.vim'
 Plug 'vimwiki/vimwiki'
 Plug 'honza/vim-snippets'
