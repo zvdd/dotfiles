@@ -721,6 +721,24 @@
          :rules [:f-mode
                  [:i [:km "Run selected text as command in iterm"]]
                  ]}
+        {:des "gkey (navigation)"
+         :rules [:g-mode
+                 [:h :!TOleft_arrow]
+                 [:l :!TOright_arrow]
+                 [:j :!TOj]
+                 [:k :!TOk]
+                 [:u :!TOu]
+                 [:i :!TOi]
+                 [:d :!TOd]
+                 [:f :!TOf]
+                 [:a :!TOg]
+                 [:e :!TOe]
+                 [:t :!TOt]
+                 [:equal_sign :!TOequal_sign]
+                 [:hyphen :!TOhyphen]
+                 [:n :!TFf4]
+                 [:!Sn :!TSFf4]
+                 ]}
          {:des "rkey (apps)"
          :rules [:r-mode
                  [:a [:km "open: Alfred Preferences"]]
