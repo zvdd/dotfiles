@@ -46,6 +46,7 @@ alias tmuxconf='vim ~/.tmux.conf'
 alias emconf='em ~/.spacemacs'
 alias karaconf='vim ~/.config/karabiner.edn'
 
+alias -- -="cd -"
 alias ..='cd ..'
 alias -g ...='../..'
 alias cd.='cd ..'
