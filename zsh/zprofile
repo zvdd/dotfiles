@@ -1,4 +1,4 @@
-source ~/.zpath
+#source ~/.zpath
 
 # Node
 eval "$(nodenv init -)"
