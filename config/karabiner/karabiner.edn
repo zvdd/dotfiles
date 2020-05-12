@@ -27,6 +27,9 @@
              :f-mode {
                       :key :f
                       }
+             :v-mode {
+                      :key :v
+                      }
 			 :d-mode {:key :d}
 			 :i-mode {:key :i}
 			 }
@@ -399,6 +402,11 @@
                  [:z {:pkey :button2}] ; Right click
                  [:v {:pkey :button1}] ; Left click
                  [:b {:pkey :button3}]]} ; Middle click
+ {:des "vkey (websites)"
+         :rules [:v-mode
+                 [:a [:km "w: GitHub"]]
+                 [:o [:km "w: Learning.Oreilly"]]
+]}
         {:des "ikey (symbols)"
          :rules [:i-mode
                  [:1 :!S1]
