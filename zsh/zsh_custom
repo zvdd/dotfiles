@@ -1,25 +1,252 @@
 #!/usr/bin/env zsh
 
-# extract: Extract most know archives with one command
-extract () {
-    if [ -f $1 ] ; then
-      case $1 in
-        *.tar.bz2)   tar xjf $1     ;;
-        *.tar.gz)    tar xzf $1     ;;
-        *.bz2)       bunzip2 $1     ;;
-        *.rar)       unrar e $1     ;;
-        *.gz)        gunzip $1      ;;
-        *.tar)       tar xf $1      ;;
-        *.tbz2)      tar xjf $1     ;;
-        *.tgz)       tar xzf $1     ;;
-        *.zip)       unzip $1       ;;
-        *.Z)         uncompress $1  ;;
-        *.7z)        7z x $1        ;;
-        *)     echo "'$1' cannot be extracted via extract()" ;;
-         esac
-     else
-         echo "'$1' is not a valid file"
-     fi
+# run ls when changing directory automatically
+list_all() {
+  emulate -L zsh
+  ls_extended -s
+}
+
+chpwd_functions=(${chpwd_functions[@]} "list_all")
+
+# List all available command
+lac() {
+  echo -n $PATH | xargs -d : -I {} find {} -maxdepth 1 \
+    -executable -type f -printf '%P\n' | sort -u
+}
+# -------------------------------------------------------------------
+# extract: extract of compressed-files
+extract()
+{
+  if [ -f $1 ] ; then
+    local lower=$(lc $1)
+
+    case $lower in
+      *.tar.bz2)   tar xvjf $1     ;;
+      *.tar.gz)    tar xvzf $1     ;;
+      *.bz2)       bunzip2 $1      ;;
+      *.rar)       unrar e $1      ;;
+      *.gz)        gunzip $1       ;;
+      *.tar)       tar xvf $1      ;;
+      *.tbz2)      tar xvjf $1     ;;
+      *.tgz)       tar xvzf $1     ;;
+      *.lha)       lha e $1        ;;
+      *.zip)       unzip $1        ;;
+      *.Z)         uncompress $1   ;;
+      *.7z)        7z x $1         ;;
+      *)           echo "'$1' cannot be extracted via >extract<"
+                   return 1        ;;
+    esac
+
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# -------------------------------------------------------------------
+# os-info: show some info about your system
+os-info()
+{
+  lsb_release -a
+  uname -a
+
+  if [ -z /etc/lsb-release ]; then
+    cat /etc/lsb-release;
+  fi;
+
+  if [ -z /etc/issue ]; then
+    cat /etc/issue;
+  fi;
+
+  if [ -z /proc/version ]; then
+    cat /proc/version;
+  fi;
+}
+
+
+# -------------------------------------------------------------------
+# mkd: Create a new directory and enter it
+mkd()
+{
+  mkdir -p "$@" && cd "$_"
+}
+
+# -------------------------------------------------------------------
+# mkf: Create a new directory, enter it and create a file
+#
+# usage: mkf /tmp/lall/foo.txt
+mkf()
+{
+  mkd $(dirname "$@") && touch $@
+}
+
+# -------------------------------------------------------------------
+# passwdgen: a password generator
+#
+# usage: passwdgen 8 --> e.g.: f4lwka_2f
+passwdgen()
+{
+  if [ $1 ]; then
+    local length=$1
+  else
+    local length=16
+  fi
+
+  tr -dc A-Za-z0-9_ < /dev/urandom  | head -c${1:-${length}}
+}
+
+# -------------------------------------------------------------------
+# targz: Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+targz()
+{
+  local tmpFile="${@%/}.tar";
+  tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
+
+  local size=$(
+    stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
+    stat -c"%s" "${tmpFile}" 2> /dev/null;  # GNU `stat`
+  );
+
+  local cmd="";
+  if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+    # the .tar file is smaller than 50 MB and Zopfli is available; use it
+    cmd="zopfli";
+  else
+    if hash pigz 2> /dev/null; then
+      cmd="pigz";
+    else
+      cmd="gzip";
+    fi;
+  fi;
+
+  echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
+  "${cmd}" -v "${tmpFile}" || return 1;
+  [ -f "${tmpFile}" ] && rm "${tmpFile}";
+
+  local zippedSize=$(
+  	stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # OS X `stat`
+  	stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
+  );
+
+  echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+}
+
+# -------------------------------------------------------------------
+# duh: Sort the "du"-command output and use human-readable units.
+duh()
+{
+  local unit=""
+  local size=""
+
+  du -k "$@" | sort -n | while read size fname; do
+    for unit in KiB MiB GiB TiB PiB EiB ZiB YiB; do
+      if [ "$size" -lt 1024 ]; then
+        echo -e "${size} ${unit}\t${fname}"
+        break
+      fi
+      size=$((size/1024))
+    done
+  done
+}
+
+# -------------------------------------------------------------------
+# fs: Determine size of a file or total size of a directory
+fs()
+{
+  if du -b /dev/null > /dev/null 2>&1; then
+    local arg=-sbh
+  else
+    local arg=-sh
+  fi
+
+  if [[ -n "$@" ]]; then
+    du $arg -- "$@"
+  else
+    du $arg .[^.]* ./*
+  fi
+}
+
+# -------------------------------------------------------------------
+# ff: displays all files in the current directory (recursively)
+ff()
+{
+  find . -type f -iname '*'$*'*' -ls
+}
+
+# -------------------------------------------------------------------
+# fstr: find text in files
+fstr()
+{
+  OPTIND=1
+  local case=""
+  local usage="fstr: find string in files.
+  Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
+
+  while getopts :it opt
+  do
+        case "$opt" in
+        i) case="-i " ;;
+        *) echo "$usage"; return;;
+        esac
+  done
+
+  shift $(( $OPTIND - 1 ))
+  if [ "$#" -lt 1 ]; then
+    echo "$usage"
+    return 1
+  fi
+
+  find . -type f -name "${2:-*}" -print0 \
+    | xargs -0 egrep --color=auto -Hsn ${case} "$1" 2>&- \
+    | more
+}
+
+# -------------------------------------------------------------------
+# file_backup_compressed: create a compressed backup (with date)
+# in the current dir
+#
+# usage: file_backup_compressed test.txt
+file_backup_compressed()
+{
+  if [ $1 ]; then
+    if [ -z $1 ]; then
+      echo "$1: not found"
+      return 1
+    fi
+
+    tar czvf "./$(basename $1)-$(date +%y%m%d-%H%M%S).tar.gz" "$1"
+  else
+    echo "Missing argument"
+    return 1
+  fi
+}
+
+# -------------------------------------------------------------------
+# file_backup: creating a backup of a file (with date)
+file_backup()
+{
+  for FILE ; do
+    [[ -e "$1" ]] && cp "$1" "${1}_$(date +%Y-%m-%d_%H-%M-%S)" || echo "\"$1\" not found." >&2
+  done
+}
+
+# -------------------------------------------------------------------
+# file_information: output information to a file
+file_information()
+{
+  if [ $1 ]; then
+    if [ -z $1 ]; then
+      echo "$1: not found"
+      return 1
+    fi
+
+    echo $1
+    ls -l $1
+    file $1
+    ldd $1
+  else
+    echo "Missing argument"
+    return 1
+  fi
 }
 
 # ii: display useful host related informaton
