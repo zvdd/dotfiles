@@ -27,6 +27,8 @@
              :f-mode {
                       :key :f
                       }
+			 :d-mode {:key :d}
+			 :i-mode {:key :i}
 			 }
 
 
@@ -387,6 +389,45 @@
                  [:k [:km "list: Alfred workflows"]]
                  [:l [:km "list: Command line tools"]]
                  [:n [:km "list: Events"]]]}
+        {:des "dkey (mouse)"
+         :rules [:d-mode
+
+
+                 [:j {:mkey {:vwheel 60}}] ; Scroll down
+                 [:k {:mkey {:vwheel -60}}] ; Scroll up
+
+                 [:z {:pkey :button2}] ; Right click
+                 [:v {:pkey :button1}] ; Left click
+                 [:b {:pkey :button3}]]} ; Middle click
+        {:des "ikey (symbols)"
+         :rules [:i-mode
+                 [:1 :!S1]
+                 [:2 :!S2]
+                 [:3 :!Sequal_sign]
+                 [:4 :!S8]
+                 [:5 :!S5]
+                 [:q :!Sopen_bracket]
+                 [:w :!S9]
+                 [:e :!S3]
+                 [:r :!Squote]
+                 [:t :quote]
+                 [:o :open_bracket]
+                 [:open_bracket :!Sclose_bracket]
+                 [:caps_lock [:km "Match symbols"]]
+                 [:a :slash]
+                 [:s :!Shyphen]
+                 [:d :backslash]
+                 [:f :hyphen]
+                 [:g :!S4]
+                 [:j :equal_sign]
+                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow (->)
+                 [:semicolon :semicolon]
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde] ; -> //
+                 [:z :!Sslash]
+                 [:x :!Sbackslash]
+                 [:c :!S7]
+                 [:v :!Scomma]
+                 [:b [:slash :slash :spacebar]]]} ; -> //
       {:des "wkey (apps)"
        :rules [:w-mode
                [:g [:km "open: GitKraken"]]]}
