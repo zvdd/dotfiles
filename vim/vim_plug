@@ -2,7 +2,10 @@
 
 call plug#begin('~/.vim/plugged')
 
-" Themes
+" Use release branch (Recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Themes {{{ "
 let g:gruvbox_bold = 1
 let g:gruvbox_italic = 1
 let g:gruvbox_contrast_dark = 'medium'
@@ -14,6 +17,7 @@ let g:gruvbox_material_background = 'medium'
 let g:gruvbox_material_palette = 'mix'
 Plug 'sainnhe/gruvbox-material'
 let g:lightline = {'colorscheme' : 'gruvbox_material'}
+" }}} Themes "
 
 call plug#end()
 
@@ -31,3 +35,60 @@ function! s:go_github()
 endfunction
 autocmd FileType *vim,*zsh,*bash,*tmux nnoremap <buffer> <silent> <cr> :call <sid>go_github()<cr>
 " }}} Custom functions "
+
+" vim-plug extension {{{ "
+" Define some custom command
+command! PU PlugUpgrade | PlugUpdate
+command! PI PlugInstall
+command! PC PlugClean
+" }}} vim-plug extension "
+
+" rotate-colors {{{ "
+function! s:colors(...)
+    return filter(map(filter(split(globpath(&rtp, 'colors/*.vim'), "\n"),
+                \                  'v:val !~ "^/usr/"'),
+                \           'fnamemodify(v:val, ":t:r")'),
+                \       '!a:0 || stridx(v:val, a:1) >= 0')
+endfunction
+function! s:rotate_colors()
+    if !exists('s:colors')
+        let s:colors = s:colors()
+    endif
+    let name = remove(s:colors, 0)
+    call add(s:colors, name)
+    execute 'colorscheme' name
+    redraw
+    echo name
+endfunction
+nnoremap <silent> <F8> :call <SID>rotate_colors()<cr>
+" }}} rotate-colors "
+
+" Zoom {{{ "
+function! s:zoom()
+  if winnr('$') > 1
+    tab split
+  elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
+                  \ 'index(v:val, '.bufnr('').') >= 0')) > 1
+    tabclose
+  endif
+endfunction
+nnoremap <silent> <c-w><c-w> :call <sid>zoom()<cr>
+" }}} Zoom "
+
+" Execute current buffer {{{ "
+function! s:execute_buffer()
+    if !empty(expand('%'))
+        write
+        call system('chmod +x '.expand('%'))
+        silent e
+        vsplit | terminal ./%
+    else
+        echohl WarningMsg
+        echo 'Save the file first'
+        echohl None
+    endif
+endfunction
+command! RUN :call s:execute_buffer()
+autocmd FileType sh,bash,zsh,python,ruby nnoremap <leader>rr :RUN<cr>
+" }}} Execute script "
+	
