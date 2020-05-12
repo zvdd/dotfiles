@@ -37,7 +37,7 @@ alias zshfzf='vim ~/.zsh_fzf_extra'
 alias zshalias='vim ~/.zsh_aliases'
 alias zshlocal='vim ~/.zsh_local'
 alias zprofile='vim ~/.zprofile'
-# alias zshcustom='vim ~/.zsh_custom'
+alias zshcustom='vim ~/.zsh_custom'
 # alias zshmisc='vim ~/.zsh_misc'
 alias zshfunctions='vim ~/.zshfunctions'
 # alias hostinfo='vim ~/.ssh/host_info'
@@ -161,3 +161,9 @@ alias ra='ranger'
 alias mycli='LESS="-S $LESS" mycli'
 
 
+if [ -d "${HOME}/.Documentations/" ]; then
+    alias H-Zsh='${BROWSER:-lynx} ${HOME}/.Documentations/Zsh/Doc/zsh_toc.html'
+    alias H-ZshGuide='${BROWSER:-lynx}  ${HOME}/.Documentations/Zsh/guide/zshguide.html'
+    alias H-ZshFAQ='${BROWSER:-lynx} /home/dope/.Documentations/Zsh/faq/zshfaq.txt'
+    alias H-Vim='${BROWSER:-lynx} ${HOME}/.Documentations/vim/usr_toc.html'
+fi

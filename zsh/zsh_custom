@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # extract: Extract most know archives with one command
 extract () {
     if [ -f $1 ] ; then
@@ -163,6 +165,14 @@ function tre() {
 #function mcd() { mkdir -p -v "$1" && cd "$1" && pwd }
 function uppercase() { printf '%s\n' "${1^^}" }
 function lowercase() { printf '%s\n' "${1,,}" }
+
+function backup-t()  { rename -n 's/^(.*)$/$1.bak/g' $@ }
+function backup()    { rename    's/^(.*)$/$1.bak/g' $@ }
+function restore-t() { rename -n 's/^(.*).bak$/$1/g' $@ }
+function restore()   { rename    's/^(.*).bak$/$1/g' $@ }
+
+function dequote() { sed 's/\\"/"/g; s/^"\|"$//g' }
+function quote() { sed 's/"/\\"/g; s/^\|$/"/g' }
 
 # Change file extensions recursively in current directory
 #
