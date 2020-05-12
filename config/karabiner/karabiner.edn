@@ -438,10 +438,13 @@
                  [:b [:slash :slash :spacebar]]]} ; -> //
       {:des "wkey (apps)"
        :rules [:w-mode
-               [:g [:km "open: GitKraken"]]]}
+               [:g [:km "open: GitKraken"]]
+			   [:j [:km "open: iTerm"]]
+			   [:k [:km "open: Safari"]]
+			   [:l []]]}
       {:des "okey (open)"
        :rules [:o-mode
-               [:k [:km "o: Keyboard Maestro"]]]}
+               [:k [:km "open: Keyboard Maestro"]]]}
       {:des "fkey (open)"
        :rules [:f-mode
                [:m :!TFf2] ; Move focus to menu bar
