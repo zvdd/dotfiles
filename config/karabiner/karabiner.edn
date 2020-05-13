@@ -32,6 +32,7 @@
                       }
 			 :d-mode {:key :d}
 			 :i-mode {:key :i}
+			 :spacebar-mode {:key :spacebar}
 			 }
 
 
@@ -351,8 +352,10 @@
                  [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
                  [[:j :l] :!CTOSspacebar]]} ; Alfred
         {:des "ksim"
-         :rules [[[:k :l] [:alfred "Search Dash for query" "com.kapeli.dash.workflow"]]
+         :rules [[[:k :l] [:alfred "search dash for query" "com.kapeli.dash.workflow"]]
                  [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
+								{:des "sdfsim"
+									 :rules [[[:s :f] [:open "/System/Applications/Siri.app"]]]}       
         {:des "2key (move + alfred)"
          :rules [:2-mode
                  [:o [:alfred "soulver" "app.soulver.alfredworkflow"]]
@@ -455,8 +458,14 @@
                [:t :!TFf7] ; Change the way tab moves
                [:b :!TFf8] ; Move focus to status menus
                ]}
+		{:des "spacekey"
+				 :rules [:spacebar-mode
+						[:##w :up_arrow]
+						[:##a :left_arrow]
+						[:##s :down_arrow]
+						[:##d :right_arrow]]}
 		{:des "right cmd -> Alfred"
          :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "left cmd -> cmd+tab"
          :rules [[:left_command :left_command nil {:alone :!Ctab}]]}				
-				]}
+ ]}
