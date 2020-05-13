@@ -33,6 +33,7 @@
 			 :d-mode {:key :d}
 			 :i-mode {:key :i}
 			 :spacebar-mode {:key :spacebar}
+                         :o-mode {:key :o}
 			 }
 
 
@@ -447,7 +448,8 @@
 			   [:l []]]}
       {:des "okey (open)"
        :rules [:o-mode
-               [:k [:km "open: Keyboard Maestro"]]]}
+               [:k [:km "open: Keyboard Maestro"]]
+               [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]]}
       {:des "fkey (open)"
        :rules [:f-mode
                [:m :!TFf2] ; Move focus to menu bar
