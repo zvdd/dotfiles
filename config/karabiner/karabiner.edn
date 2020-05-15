@@ -448,8 +448,15 @@
 			   [:l []]]}
       {:des "okey (open)"
        :rules [:o-mode
+															[:1 :!C1]
+               [:2 :!C2]
+               [:3 :!C3]
+               [:4 :!C4]
+               [:5 :!C5]
+               [:6 :!C6]
                [:k [:km "open: Keyboard Maestro"]]
-               [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]]}
+               [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
+               [:b [:km "open: BetterTouchTool"]]]}
       {:des "fkey (open)"
        :rules [:f-mode
                [:m :!TFf2] ; Move focus to menu bar
