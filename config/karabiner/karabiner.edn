@@ -444,8 +444,8 @@
        :rules [:w-mode
                [:g [:km "open: GitKraken"]]
 			   [:j [:km "open: iTerm"]]
-			   [:k [:km "open: Safari"]]
-			   [:l []]]}
+			   [:k [:km "open: Google Chrome"]]
+			   [:l [:km "open: Emacs"]]]}
       {:des "okey (open)"
        :rules [:o-mode
 															[:1 :!C1]

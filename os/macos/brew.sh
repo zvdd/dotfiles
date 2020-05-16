@@ -1,3 +1,4 @@
+brew tap homebrew/cask-versions
 brew cask install kitty safari-technology-preview
 Brew cask install postman
 Brew cask install keycastr
@@ -7,3 +8,7 @@ Brew cask install Microsoft-edge-dev
 Brew cask install google-chrome
 Brew cask install google-chrome-canary
 brew cask install qutebrowser runjs tower 
+
+brew install koekeishiya/formulae/skhd
+brew install koekeishiya/formulae/yabai
+
