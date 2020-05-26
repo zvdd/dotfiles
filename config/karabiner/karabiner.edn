@@ -33,7 +33,8 @@
 			 :d-mode {:key :d}
 			 :i-mode {:key :i}
 			 :spacebar-mode {:key :spacebar}
-                         :o-mode {:key :o}
+    :o-mode {:key :o}
+    :slash-mode {:key :slash}
 			 }
 
 
@@ -457,7 +458,7 @@
                [:k [:km "open: Keyboard Maestro"]]
                [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
                [:b [:km "open: BetterTouchTool"]]]}
-      {:des "fkey (open)"
+      {:des "fkey (focus)"
        :rules [:f-mode
                [:m :!TFf2] ; Move focus to menu bar
                [:n :!TFf3] ; move focus to Dock
@@ -467,6 +468,11 @@
                [:t :!TFf7] ; Change the way tab moves
                [:b :!TFf8] ; Move focus to status menus
                ]}
+   {:des "slashkey (window)"
+  		 :rules [:slash-mode 
+  		 								 [:q :!!q]
+  		 								 [:w :!!w]
+  		 								 ]}
 		{:des "spacekey"
 				 :rules [:spacebar-mode
 						[:##w :up_arrow]
