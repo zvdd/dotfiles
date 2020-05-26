@@ -20,7 +20,6 @@
              :e-mode {:key :e}
 			 :r-mode {:key :r}
 			 :caps-mode {:key :caps_lock}
-			 :a-mode {:key :a}
 			 :s-mode {:key :s}			 
 			 :semicolon-mode {:key :semicolon}
 			 :m-mode {:key :m}
