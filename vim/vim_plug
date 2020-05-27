@@ -1,0 +1,21 @@
+“ vim: set foldmethod=marker foldlevel=0 nomodeline:
+
+============================================================================
+“ VIM-PLUG BLOCK {{{
+“ ============================================================================
+
+silent! if plug#begin(‘~/.vim/plugged’)
+
+if s:darwin
+  let g:plug_url_format = ‘git@github.com:%s.git’
+else
+  let $GIT_SSL_NO_VERIFY = ‘true’
+endif
+call plug#begin(‘~/.vim/plugged’)
+
+
+call plug#end()
+endif
+
+“ }}}
+“ 

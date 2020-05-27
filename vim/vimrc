@@ -1,0 +1,16 @@
+“ vim: set foldmethod=marker foldlevel=0 nomodeline:
+
+“ Vim 8 defaults
+unlet! skip_defaults_vim
+silent! source $VIMRUNTIME/defaults.vi 
+augroup vimrc
+  autocmd!
+augroup END
+
+let s:darwin = has(‘mac’)
+let s:windows = has(‘win32’) || has(‘win64’)
+let mapleader      = ‘ ‘
+let maplocalleader = ‘ ‘
+
+“ }}}
+“ 
