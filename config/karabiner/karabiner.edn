@@ -478,6 +478,8 @@
 						[:##a :left_arrow]
 						[:##s :down_arrow]
 						[:##d :right_arrow]]}
+ {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
+         :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
 		{:des "right cmd -> Alfred"
          :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "left cmd -> cmd+tab"
