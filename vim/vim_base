@@ -1,4 +1,4 @@
-" vim: ft=vim:
+" vim:  set foldmethod=marker foldlevel=0 nomodeline: ft=vim:
 
 " Share clipboard with OS
 set clipboard+=unnamed

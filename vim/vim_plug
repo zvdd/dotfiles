@@ -1,4 +1,5 @@
-" vim: ft=vim:
+" vim: ft=vim: 
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
 
 call plug#begin('~/.vim/plugged')
 

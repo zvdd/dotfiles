@@ -1,0 +1,25 @@
+set guitablabel=%M\ %t
+
+if has("win32") || has("win64")
+    let g:is_win = 1
+else
+    let g:is_win = 0
+endif
+
+"let font_name="Inconsolata-g for Powerline"
+let font_name="Fira for Powerline 16"
+
+if g:is_win
+    set guifont=Fira\ for\ Powerline:h16:cANSI
+    " Request after changing the version of language
+    source $VIMRUNTIME/delmenu.vim
+    source $VIMRUNTIME/menu.vim
+    " Avoid messy code under console
+    language messages en_US
+else
+    "set guifont=Inconsolata-g\ for\ Powerline\ 16
+endif
+
+" set guifont=font_name
+"let &guifont=font_name
+set guifont=InconsolataGo\ Nerd\ Font\ 16
