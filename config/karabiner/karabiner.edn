@@ -9,6 +9,12 @@
              :open "open \"%s\""
 			 :shell "osascript -e"
              }
+ :devices {:HHKB-Hybrid_1 [{:vendor_id 1278 :product_id 33}]
+ :applications {:chromes ["^com\\.google\\.Chrome$" "^com\\.google\\.Chrome\\.canary$"]}
+ :input-sources {:us {:input_mode_id ""
+                          :input_source_id "com.apple.keylayout.US"
+                          :language "en"}}
+ }
  :simlayers {
 	 		 :1-mode {:key :1}
 	 		 :2-mode {:key :2}
