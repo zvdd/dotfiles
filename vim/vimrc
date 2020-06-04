@@ -4,11 +4,156 @@
 source ~/.vim_map
 source ~/.vim_plug
 
+augroup vimrc
+  autocmd!
+augroup END
+
 let mapleader      = ' '
+nnoremap <SPACE> <Nop>
 let maplocalleader = ' '
+silent! source ~/.vim_local
+
+if has("termguicolors")
+set termguicolors
+endif
+
+if !has('gui_running')
+  set t_Co=256
+endif
+
+" Enable mouse
+silent! set ttymouse=xterm2
+set mouse=a
+
+" Keep the cursor on the same column
+set nostartofline
+
+" Linebrake on 90 characters
+set linebreak
+"set textwidth=100
+set wrap
+
+" Make '<', '>', 'h', 'l' work properly.
+set whichwrap+=<,>,h,l
+
+" Set how many lines of history Vim will remember
+set history=1000
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" Show row number
+set number
+
+" Set height of cmd line
+set cmdheight=2
+
+" Highlight search matches
+set hlsearch
+
+" Show matching brackets when text indicator is over them
+set showmatch
+" How many tenths of a second (i.e. x/10 s) to blink when matching brackets
+set matchtime=2
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+set wildmode=full
+
+" Set auto indent and C/C++ indent
+set smartindent
+set cindent
+
+" Use Unix as the standard file type
+set fileformat=unix
+set fileformats=unix,dos,mac
+
+" Set the sequence of auto encoding
+set fileencodings=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936,big5
+set encoding=utf-8
+
+" Share clipboard with OS
+set clipboard+=unnamed
+
+" Set n lines to the cursor - when moving vertically using j/k
+set scrolloff=5
+set sidescrolloff=15
+
+" Use spaces instead of tabs
+set expandtab
+" Set tab width to 4 spaces
+set tabstop=4
+set shiftwidth=4
+
+" Highlight current line
+set nocursorline
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases
+set smartcase
+" Set fold method
+set foldmethod=syntax
+set foldlevel=0
+
+" Show whitespace
+set list listchars=tab:»·,trail:·
+
+set wildmenu
+set wildmode=longest:list,full
+
 
 " No swap files, use version control instead
 set noswapfile
+
+" Enable record undo history
+set undofile
+set undodir=/tmp/vim-$USER/undodir/
+
+set noerrorbells
+set visualbell
+
+set autochdir
+
+set autoread
+
+set diffopt=vertical
+
+" Mark conceal level
+set conceallevel=2
+
+"¦ ┆ │ ⎸ ▏
+set fillchars+=vert:¦
+
+" Default 800ms is too slow
+set updatetime=100
+
+" Default 1000ms is too long
+set timeoutlen=400
+
+set noshowmode
+
+set showcmd
+
+" always show signcolumns
+" v:version also return 800 for nvim
+if v:version >= 800
+  set signcolumn=yes
+endif
+
+" Settings suggested by coc.nvim
+set hidden " if hidden is not set, TextEdit might fail.
+set nobackup " Some servers have issues with backup files, see #649
+set nowritebackup
+set shortmess+=c " don't give 'ins-completion-menu' messages.
+
+" autocmd InsertLeave,WinEnter * set cursorline
+" autocmd InsertEnter,WinLeave * set nocursorline
+
+" Set spell in certain cases
+autocmd FileType text,markdown,gitcommit setl spell
+
 
 " Set spell in certain cases
 autocmd FileType text,markdown,gitcommit setl spell
@@ -38,3 +183,83 @@ if exists('$TMUX') && !exists('$NORENAME')
     au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
     au VimLeave * call system('tmux set-window automatic-rename on')
 endif
+
+" Hide number & sign columns to do tmux copy
+function! s:tmux_copy_mode_toggle()
+    setlocal nu!
+    if &signcolumn == 'no'
+        setlocal signcolumn=auto
+    else
+        setlocal signcolumn=no
+    endif
+endfunction
+command! TmuxCopyModeToggle call s:tmux_copy_mode_toggle()
+
+function! DetectNoneExtensionFileType()
+    " Nothing to do when filetype is already set
+    if &ft != '' | return | endif
+
+    if getline(1) =~ '-\*- C++ -\*-'
+        " Highlight c++ standard lib file without extension
+        setf cpp
+    else
+        " Set filetype to 'unknown' when no filetype detected. Mainly for ycm
+        " https://github.com/Valloric/YouCompleteMe/commit/81444e207c3bdf398490f13f57ea360371d56be1
+        setf unknown | setl commentstring=//%s
+    endif
+endfunction
+
+" Add custom filetypes detection. Mainly for ultisnips
+au BufRead,BufNewFile pom.xml           setl ft=maven.xml
+au BufRead,BufNewFile build.gradle      setl ft=gradle.groovy
+au BufRead,BufNewFile *.esquery.json    setl ft=esquery.json
+au BufRead,BufNewFile *pre-commit       setl ft=sh
+au BufNewFile,BufRead coc-settings.json setl ft=jsonc
+
+au Filetype *vim,*tmux setl foldenable | setl foldmethod=marker
+au Filetype *json      setl shiftwidth=2
+
+au BufRead,BufNewFile * call DetectNoneExtensionFileType()
+
+
+
+if !has("nvim") && &term =~ '256color'
+  set t_ut=
+endif
+
+if has('nvim')
+  " https://github.com/neovim/neovim/issues/2897#issuecomment-115464516
+  let g:terminal_color_0 = '#4e4e4e'
+  let g:terminal_color_1 = '#d68787'
+  let g:terminal_color_2 = '#5f865f'
+  let g:terminal_color_3 = '#d8af5f'
+  let g:terminal_color_4 = '#85add4'
+  let g:terminal_color_5 = '#d7afaf'
+  let g:terminal_color_6 = '#87afaf'
+  let g:terminal_color_7 = '#d0d0d0'
+  let g:terminal_color_8 = '#626262'
+  let g:terminal_color_9 = '#d75f87'
+  let g:terminal_color_10 = '#87af87'
+  let g:terminal_color_11 = '#ffd787'
+  let g:terminal_color_12 = '#add4fb'
+  let g:terminal_color_13 = '#ffafaf'
+  let g:terminal_color_14 = '#87d7d7'
+  let g:terminal_color_15 = '#e4e4e4'
+
+  set fillchars=vert:\|,fold:-
+  autocmd BufReadPost *
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+endif
+
+" seoul256 (dark):
+"   Range:   233 (darkest) ~ 239 (lightest)
+"   Default: 237
+let g:seoul256_background = 235
+colo seoul256
+silent! colo seoul256
+
+
+"silent! colorscheme gruvbox-material
+" silent! colorscheme gruvbox

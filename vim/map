@@ -1,3 +1,5 @@
+" vim: ft=vim:
+
 
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
@@ -54,6 +56,20 @@ nnoremap Y y$
 " qq to record, Q to replay
 nnoremap Q @q
 
+" Zoom
+function! s:zoom()
+  if winnr('$') > 1
+    tab split
+  elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
+                  \ 'index(v:val, '.bufnr('').') >= 0')) > 1
+    tabclose
+  endif
+endfunction
+nnoremap <silent> <leader>z :call <sid>zoom()<cr>
+
+" Last inserted text
+nnoremap g. :normal! `[v`]<cr><left>
+
 
 nnoremap <leader>s :update<cr>
 " Save & quit
@@ -104,3 +120,15 @@ noremap <c-a> I
 nnoremap <tab>   <c-w>w
 nnoremap <S-tab> <c-w>W
 nnoremap <C-p>   <c-i>
+
+----------------------------------------------------------------------------
+" nvim
+" ----------------------------------------------------------------------------
+if has('nvim')
+  tnoremap <a-a> <esc>a
+  tnoremap <a-b> <esc>b
+  tnoremap <a-d> <esc>d
+  tnoremap <a-f> <esc>f
+endif
+
+" 
