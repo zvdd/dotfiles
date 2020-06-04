@@ -4,490 +4,144 @@
          :delay   80
          :alone   120
          :held    70}}
- :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
+ :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%4s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""
-			 :shell "osascript -e"
              }
- :devices {:HHKB-Hybrid_1 [{:vendor_id 1278 :product_id 33}]
+ :devices {:HHKB [{:vendor_id 1278 :product_id 33}]
+           :REALFORCE [{:vendor_id 2131 :product_id 328}]
  :applications {:chromes ["^com\\.google\\.Chrome$" "^com\\.google\\.Chrome\\.canary$"]}
  :input-sources {:us {:input_mode_id ""
                           :input_source_id "com.apple.keylayout.US"
-                          :language "en"}}
- }
+                          :language "en"}}}
  :simlayers {
-	 		 :1-mode {:key :1}
-	 		 :2-mode {:key :2}
-	 		 :3-mode {:key :3}
-	 		 :4-mode {:key :4}
-	 		 :5-mode {:key :5}
-	 		 :q-mode {:key :q}         
-			 :w-mode {:key :w}
-             :e-mode {:key :e}
-			 :r-mode {:key :r}
-			 :caps-mode {:key :caps_lock}
-			 :s-mode {:key :s}			 
-			 :semicolon-mode {:key :semicolon}
-			 :m-mode {:key :m}
-             :f-mode {
-                      :key :f
-                      }
-             :v-mode {
-                      :key :v
-                      }
-			 :d-mode {:key :d}
-			 :i-mode {:key :i}
-			 :spacebar-mode {:key :spacebar}
-    :o-mode {:key :o}
-    :slash-mode {:key :slash}
-			 }
-
-
- :main [{:des "colonkey (shift)"
-         :rules [:semicolon-mode
-         	[:grave_accent_and_tilde :!Sgrave_accent_and_tilde]
-										[:1 :!S1]
-										[:2 :!S2]
-										[:3 :!S3]
-										[:4 :!S4]
-										[:5 :!S5]
-										[:6 :!S6]
-										[:7 :!S7]
-										[:8 :!S8]
-										[:9 :!S9]
-										[:0 :!S0]
-										[:hyphen :!Shyphen]
-										[:equal_sign :!Sequal_sign]
-										[:delete_or_backspace :!Sdelete_or_backspace]
-										[:tab :!Stab]
-										[:q :!Sq]
-										[:w :!Sw]
-										[:e :!Se]
-										[:r :!Sr]
-										[:t :!St]
-										[:y :!Sy]
-										[:u :!Su]
-										[:i :!Si]
-										[:o :!So]
-										[:p :!Sp]
-										[:open_bracket :!Sopen_bracket]
-										[:close_bracket :!Sclose_bracket]
-										[:backslash :!Sbackslash]
-										[:caps_lock :!Scaps_lock]
-										[:a :!Sa]
-										[:s :!Ss]
-										[:d :!Sd]
-										[:f :!Sf]
-										[:g :!Sg]
-										[:h :!Sh]
-										[:j :!Sj]
-										[:k :!Sk]
-										[:l :!Sl]
-										;[:semicolon :!Ssemicolon]
-										[:quote :!Squote]
-										[:return_or_enter :!Sreturn_or_enter]
-										[:left_shift :!Sleft_shift]
-										[:z :!Sz]
-										[:x :!Sx]
-										[:c :!Sc]
-										[:v :!Sv]
-										[:b :!Sb]
-										[:n :!Sn]
-										[:m :!Sm]
-										[:comma :!Scomma]
-										[:period :!Speriod]
-										[:slash :!Sslash]
-										[:right_shift :!Sright_shift]
-										[:fn :!Sfn]
-										[:left_control :!Sleft_control]
-										[:left_option :!Sleft_option]
-										[:left_command :!Sleft_command]
-										[:spacebar :!Sspacebar]
-										[:right_command :!Sright_command]
-										[:right_option :!Sright_option]
-										[:left_arrow :!Sleft_arrow]
-										[:up_arrow :!Sup_arrow]
-										[:down_arrow :!Sdown_arrow]
-										[:right_arrow :!Sright_arrow]]}
-  {:des "akey (ctrl)"
-         :rules [:a-mode
-         [:grave_accent_and_tilde :!Tgrave_accent_and_tilde]
-									[:1 :!T1]
-									[:2 :!T2]
-									[:3 :!T3]
-									[:4 :!T4]
-									[:5 :!T5]
-									[:6 :!T6]
-									[:7 :!T7]
-									[:8 :!T8]
-									[:9 :!T9]
-									[:0 :!T0]
-									[:hyphen :!Thyphen]
-									[:equal_sign :!Tequal_sign]
-									[:delete_or_backspace :!Tdelete_or_backspace]
-									[:tab :!Ttab]
-									[:q :!Tq]
-									[:w :!Tw]
-									[:e :!Te]
-									[:r :!Tr]
-									[:t :!Tt]
-									[:y :!Ty]
-									[:u :!Tu]
-									[:i :!Ti]
-									[:o :!To]
-									[:p :!Tp]
-									[:open_bracket :!Topen_bracket]
-									[:close_bracket :!Tclose_bracket]
-									[:backslash :!Tbackslash]
-									[:caps_lock :!Tcaps_lock]
-									;[:a :!Ta]
-									[:s :!Ts]
-									[:d :!Td]
-									[:f :!Tf]
-									[:g :!Tg]
-									[:h :!Th]
-									[:j :!Tj]
-									[:k :!Tk]
-									[:l :!Tl]
-									[:semicolon :!Tsemicolon]
-									[:quote :!Tquote]
-									[:return_or_enter :!Treturn_or_enter]
-									[:left_shift :!Tleft_shift]
-									[:z :!Tz]
-									[:x :!Tx]
-									[:c :!Tc]
-									[:v :!Tv]
-									[:b :!Tb]
-									[:n :!Tn]
-									[:m :!Tm]
-									[:comma :!Tcomma]
-									[:period :!Tperiod]
-									[:slash :!Tslash]
-									[:right_shift :!Tright_shift]
-									[:fn :!Tfn]
-									[:left_control :!Tleft_control]
-									[:left_option :!Tleft_option]
-									[:left_command :!Tleft_command]
-									[:spacebar :!Tspacebar]
-									[:right_command :!Tright_command]
-									[:right_option :!Tright_option]
-									[:left_arrow :!Tleft_arrow]
-									[:up_arrow :!Tup_arrow]
-									[:down_arrow :!Tdown_arrow]
-									[:right_arrow :!Tright_arrow]]}	
-{:des "ekey (cmd)"
-								:rules [:e-mode
-									[:grave_accent_and_tilde :!Cgrave_accent_and_tilde]
-									[:1 :!C1]
-									[:2 :!C2]
-									[:3 :!C3]
-									[:4 :!C4]
-									[:5 :!C5]
-									[:6 :!C6]
-									[:7 :!C7]
-									[:8 :!C8]
-									[:9 :!C9]
-									[:0 :!C0]
-									[:hyphen :!Chyphen]
-									[:equal_sign :!Cequal_sign]
-									[:delete_or_backspace :!Cdelete_or_backspace]
-									[:tab :!Ctab]
-									[:q :!Cq]
-									[:w :!Cw]
-									;[:e :!Ce]
-									[:r :!Cr]
-									[:t :!Ct]
-									[:y :!Cy]
-									[:u :!Cu]
-									[:i :!Ci]
-									[:o :!Co]
-									[:p :!Cp]
-									[:open_bracket :!Copen_bracket]
-									[:close_bracket :!Cclose_bracket]
-									[:backslash :!Cbackslash]
-									[:caps_lock :!Ccaps_lock]
-									[:a :!Ca]
-									[:s :!Cs]
-									[:d :!Cd]
-									[:f :!Cf]
-									[:g :!Cg]
-									[:h :!Ch]
-									[:j :!Cj]
-									[:k :!Ck]
-									[:l :!Cl]
-									[:semicolon :!Csemicolon]
-									[:quote :!Cquote]
-									[:return_or_enter :!Creturn_or_enter]
-									[:left_shift :!Cleft_shift]
-									[:z :!Cz]
-									[:x :!Cx]
-									[:c :!Cc]
-									[:v :!Cv]
-									[:b :!Cb]
-									[:n :!Cn]
-									[:m :!Cm]
-									[:comma :!Ccomma]
-									[:period :!Cperiod]
-									[:slash :!Cslash]
-									[:right_shift :!Cright_shift]
-									[:fn :!Cfn]
-									[:left_control :!Cleft_control]
-									[:left_option :!Cleft_option]
-									[:left_command :!Cleft_command]
-									[:spacebar :!Cspacebar]
-									[:right_command :!Cright_command]
-									[:right_option :!Cright_option]
-									[:left_arrow :!Cleft_arrow]
-									[:up_arrow :!Cup_arrow]
-									[:down_arrow :!Cdown_arrow]
-									[:right_arrow :!Cright_arrow]]}
- {:des "qkey (cmd + shift)"
-			:rules [:q-mode
-											[:grave_accent_and_tilde :!CSgrave_accent_and_tilde]
-											[:1 :!CS1]
-											[:2 :!CS2]
-											[:3 :!CS3]
-											[:4 :!CS4]
-											[:5 :!CS5]
-											[:6 :!CS6]
-											[:7 :!CS7]
-											[:8 :!CS8]
-											[:9 :!CS9]
-											[:0 :!CS0]
-											[:hyphen :!CShyphen]
-											[:equal_sign :!CSequal_sign]
-											[:delete_or_backspace :!CSdelete_or_backspace]
-											[:tab :!CStab]
-											;[:q :!CSq]
-											[:w :!CSw]
-											[:e :!CSe]
-											[:r :!CSr]
-											[:t :!CSt]
-											[:y :!CSy]
-											[:u :!CSu]
-											[:i :!CSi]
-											[:o :!CSo]
-											[:p :!CSp]
-											[:open_bracket :!CSopen_bracket]
-											[:close_bracket :!CSclose_bracket]
-											[:backslash :!CSbackslash]
-											[:caps_lock :!CScaps_lock]
-											[:a :!CSa]
-											[:s :!CSs]
-											[:d :!CSd]
-											[:f :!CSf]
-											[:g :!CSg]
-											[:h :!CSh]
-											[:j :!CSj]
-											[:k :!CSk]
-											[:l :!CSl]
-											[:semicolon :!CSsemicolon]
-											[:quote :!CSquote]
-											[:return_or_enter :!CSreturn_or_enter]
-											[:left_shift :!CSleft_shift]
-											[:z :!CSz]
-											[:x :!CSx]
-											[:c :!CSc]
-											[:v :!CSv]
-											[:b :!CSb]
-											[:n :!CSn]
-											[:m :!CSm]
-											[:comma :!CScomma]
-											[:period :!CSperiod]
-											[:slash :!CSslash]
-											[:right_shift :!CSright_shift]
-											[:fn :!CSfn]
-											[:left_control :!CSleft_control]
-											[:left_option :!CSleft_option]
-											[:left_command :!CSleft_command]
-											[:spacebar :!CSspacebar]
-											[:right_command :!CSright_command]
-											[:right_option :!CSright_option]
-											[:left_arrow :!CSleft_arrow]
-											[:up_arrow :!CSup_arrow]
-											[:down_arrow :!CSdown_arrow]
-											[:right_arrow :!CSright_arrow]]}
-	{:des "skey (essential)"
-	  :rules [:s-mode 
-				 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
-                 [:e :tab]
-                 [:r :!Stab]
-                 [:a :!Cc] ; Copy
-				 [:u :!COp] 
-	             [:d :delete_or_backspace]
-                 [:f :return_or_enter]
-                 [:g :!Ctab]
-                 [:##h :left_arrow]
-                 [:##j :down_arrow]
-                 [:##k :up_arrow]
-                 [:##l :right_arrow]
-				 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
-                 [:c :!Cdelete_or_backspace]
-                 [:v :left_shift]
-                 [:##b :!Cleft_arrow]
-                 [:n :!Cv] ; Paste
-                 [:##m :!Cright_arrow]
-                 [:period :!COS0]]} ; Selection -> Typinator snippet
-        {:des "mkey (dash)"
-         :rules [:m-mode
-                [:v [:km "a: Vim"]]
-                [:n [:alfred "search lists" "nikivi.learn.anything"]]
-                [:spacebar [:alfred "search PDFs" "nikivi.search.files"]]
-                [:b [:alfred "search alfred" "nikivi.utilities" "bash "]]
-                [:grave_accent_and_tilde [:alfred "search alfred" "com.kapeli.dash.workflow" "tldr: "]]
-                [:g [:alfred "search snippets" "com.renfei.SnippetsLab.AlfredWorkflow"]]
-                [:a [:alfred "search lists" "nikivi.awesome.lists"]]
-                [:s [:alfred "search clones" "com.vitorgalvao.alfred.directories"]]
-                [:d [:alfred "search desktop" "com.vitorgalvao.alfred.directories"]]
-                 [:caps_lock [:alfred "search folders" "nikivi.search.folders"]]
-                 [:z [:alfred "search workflows" "org.jeef.workflowdirectory"]]
-                 [:k :!!l]
-                 [:e [:km "Make 2Do task"]]
-                 [:r [:km "Make 2Do task with Safari title as name"]]
-                 [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
-                 [:t [:km "2Do with current url as note (read)"]]
-                 [:b [:km "2Do task (ask)"]]
-                 [:tab [:km "2Do with current url as note (check)"]]
-                 [:h [:km "2Do with current url as note (watch)"]]
-                 [:a [:alfred "search files" "nikivi.manage.wiki"]]
-                 [:y [:alfred "search trash" "com.vitorgalvao.alfred.directories"]]
-                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
-                 [:i [:alfred "search tty sessions" "net.isometry.alfred.tty"]]
-                 ]}
-        {:des "jsim"
-         :rules [[[:j :k] [:alfred "search google" "net.deanishe.alfred-searchio"]]
-                 [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
-                 [[:j :l] :!CTOSspacebar]]} ; Alfred
-        {:des "ksim"
-         :rules [[[:k :l] [:alfred "search dash for query" "com.kapeli.dash.workflow"]]
-                 [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
-								{:des "sdfsim"
-									 :rules [[[:s :f] [:open "/System/Applications/Siri.app"]]]}       
-        {:des "2key (move + alfred)"
-         :rules [:2-mode
-                 [:o [:alfred "soulver" "app.soulver.alfredworkflow"]]
-                 [:j :!Cdown_arrow]
-                 [:k :!Cup_arrow]
-                 [:l :!Cright_arrow]
-                 [:h :!Cleft_arrow]
-                 [:semicolon :!Oup_arrow]
-                 [:quote :!Odown_arrow]
-                 [:spacebar :!COSu]]} ; Selection -> HN
-        {:des "3key (open files + projects)"
-         :rules [:3-mode
-                 [:r [:km "Reflect"]]
-                 [:t [:km "edit: Projects"]]
-                 [:u [:km "wiki: Used hotkeys"]]
-                 [:i [:km "edit: Aliases"]]
-                 [:o [:km "edit: Zsh functions"]]
-                 ;[:i [:km "wiki: Processes"]]
-                 ;[:o [:km "wiki: My workflow"]]
-                 [:g [:km "edit: Git config"]]
-                 [:j [:km "wiki: Rules"]]
-                 [:k [:km "edit: Private notes"]]
-                 [:l [:km "Search current safari url in wiki"]]
-                 [:semicolon [:km "proj: Knowledge"]]
-                 [:quote [:km "proj: LA Docs"]]
-                 [:n [:km "wiki: Notes"]]
-                 [:m [:km "wiki: Summary"]]
-                 [:comma [:km "edit: Now"]]
-                 [:period [:km "wiki: Goals"]]
-                 [:spacebar :!CSOp]]} ; Selection -> Reddit
-        {:des "4key (open curated lists)"
-         :rules [:4-mode
-                 [:r [:km "edit: Web Searches"]]
-                 [:t [:km "list: Newsletters"]]
-                 [:o [:km "list: Blogs"]]
-                 [:p [:km "list: Podcasts"]]
-                 [:k [:km "list: Alfred workflows"]]
-                 [:l [:km "list: Command line tools"]]
-                 [:n [:km "list: Events"]]]}
-        {:des "dkey (mouse)"
-         :rules [:d-mode
-
-
-                 [:j {:mkey {:vwheel 60}}] ; Scroll down
-                 [:k {:mkey {:vwheel -60}}] ; Scroll up
-
-                 [:z {:pkey :button2}] ; Right click
-                 [:v {:pkey :button1}] ; Left click
-                 [:b {:pkey :button3}]]} ; Middle click
- {:des "vkey (websites)"
-         :rules [:v-mode
-                 [:a [:km "w: GitHub"]]
-                 [:o [:km "w: Learning.Oreilly"]]
-]}
-        {:des "ikey (symbols)"
-         :rules [:i-mode
-                 [:1 :!S1]
-                 [:2 :!S2]
-                 [:3 :!Sequal_sign]
-                 [:4 :!S8]
-                 [:5 :!S5]
-                 [:q :!Sopen_bracket]
-                 [:w :!S9]
-                 [:e :!S3]
-                 [:r :!Squote]
-                 [:t :quote]
-                 [:o :open_bracket]
-                 [:open_bracket :!Sclose_bracket]
-                 [:caps_lock [:km "Match symbols"]]
-                 [:a :slash]
-                 [:s :!Shyphen]
-                 [:d :backslash]
-                 [:f :hyphen]
-                 [:g :!S4]
-                 [:j :equal_sign]
-                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow (->)
-                 [:semicolon :semicolon]
-                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde] ; -> //
-                 [:z :!Sslash]
-                 [:x :!Sbackslash]
-                 [:c :!S7]
-                 [:v :!Scomma]
-                 [:b [:slash :slash :spacebar]]]} ; -> //
-      {:des "wkey (apps)"
-       :rules [:w-mode
-               [:g [:km "open: GitKraken"]]
-			   [:j [:km "open: iTerm"]]
-			   [:k [:km "open: Google Chrome"]]
-			   [:l [:km "open: Emacs"]]]}
-      {:des "okey (open)"
-       :rules [:o-mode
-															[:1 :!C1]
-               [:2 :!C2]
-               [:3 :!C3]
-               [:4 :!C4]
-               [:5 :!C5]
-               [:6 :!C6]
-               [:k [:km "open: Keyboard Maestro"]]
-               [:q [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
-               [:b [:km "open: BetterTouchTool"]]]}
-      {:des "fkey (focus)"
-       :rules [:f-mode
-               [:m :!TFf2] ; Move focus to menu bar
-               [:n :!TFf3] ; move focus to Dock
-               [:d :!TFf4] ; move focus to active or next window
-               [:e :!TFf5] ; Move focus to window toolbar
-               [:backslash :!TFf6] ; Move focus to the floating window 
-               [:t :!TFf7] ; Change the way tab moves
-               [:b :!TFf8] ; Move focus to status menus
-               ]}
-   {:des "slashkey (window)"
-  		 :rules [:slash-mode 
-  		 								 [:q :!!q]
-  		 								 [:w :!!w]
-  		 								 ]}
-		{:des "spacekey"
-				 :rules [:spacebar-mode
-						[:##w :up_arrow]
-						[:##a :left_arrow]
-						[:##s :down_arrow]
-						[:##d :right_arrow]]}
- {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
+ 		:2-mode {:key :2}
+                :3-mode {:key :3}
+                :semicolon-mode {:key :semicolon}     
+                :e-mode {:key :e}
+                :w-mode {:key :w}}
+ :main [{:des "realforce right cmd -> Alfred"
+         :rules [:REALFORCE
+	        [:right_option :right_command nil {:alone :!CTOSspacebar}]]}
+        {:des "realforce right option"
+         :rules [:REALFORCE
+	        [:##right_command :right_option]]}
+       {:des "realforce left command"
+         :rules [:REALFORCE
+	        [:##left_command :left_option]]}
+        {:des "realfroce left opt -> cmd+tab"
+         :rules [:REALFORCE
+                 [:left_option :left_command nil {:alone :!Ctab}]]}
+        {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
          :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
-		{:des "right cmd -> Alfred"
+        {:des "right cmd -> Alfred"
          :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "left cmd -> cmd+tab"
-         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}				
- ]}
+         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
+        {:des "w/, (apps)"
+         :rules [:w-mode
+                [:q [:km "open: qutebrowser"]]
+                [:e [:km "open: Finder"]]
+                [:t [:km "open: 2Do"]]
+                [:o [:km "open: Keyboard Maestro"]]
+                [:a :!OSC1] ; Open Dash
+                [:d [:km "open: Dash"]]
+                [:f [:km "open: Fantastical"]]
+                [:g [:km "open: GitKraken"]]
+                [:h [:km "open: Paw"]]
+                [:j [:km "open: iTerm"]]
+                [:k [:km "open: Safari"]]
+                [:l [:km "open: Code"]]
+                [:semicolon [:km "open: MacVim"]]
+                [:quote [:km "open: Emacs"]]
+                [:v [:km "open: Music"]]
+                [:b [:km "open: BetterTouchTool"]]
+                [:n [:km "open: Sublime Text"]]
+                [:period [:km "open: SnippetsLab"]]
+                ]}
+        {:des "ekey (cmd)"
+         :rules [:e-mode
+                 [:tab :!Ctab]
+                 [:spacebar :!Cspacebar]
+                 [:return_or_enter :!Creturn_or_enter]
+                 [:open_bracket :!Copen_bracket]
+                 [:close_bracket :!Cclose_bracket]
+                 [:semicolon :!Csemicolon]
+                 [:quote :!Cquote]
+                 [:comma :!Ccomma]
+                 [:period :!Cperiod]
+                 [:slash :!Cslash]
+                 [:a :!Ca]
+                 [:b :!Cb]
+                 [:c :!Cc]
+                 [:d :!Cd]
+                 [:f :!Cf]
+                 [:g :!Cg]
+                 [:h :!Ch]
+                 [:i :!Ci]
+                 [:j :!Cj]
+                 [:k :!Ck]
+                 [:l :!Cl]
+                 [:m :!Cm]
+                 [:n :!Cn]
+                 [:o :!Co]
+                 [:p :!Cp]
+                 [:q :!Cq]
+                 [:r :!Cr]
+                 [:s :!Cs]
+                 [:t :!Ct]
+                 [:u :!Cu]
+                 [:v :!Cv]
+                 [:w :!Cw]
+                 [:x :!Cx]
+                 [:y :!Cy]
+                 [:z :!Cz]
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]]}
+        {:des "colonkey (shift)"
+         :rules [:semicolon-mode
+                 [:1 :!T1]
+                 [:2 :!T2]
+                 [:3 :!T3]
+                 [:4 :!T4]
+                 [:5 :!T5]
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                 [:grave_accent_and_tilde [:!Sgrave_accent_and_tilde]] ; -> ~
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 [:quote :!Squote]
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 [:n :!Sn]
+                 [:m :!Sm]]}
+        ]}
