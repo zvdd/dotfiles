@@ -3,7 +3,7 @@
 
 source ~/.vim_map
 source ~/.vim_plug
-
+:set nofoldenable
 augroup vimrc
   autocmd!
 augroup END

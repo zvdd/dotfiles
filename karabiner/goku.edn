@@ -176,6 +176,7 @@
                  [:##b :!Cleft_arrow]
                  [:v :!Cv] ; Paste
                  [:##m :!Cright_arrow]
+                 [:spacebar [:open "/System/Applications/Siri.app"]]
                  [:period :!COS0]]} ; Selection -> Typinator snippet
         {:des "dkey (mouse)"
          :rules [:d-mode
@@ -193,7 +194,7 @@
                  [:n [:km "Open URL in clipboard in Safari"]]
                  [:comma :!TO8] ; Show Launchpad
                  [:period :!CTO3] ; Mission control
-                 [:spacebar :!CT8]]} ; Selection -> Dictionary (wiki)
+                 [:spacebar :!Tsemicolon]]} ; Dictation
         {:des "fkey (essential)"
          :rules [:f-mode
                  ;[:3 :!CTOp] ; TODO: View Sip
@@ -253,4 +254,6 @@
                 [:p [:km "open: Paste"]]
                 [:s [:km "open: Screens"]]
                 [:v [:km "open: Vivaldi (MySpeed)"]]]}
+        {:des "sdfsim"
+		  :rules [[[:s :f] [:open "/system/applications/siri.app"]]]}
         ]}
