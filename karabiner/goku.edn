@@ -19,10 +19,11 @@
                 :3-mode {:key :3}
                 :semicolon-mode {:key :semicolon}     
                 :e-mode {:key :e}
-                :w-mode {:key :w}}
+                :w-mode {:key :w}
+                :o-mode {:key :o}}
  :main [{:des "realforce right cmd -> Alfred"
          :rules [:REALFORCE
-	        [:right_option :right_command nil {:alone :!CTOSspacebar}]]}
+	        [:##right_option :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "realforce right option"
          :rules [:REALFORCE
 	        [:##right_command :right_option]]}
@@ -31,13 +32,13 @@
 	        [:##left_command :left_option]]}
         {:des "realfroce left opt -> cmd+tab"
          :rules [:REALFORCE
-                 [:left_option :left_command nil {:alone :!Ctab}]]}
+                 [:##left_option :left_command nil {:alone :!Ctab}]]}
         {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
          :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
         {:des "right cmd -> Alfred"
          :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "left cmd -> cmd+tab"
-         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
+         :rules [[:##left_command :left_command nil {:alone :!Ctab}]]}
         {:des "w/, (apps)"
          :rules [:w-mode
                 [:q [:km "open: qutebrowser"]]
@@ -54,7 +55,8 @@
                 [:l [:km "open: Code"]]
                 [:semicolon [:km "open: MacVim"]]
                 [:quote [:km "open: Emacs"]]
-                [:v [:km "open: Music"]]
+                [:c [:km "open: Google Chrome"]]
+                [:v [:km "open: Vivaldi"]]
                 [:b [:km "open: BetterTouchTool"]]
                 [:n [:km "open: Sublime Text"]]
                 [:period [:km "open: SnippetsLab"]]
@@ -144,4 +146,16 @@
                  [:b :!Sb]
                  [:n :!Sn]
                  [:m :!Sm]]}
+        {:des "okey (apps)"
+        :rules [:o-mode
+                [:1 :!C1]
+                [:2 :!C2]
+                [:3 :!C3]
+                [:4 :!C4]
+                [:5 :!C5]
+                [:6 :!C6]
+                [:r [:km "open: Remote Mouse"]]
+                [:k [:km "open: KeyCastr"]]
+                [:i [:km "open: Music"]]
+                [:v [:km "open: Vivaldi (MySpeed)"]]]}
         ]}
