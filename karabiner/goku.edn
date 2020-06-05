@@ -254,6 +254,4 @@
                 [:p [:km "open: Paste"]]
                 [:s [:km "open: Screens"]]
                 [:v [:km "open: Vivaldi (MySpeed)"]]]}
-        {:des "sdfsim"
-		  :rules [[[:s :f] [:open "/system/applications/siri.app"]]]}
-        ]}
+            ]}
