@@ -194,7 +194,7 @@
                  [:n [:km "Open URL in clipboard in Safari"]]
                  [:comma :!TO8] ; Show Launchpad
                  [:period :!CTO3] ; Mission control
-                 [:spacebar :!Tsemicolon]]} ; Dictation
+                 [:spacebar :!Wsemicolon]]} ; Dictation
         {:des "fkey (essential)"
          :rules [:f-mode
                  ;[:3 :!CTOp] ; TODO: View Sip
