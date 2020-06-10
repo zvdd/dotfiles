@@ -28,11 +28,11 @@
  :main [
         {:des "REALFORCE modifiers"
          :rules [:REALFROCE
-                 [:##left_option :left_command nil {:alone :!Ctab}]
-                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]
                  [:##left_command :left_option]
                  [:##right_command :right_option]
-                 ]}
+                 [:##left_option :left_command nil {:alone :!Ctab}]
+                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]
+                                  ]}
         {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
          :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
         {:des "right cmd -> Alfred"
@@ -168,9 +168,9 @@
                  [:semicolon :!CTO9] ; Search Typinator
                  [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
                  [:c :!Cdelete_or_backspace]
-                 [:n :left_shift]
+                 [:v :left_shift]
                  [:##b :!Cleft_arrow]
-                 [:v :!Cv] ; Paste
+                 [:n :!Cv] ; Paste
                  [:##m :!Cright_arrow]
                  [:spacebar [:open "/System/Applications/Siri.app"]]
                  [:period :!COS0]]} ; Selection -> Typinator snippet
