@@ -179,6 +179,28 @@
                  [:##m :!Cright_arrow]
                  [:spacebar [:open "/System/Applications/Siri.app"]]
                  [:period :!COS0]]} ; Selection -> Typinator snippet
+        {:des "dkey (mouse-keys-mode)"
+         :rules [:d-mode
+                                        ; buttons
+                 [:v {:pkey :button1}]
+                 [:b {:pkey :button3}]
+                 [:n {:pkey :button2}]
+                                        ; movement
+                 [:h {:mkey {:x -1536}} :!mouse-scroll-mode ]
+                 [:j {:mkey {:y  1536}} :!mouse-scroll-mode ]
+                 [:k {:mkey {:y -1536}} :!mouse-scroll-mode ]
+                 [:l {:mkey {:x  1536}} :!mouse-scroll-mode ]
+                                        ; speed - hold 'a' for slower, 'f' for faster
+                 [:a {:mkey {:speed 0.5}} nil {:afterup {:mkey {:speed 1.0}} }]
+                 [:f {:mkey {:speed 2.0}} nil {:afterup {:mkey {:speed 1.0}} }]
+
+                                        ; scrolling
+                 [:s ["mouse-scroll-mode" 1] nil { :afterup ["mouse-scroll-mode" 0] }]
+                 [:h {:mkey {:hwheel -32}} :mouse-scroll-mode ]
+                 [:j {:mkey {:vwheel  32}} :mouse-scroll-mode ]
+                 [:k {:mkey {:vwheel -32}} :mouse-scroll-mode ]
+                 [:l {:mkey {:hwheel  32}} :mouse-scroll-mode ]
+                 ]}
         {:des "dkey (mouse)"
          :rules [:d-mode
                  [:w [:km "Google Searchio selected word"]]
@@ -186,29 +208,17 @@
                  [:i :!Ckeypad_hyphen] ; Zoom out
                  [:o :!Ckeypad_plus] ; Zoom in
                  [:k {:mkey {:vwheel -60}}] ; Scroll up
-                 [:l [:km "Google selected word"]]
+                 ;[:l [:km "Google selected word"]]
                  [:semicolon [:km "Google clipboard"]]
                  [:quote [:km "Select line and google"]]
-                 [:z {:pkey :button2}] ; Right click
-                 [:v {:pkey :button1}] ; Left click
-                 [:b {:pkey :button3}] ; Middle click
                  [:n [:km "Open URL in clipboard in Safari"]]
                  [:comma :!TO8] ; Show Launchpad
                  [:period :!CTO3] ; Mission control
                  [:spacebar :!Wsemicolon]]} ; Dictation
         {:des "fkey (essential)"
          :rules [:f-mode
-                 ;[:3 :!CTOp] ; TODO: View Sip
                  [:q [:km "open: Photos"]]
-                 ;[:w [:km "open: Simulator / Xcode"]]
                  [:w [:km "open: Chrome Canary  / VS Code"]]
-                 [:e :!CO8] ; Alfred clipboard history search
-                 [:r [:km "Centre mouse to active app"]]
-                 [:i :!Treturn_or_enter]
-                 [:o :!Oreturn_or_enter]
-                 [:p :!CTOc] ; Sleep
-                 [:open_bracket :!CT5] ; Turn display on/off
-                 [:caps_lock :!CTOu] ; Sip color picker
                  [:a [:km "open: Figma"]]
                  [:s [:km "edit: 2nd iTerm tab"]]
                  [:h [:km "Make markdown link from selection {link}"]]
