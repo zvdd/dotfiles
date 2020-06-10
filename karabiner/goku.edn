@@ -17,7 +17,7 @@
  :simlayers {
  		:2-mode {:key :2}
                 :3-mode {:key :3}
-                :semicolon-mode {:key :semicolon}     
+                :semicolon-mode {:key :semicolon}
                 :w-mode {:key :w}
                 :e-mode {:key :e}
                 :d-mode {:key :d}
@@ -25,18 +25,14 @@
                 :g-mode {:key :g}
                 :f-mode {:key :f}
                 :o-mode {:key :o}}
- :main [{:des "realforce right cmd -> Alfred"
-         :rules [:REALFORCE
-	        [:##right_option :right_command nil {:alone :!CTOSspacebar}]]}
-        {:des "realforce right option"
-         :rules [:REALFORCE
-	        [:##right_command :right_option]]}
-       {:des "realforce left command"
-         :rules [:REALFORCE
-	        [:##left_command :left_option]]}
-        {:des "realfroce left opt -> cmd+tab"
-         :rules [:REALFORCE
-                 [:##left_option :left_command nil {:alone :!Ctab}]]}
+ :main [
+        {:des "REALFORCE modifiers"
+         :rules [:REALFROCE
+                 [:##left_option :left_command nil {:alone :!Ctab}]
+                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]
+                 [:##left_command :left_option]
+                 [:##right_command :right_option]
+                 ]}
         {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
          :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
         {:des "right cmd -> Alfred"
