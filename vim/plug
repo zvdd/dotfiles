@@ -43,7 +43,7 @@ nmap <C-\> :NERDTreeToggle<CR>
  if v:version >= 800 && !s:windows
   Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
   Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
-  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
+  "Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
 endif
 
 " Lint

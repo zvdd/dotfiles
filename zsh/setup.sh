@@ -9,7 +9,7 @@ SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 ln -sf "$SDIR/zshrc"         ~/.zshrc
 # ln -sf "$SDIR/zpath"         ~/.zpath
 ln -sf "$SDIR/zprofile"         ~/.zprofile
-p#ln -sf "$SDIR/zshfunctions"  ~/.functions
+#ln -sf "$SDIR/zshfunctions"  ~/.functions
 ln -sf "$SDIR/zshenv"        ~/.zshenv
 # ln -sf "$SDIR/zsh_misc"      ~/.zsh_misc
 ln -sf "$SDIR/zsh_aliases"    ~/.zsh_aliases

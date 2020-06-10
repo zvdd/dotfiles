@@ -157,7 +157,7 @@ alias gs='git stash'
 alias gsp='git stash pop'
 
 alias ra='ranger'
-alias n='nvim'
+alias v='nvim'
 
 alias mycli='LESS="-S $LESS" mycli'
 
