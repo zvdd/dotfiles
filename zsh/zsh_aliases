@@ -168,3 +168,5 @@ if [ -d "${HOME}/.Documentations/" ]; then
     alias H-ZshFAQ='${BROWSER:-lynx} /home/dope/.Documentations/Zsh/faq/zshfaq.txt'
     alias H-Vim='${BROWSER:-lynx} ${HOME}/.Documentations/vim/usr_toc.html'
 fi
+
+alias dl='cd ~/Downloads'

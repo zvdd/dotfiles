@@ -1,6 +1,4 @@
 " vim: ft=vim:
-
-
 noremap <C-F> <C-D>
 noremap <C-B> <C-U>
 

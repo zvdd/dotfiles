@@ -12,8 +12,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-
+Plug 'preservim/nerdcommenter'
 Plug 'junegunn/seoul256.vim'
+Plug 'junegunn/goyo.vim'
 
 " Browsing
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }

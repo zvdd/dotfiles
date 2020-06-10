@@ -1,9 +1,6 @@
 " vim: ft=vim:
 " vim: set foldmethod=marker foldlevel=0 nomodeline:
-" ============================================================================
-" vimrc  {{{ 
-" ============================================================================
-set nocompatible
+
 source ~/.vim_plug
 source ~/.vim_map
 silent! source ~/.vim_local
@@ -16,12 +13,6 @@ let s:darwin = has('mac')
 let s:windows = has('win32') || has('win64')
 let mapleader      = ' '
 let maplocalleader = ' '
-
-" }}} 
-
-" ============================================================================
-" BASIC SETTINGS {{{
-" ============================================================================
 set nu
 set autoindent
 set smartindent
@@ -30,29 +21,7 @@ set laststatus=2
 set showcmd
 set visualbell
 set clipboard+=unnamed
-" Set n lines to the cursor - when moving vertically using j/k
-set scrolloff=5
-set sidescrolloff=15
 
-" Use spaces instead of tabs
-set expandtab
-" Set tab width to 4 spaces
-set tabstop=4
-set shiftwidth=4
-" Highlight current line
-set nocursorline
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases
-set smartcase
-
-set autochdir
-
-set autoread
-
-set diffopt=vertical
 " TextEdit might fail if hidden is not set.
 set hidden
 
@@ -65,10 +34,7 @@ set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=100
-
-" Default 1000ms is too long
-set timeoutlen=400
+set updatetime=300
 
 " Don't pass messages to |ins-completion-menu|.
 set shortmess+=c
@@ -81,9 +47,7 @@ if has("patch-8.1.1564")
 else
   set signcolumn=yes
 endif
-if has("termguicolors")
-    set termguicolors
-endif
+
 "if has('termguicolors')
   "let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   "let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -139,14 +103,6 @@ if has('nvim')
     \   exe "normal! g`\"" |
     \ endif
 endif
-
-" Show whitespace
-set list listchars=tab:»·,trail:·
-
-set wildmenu
-set wildmode=longest:list,full
-
-" }}}
 
 " Show changes since last save
 function! s:DiffSaved()
