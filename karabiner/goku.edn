@@ -186,9 +186,9 @@
                  [:b {:pkey :button3}]
                  [:n {:pkey :button2}]
                                         ; movement
-                 [:h {:mkey {:x -1536}} :!mouse-scroll-mode ]
-                 [:j {:mkey {:y  1536}} :!mouse-scroll-mode ]
-                 [:k {:mkey {:y -1536}} :!mouse-scroll-mode ]
+                 [:j {:mkey {:x -1536}} :!mouse-scroll-mode ]
+                 [:k {:mkey {:y  1536}} :!mouse-scroll-mode ]
+                 [:i {:mkey {:y -1536}} :!mouse-scroll-mode ]
                  [:l {:mkey {:x  1536}} :!mouse-scroll-mode ]
                                         ; speed - hold 'a' for slower, 'f' for faster
                  [:a {:mkey {:speed 0.5}} nil {:afterup {:mkey {:speed 1.0}} }]
@@ -196,16 +196,16 @@
 
                                         ; scrolling
                  [:s ["mouse-scroll-mode" 1] nil { :afterup ["mouse-scroll-mode" 0] }]
-                 [:h {:mkey {:hwheel -32}} :mouse-scroll-mode ]
-                 [:j {:mkey {:vwheel  32}} :mouse-scroll-mode ]
-                 [:k {:mkey {:vwheel -32}} :mouse-scroll-mode ]
+                 [:j {:mkey {:hwheel -32}} :mouse-scroll-mode ]
+                 [:k {:mkey {:vwheel  32}} :mouse-scroll-mode ]
+                 [:i {:mkey {:vwheel -32}} :mouse-scroll-mode ]
                  [:l {:mkey {:hwheel  32}} :mouse-scroll-mode ]
                  ]}
         {:des "dkey (mouse)"
          :rules [:d-mode
                  [:w [:km "Google Searchio selected word"]]
                  [:u [:km "Google Lucky selected word"]]
-                 [:i :!Ckeypad_hyphen] ; Zoom out
+                 [:p :!Ckeypad_hyphen] ; Zoom out
                  [:o :!Ckeypad_plus] ; Zoom in
                  [:k {:mkey {:vwheel -60}}] ; Scroll up
                  ;[:l [:km "Google selected word"]]
@@ -217,20 +217,8 @@
                  [:spacebar :!Wsemicolon]]} ; Dictation
         {:des "fkey (essential)"
          :rules [:f-mode
-                 [:q [:km "open: Photos"]]
-                 [:w [:km "open: Chrome Canary  / VS Code"]]
-                 [:a [:km "open: Figma"]]
-                 [:s [:km "edit: 2nd iTerm tab"]]
-                 [:h [:km "Make markdown link from selection {link}"]]
-                 [:j [:km "edit: 1st iTerm tab"]]
-                 [:k :return_or_enter]
-                 [:l :!Creturn_or_enter]
-                 [:semicolon [:km "edit: Karabiner"]]
-                 [:z :!Ospacebar] ; Switch language (Russian <-> English)
-                 [:n :!Freturn_or_enter]
-                 [:m :!Sreturn_or_enter]
-                 [:comma  [:km "Add safari link to selected markdown text"]]
-                 [:period :!CTO4] ; Alfred file action
+                 [:l :!Ttab]
+                 [:h :!TStab]
                  [:spacebar :!CTq]]} ; Selection -> Web Searches
         {:des "gkey (actions)"
          :rules [:g-mode

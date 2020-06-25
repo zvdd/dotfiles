@@ -36,10 +36,11 @@ nnoremap <C-p> <C-i>
 " <leader>n | NERD Tree
 nnoremap <leader>n :NERDTreeToggle<cr>
 
-" jk | Escaping!
+" jk, jj | Escaping!
 inoremap jk <Esc>
 xnoremap jk <Esc>
 cnoremap jk <C-c>
+inoremap jj <ESC>
 
 " Movement in insert mode
 inoremap <C-h> <C-o>h

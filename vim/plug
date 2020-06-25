@@ -58,8 +58,6 @@ Plug 'w0rp/ale'
 
 Plug 'liuchengxu/vim-which-key'
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-" By default timeoutlen is 1000 ms
-set timeoutlen=500
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -79,6 +77,11 @@ let g:lightline = {
 
 
 Plug 'preservim/nerdcommenter'
+
+Plug 'junegunn/vim-easy-align'
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+xmap <leader>ga <Plug>(LiveEasyAlign)
 
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -102,11 +105,6 @@ Plug 'mhinz/vim-startify'
 
 " Initialize plugin system
 call plug#end()
-
-Plug 'junegunn/vim-easy-align'
-xmap ga <Plug>(EasyAlign)
-nmap ga <Plug>(EasyAlign)
-xmap <leader>ga <Plug>(LiveEasyAlign)
 
 " Custom functions {{{ "
 " Open repo in browser
