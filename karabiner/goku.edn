@@ -18,12 +18,19 @@
  		:2-mode {:key :2}
                 :3-mode {:key :3}
                 :semicolon-mode {:key :semicolon}
+                :spacebar-mode {:key :spacebar}
+                :q-mode {:key :e}
                 :w-mode {:key :w}
                 :e-mode {:key :e}
                 :d-mode {:key :d}
+                :c-mode {:key :c}
                 :s-mode {:key :s}
-                :g-mode {:key :g}
                 :f-mode {:key :f}
+                :g-mode {:key :g}
+                :h-mode {:key :h}
+                :j-mode {:key :j}
+                :k-mode {:key :k}
+                :l-mode {:key :l}
                 :o-mode {:key :o}}
  :main [
 {:des "realforce right cmd -> Alfred"
@@ -66,6 +73,18 @@
                 [:n [:km "open: Sublime Text"]]
                 [:period [:km "open: SnippetsLab"]]
                 ]}
+								{:des "hkey)"
+         :rules [:h-mode
+         								]}
+        {:des "jkey)"
+         :rules [:j-mode
+         								[:k :!Ta]]}
+								{:des "kkey)"
+         :rules [:k-mode
+         								[:j :!Ta]]}
+								{:des "lkey)"
+         :rules [:l-mode
+         								[:k :!Ta]]}
         {:des "ekey (cmd)"
          :rules [:e-mode
                  [:tab :!Ctab]
@@ -82,6 +101,7 @@
                  [:b :!Cb]
                  [:c :!Cc]
                  [:d :!Cd]
+                 [:!Sd :!SCd]
                  [:f :!Cf]
                  [:g :!Cg]
                  [:h :!Ch]
@@ -90,7 +110,7 @@
                  [:k :!Ck]
                  [:l :!Cl]
                  [:m :!Cm]
-                 [:n :!Cn]
+                 [:##n :!Cn]
                  [:o :!Co]
                  [:p :!Cp]
                  [:q :!Cq]
@@ -238,6 +258,13 @@
                  [:z :!CO0] ; Show Dropzone dropdown
                  [:n :!CTOg] ; Turn on/off notifications
                  [:m :!COslash]]} ; Show/hide notification centre
+        {:des "spacebar"
+        :rules [:spacebar-mode
+                [:##a :left_arrow]
+                [:##w :up_arrow]
+                [:##s :down_arrow]
+                [:##d :right_arrow]
+                ]}
         {:des "okey (apps)"
         :rules [:o-mode
                 [:1 :!C1]
@@ -253,4 +280,7 @@
                 [:p [:km "open: Paste"]]
                 [:s [:km "open: Screens"]]
                 [:v [:km "open: Vivaldi (MySpeed)"]]]}
+        {:des "ckey (test)"
+          :rules [:c-mode
+                  [:k [:km "Clone repo to ~/src/clones"]]]}
             ]}
