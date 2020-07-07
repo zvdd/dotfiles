@@ -1,3 +1,0 @@
-dracula-theme.theme-dracula
-vscodevim.vim
-ms-python.python
