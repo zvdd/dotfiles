@@ -1,0 +1,13 @@
+abbr ..="gcd .."
+abbr ...="gcd ../.."
+abbr ....="gcd ../../.."
+abbr .....="gcd ../../../.."
+abbr abbrrc="vim ~/.config/zsh/abbreviations"
+abbr cd.="gcd .."
+abbr cd..="gcd .."
+abbr csort="LC_ALL=C sort"
+abbr dot="cd ~/dotfiles"
+abbr em="emacsclient -t"
+abbr emconf="em ~/.spacemacs"
+abbr ra="ranger"
+
