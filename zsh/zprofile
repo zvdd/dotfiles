@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+export PATH="/usr/local/sbin:$PATH"
+export PATH=$PATH:/Applications/Araxis\ Merge.app/Contents/Utilities
+alias araxis='/Applications/Araxis\ Merge.app/Contents/Utilities/compare'
+export GOPATH="$HOME/go"
+export PATH=$PATH:/usr/local/go/bin
+
