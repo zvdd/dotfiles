@@ -1,0 +1,115 @@
+" vim: ft=vim:
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
+
+" ============================================================================
+" .vimrc of Brenden Durham {{{
+" ============================================================================
+
+" Vim 8 defaults
+unlet! skip_defaults_vim
+silent! source $VIMRUNTIME/defaults.vim
+
+augroup vimrc
+  autocmd!
+augroup END
+
+let s:darwin = has('mac')
+let s:windows = has('win32') || has('win64')
+let mapleader      = ' '
+let maplocalleader = ' '
+
+" }}}
+" ============================================================================
+" VIM-PLUG BLOCK {{{
+" ============================================================================
+
+silent! if plug#begin('~/.vim/plugged')
+
+if s:darwin
+  let g:plug_url_format = 'git@github.com:%s.git'
+else
+  let $GIT_SSL_NO_VERIFY = 'true'
+endif
+
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/goyo.vim'
+
+
+Plug 'mzlogin/vim-markdown-toc'
+if v:version >= 800 && !s:windows
+  Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+  Plug 'iamcco/markdown-preview.nvim', { 'do': ':call mkdp#util#install()', 'for': 'markdown', 'on': 'MarkdownPreview' }
+  Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install() }}
+endif
+
+" Lint
+Plug 'w0rp/ale'
+  let g:ale_linters = {'java': [], 'yaml': [], 'scala': [], 'clojure': []}
+  let g:ale_fixers = {'ruby': ['rubocop']}
+  let g:ale_lint_delay = 1000
+  nmap ]a <Plug>(ale_next_wrap)
+  nmap [a <Plug>(ale_previous_wrap)
+
+call plug#end()
+endif
+
+" }}}
+" ============================================================================
+" BASIC SETTINGS {{{
+" ============================================================================
+
+" }}}
+" ============================================================================
+" MAPPINGS {{{
+" ============================================================================
+
+" ----------------------------------------------------------------------------
+" Basic mappings
+" ----------------------------------------------------------------------------
+
+noremap <C-F> <C-D>
+noremap <C-B> <C-U>
+
+" Open new line below and above current line
+nnoremap <leader>o o<esc>
+nnoremap <leader>O O<esc>
+
+" Save
+inoremap <C-s>     <C-O>:update<cr>
+nnoremap <C-s>     :update<cr>
+nnoremap <leader>s :update<cr>
+nnoremap <leader>w :update<cr>
+
+
+" ----------------------------------------------------------------------------
+" nvim
+" ----------------------------------------------------------------------------
+if has('nvim')
+  tnoremap <a-a> <esc>a
+  tnoremap <a-b> <esc>b
+  tnoremap <a-d> <esc>d
+  tnoremap <a-f> <esc>f
+endif
+
+" }}}
+" ============================================================================
+" Custom functions {{{ "
+" Open repo in browser
+function! s:go_github()
+    let s:repo = matchstr(expand("<cWORD>"), '\v[0-9A-Za-z\-\.\_]+/[0-9A-Za-z\-\.\_]+')
+    if empty(s:repo)
+        echo "GoGithub: No repository found."
+    else
+        let s:url = 'https://github.com/' . s:repo
+        call netrw#BrowseX(s:url, 0)
+    end
+endfunction
+autocmd FileType *vim,*zsh,*bash,*tmux nnoremap <buffer> <silent> <space>g :call <sid>go_github()<cr>
+" }}} Custom functions "
+" ============================================================================
+" vim-plug extension {{{ "
+" Define some custom command
+command! PU PlugUpgrade | PlugUpdate
+command! PI PlugInstall
+command! PC PlugClean
+" }}} vim-plug extension "
