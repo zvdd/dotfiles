@@ -22,6 +22,7 @@
  :simlayers{
              :s-mode {:key :s}
              :c-mode {:key :c}
+             :a-mode {:key :a}
              }
  :main [
         {:des "S-key (essentials)"
@@ -29,7 +30,7 @@
                  [:d :delete_or_backspace]
                  [:f :return_or_enter]
                  [:g :!Ctab]
-                 [:spacebar [:open "/System/Applications/Sirieapp"]]
+                 [:spacebar [:open "/System/Applications/Siri.app"]]
          ]}
         {:des "C-mode (utility)"
          :rules [:c-mode
