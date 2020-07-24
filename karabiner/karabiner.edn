@@ -21,6 +21,7 @@
                 :language "en"}}
  :simlayers{
              :s-mode {:key :s}
+             :c-mode {:key :c}
              }
  :main [
         {:des "S-key (essentials)"
@@ -30,6 +31,10 @@
                  [:g :!Ctab]
                  [:spacebar [:open "/System/Applications/Sirieapp"]]
          ]}
+        {:des "C-mode (utility)"
+         :rules [:c-mode
+                 [:d :!!!g]]
+                }
         {:des "realforce right cmd -> Alfred"
          :rules [:REALFORCE
                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]]}

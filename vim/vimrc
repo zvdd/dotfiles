@@ -27,6 +27,68 @@ silent! if plug#begin('~/.vim/plugged')
 
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/goyo.vim'
+" Browsing
+Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
+  autocmd! User indentLine doautocmd indentLine Syntax
+  let g:indentLine_color_term = 239
+  let g:indentLine_color_gui = '#616161'
+
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+  augroup nerd_loader
+    autocmd!
+    autocmd VimEnter * silent! autocmd! FileExplorer
+    autocmd BufEnter,BufNew *
+          \  if isdirectory(expand('<amatch>'))
+          \|   call plug#load('nerdtree')
+          \|   execute 'autocmd! nerd_loader'
+          \| endif
+  augroup END
+
+
+Plug 'AndrewRadev/switch.vim'
+  let g:switch_mapping = '-'
+  let g:switch_custom_definitions = [
+  \   ['MON', 'TUE', 'WED', 'THU', 'FRI']
+  \ ]
+
+Plug 'sgur/vim-editorconfig'
+if exists('##TextYankPost')
+  Plug 'machakann/vim-highlightedyank'
+  let g:highlightedyank_highlight_duration = 100
+endif
+
+Plug 'mhinz/vim-startify'
+" Start nerdtree when start vim without argument
+" autocmd VimEnter *
+            " \ if !argc()
+            " \ |   Startify
+            " \ |   NERDTree
+            " \ |   wincmd w
+            " \ | endif
+
+" ultisnips
+Plug 'SirVer/ultisnips'
+" Trigger configuration. Do not use <tab> if you use 'YouCompleteMe'
+let g:UltiSnipsExpandTrigger="<leader><tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="horizontal"
+autocmd Filetype snippet set shiftwidth=4
+
+
+" Edit
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-commentary'
+  map  gc  <Plug>Commentary
+  nmap gcc <Plug>CommentaryLine
+
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+  let g:undotree_WindowLayout = 2
+  nnoremap U :UndotreeToggle<CR>
 
 
 Plug 'mzlogin/vim-markdown-toc'

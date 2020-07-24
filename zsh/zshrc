@@ -67,3 +67,4 @@ zpl light-mode lucid depth='1' for blockf \
 	'hlissner/zsh-autopair'            \
 
 
+source ~/.zsh_custom

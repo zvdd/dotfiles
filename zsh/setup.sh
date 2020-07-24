@@ -12,8 +12,8 @@ ln -sf "$SDIR/zshrc"         ~/.zshrc
 #ln -sf "$SDIR/zshfunctions"  ~/.functions
 #ln -sf "$SDIR/zshenv"        ~/.zshenv
 # ln -sf "$SDIR/zsh_misc"      ~/.zsh_misc
-#ln -sf "$SDIR/zsh_aliases"    ~/.zsh_aliases
-#ln -sf "$SDIR/zsh_custom"    ~/.zsh_custom
+ln -sf "$SDIR/zsh_aliases"    ~/.zsh_aliases
+ln -sf "$SDIR/zsh_custom"    ~/.zsh_custom
 # ln -sf "$SDIR/zsh_theme"     ~/.zsh_theme
 #ln -sf "$SDIR/zsh_fzf_extra" ~/.zsh_fzf_extra
 # ln -sf "$SDIR/zsh_secret"    ~/.zsh_secret
