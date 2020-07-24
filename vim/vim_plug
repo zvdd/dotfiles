@@ -1,0 +1,101 @@
+" vim: ft=vim:
+" vim: set foldmethod=marker foldlevel=0 nomodeline:
+
+let s:darwin = has('mac')
+let s:windows = has('win32') || has('win64')
+
+silent! if plug#begin('~/.vim/plugged')
+
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' } | Plug 'Xuyuanp/nerdtree-git-plugin' 
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+  augroup nerd_loader
+    autocmd!
+    autocmd VimEnter * silent! autocmd! FileExplorer
+    autocmd BufEnter,BufNew *
+          \  if isdirectory(expand('<amatch>'))
+          \|   call plug#load('nerdtree')
+          \|   execute 'autocmd! nerd_loader'
+          \| endif
+  augroup END
+	
+Plug 'junegunn/fzf', { 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'junegunn/rainbow_parentheses.vim'
+
+Plug 'justinmk/vim-sneak'
+Plug 'preservim/nerdcommenter'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+Plug 'itchyny/lightline.vim'
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'dracula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
+
+Plug 'preservim/nerdcommenter'
+
+Plug 'junegunn/vim-easy-align'
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
+xmap <leader>ga <Plug>(LiveEasyAlign)
+
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+
+" vim-rooter {{{ "
+Plug 'airblade/vim-rooter'
+let g:rooter_resolve_links = 1
+" }}} vim-rooter "
+
+
+
+" mhinz/vim-startify {{{ "
+Plug 'mhinz/vim-startify'
+" Shot nerdtree when start vim without argument
+" autocmd VimEnter *
+            " \ if !argc()
+            " \ |   Startify
+            " \ |   NERDTree
+            " \ |   wincmd w
+            " \ | endif
+" }}} mhinz/vim-startify "
+
+" vim-python {{{ "
+Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins',  'for': 'python'}
+let g:semshi#error_sign = v:false
+if !empty(glob('~/.pyenv/shims/python'))
+    let g:python3_host_prog = glob('~/.pyenv/shims/python')
+endif
+augroup python_env
+    autocmd!
+    autocmd FileType python
+                \ nmap <buffer> <leader>r<CR> :VT python %<CR>
+augroup END
+" }}} vim python "
+
+
+
+" Colors
+Plug 'dracula/vim' 
+Plug 'junegunn/seoul256.vim'
+
+call plug#end()
+endif

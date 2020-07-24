@@ -1,23 +1,5 @@
-" vim: ft=vim:
 " vim: set foldmethod=marker foldlevel=0 nomodeline:
 
-" ============================================================================
-" .vimrc of Brenden Durham {{{
-" ============================================================================
-
-" Vim 8 defaults
-unlet! skip_defaults_vim
-silent! source $VIMRUNTIME/defaults.vim
-
-augroup vimrc
-  autocmd!
-augroup END
-
-let s:darwin = has('mac')
-let s:windows = has('win32') || has('win64')
-let mapleader      = ' '
-let maplocalleader = ' '
-"
 " Cancel compatible to avoid some bugs and limitations.
 set nocompatible
 
@@ -27,43 +9,11 @@ let g:has_tags = executable('ctags')
 source ~/.vim_base
 source ~/.vim_plug
 source ~/.vim_map
+silent! source ~/.vim_local
 
 if has("termguicolors")
     set termguicolors
 endif
-
-if has('nvim')
-  " https://github.com/neovim/neovim/issues/2897#issuecomment-115464516
-  let g:terminal_color_0 = '#4e4e4e'
-  let g:terminal_color_1 = '#d68787'
-  let g:terminal_color_2 = '#5f865f'
-  let g:terminal_color_3 = '#d8af5f'
-  let g:terminal_color_4 = '#85add4'
-  let g:terminal_color_5 = '#d7afaf'
-  let g:terminal_color_6 = '#87afaf'
-  let g:terminal_color_7 = '#d0d0d0'
-  let g:terminal_color_8 = '#626262'
-  let g:terminal_color_9 = '#d75f87'
-  let g:terminal_color_10 = '#87af87'
-  let g:terminal_color_11 = '#ffd787'
-  let g:terminal_color_12 = '#add4fb'
-  let g:terminal_color_13 = '#ffafaf'
-  let g:terminal_color_14 = '#87d7d7'
-  let g:terminal_color_15 = '#e4e4e4'
-
-  set fillchars=vert:\|,fold:-
-  autocmd BufReadPost *
-    \ if line("'\"") >= 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-else
-  let g:terminal_ansi_colors = [
-    \ '#4e4e4e', '#d68787', '#5f865f', '#d8af5f',
-    \ '#85add4', '#d7afaf', '#87afaf', '#d0d0d0',
-    \ '#626262', '#d75f87', '#87af87', '#ffd787',
-    \ '#add4fb', '#ffafaf', '#87d7d7', '#e4e4e4']
-endif
-
 
 " Enable mouse
 silent! set ttymouse=xterm2
@@ -185,7 +135,10 @@ if !has("nvim") && &term =~ '256color'
   set t_ut=
 endif
 
-silent! colorscheme dracula
+silent! colorscheme gruvbox-material
+" silent! colorscheme gruvbox
+" silent! colorscheme seoul256
+
 " if strftime('%H') >= 7 && strftime('%H') < 19
 if 0
     set background=light
@@ -265,76 +218,4 @@ if exists('$TMUX') && !exists('$NORENAME')
     au BufEnter * if empty(&buftype) | call system('tmux rename-window '.expand('%:t:S')) | endif
     au VimLeave * call system('tmux set-window automatic-rename on')
 endif
-
-" }}}
-" ============================================================================
-" Custom functions {{{ "
-" Open repo in browser
-function! s:go_github()
-    let s:repo = matchstr(expand("<cWORD>"), '\v[0-9A-Za-z\-\.\_]+/[0-9A-Za-z\-\.\_]+')
-    if empty(s:repo)
-        echo "GoGithub: No repository found."
-    else
-        let s:url = 'https://github.com/' . s:repo
-        call netrw#BrowseX(s:url, 0)
-    end
-endfunction
-autocmd FileType *vim,*zsh,*bash,*tmux nnoremap <buffer> <silent> <space>g :call <sid>go_github()<cr>
-" }}} Custom functions "
-" ============================================================================
-" vim-plug extension {{{ "
-" Define some custom command
-command! PU PlugUpgrade | PlugUpdate
-command! PI PlugInstall
-command! PC PluClean
-" }}} vim-plug extension "
-
-" rotate-colors {{{ "
-function! s:colors(...)
-    return filter(map(filter(split(globpath(&rtp, 'colors/*.vim'), "\n"),
-                \                  'v:val !~ "^/usr/"'),
-                \           'fnamemodify(v:val, ":t:r")'),
-                \       '!a:0 || stridx(v:val, a:1) >= 0')
-endfunction
-function! s:rotate_colors()
-    if !exists('s:colors')
-        let s:colors = s:colors()
-    endif
-    let name = remove(s:colors, 0)
-    call add(s:colors, name)
-    execute 'colorscheme' name
-    redraw
-    echo name
-endfunction
-nnoremap <silent> <F8> :call <SID>rotate_colors()<cr>
-" }}} rotate-colors "
-
-" Zoom {{{ "
-function! s:zoom()
-  if winnr('$') > 1
-    tab split
-  elseif len(filter(map(range(tabpagenr('$')), 'tabpagebuflist(v:val + 1)'),
-                  \ 'index(v:val, '.bufnr('').') >= 0')) > 1
-    tabclose
-  endif
-endfunction
-nnoremap <silent> <c-w><c-w> :call <sid>zoom()<cr>
-" }}} Zoom "
-
-" Execute current buffer {{{ "
-function! s:execute_buffer()
-    if !empty(expand('%'))
-        write
-        call system('chmod +x '.expand('%'))
-        silent e
-        vsplit | terminal ./%
-    else
-        echohl WarningMsg
-        echo 'Save the file first'
-        echohl None
-    endif
-endfunction
-command! RUN :call s:execute_buffer()
-autocmd FileType sh,bash,zsh,python,ruby nnoremap <leader>rr :RUN<cr>
-" }}} Execute script "
 

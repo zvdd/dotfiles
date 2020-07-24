@@ -10,6 +10,9 @@ curl --insecure -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vi
 # vimrc
 mv -v ~/.vimrc ~/.vimrc.old 2> /dev/null
 ln -sf $BASE/vimrc ~/.vimrc
+ln -sf $BASE/vim_base ~/.vim_base
+ln -sf $BASE/vim_plug ~/.vim_plug
+ln -sf $BASE/vim_map ~/.vim_map
 
 # nvim
 mkdir -p ~/.config/nvim/autoload
@@ -18,5 +21,7 @@ ln -sf ~/.vim/autoload/plug.vim ~/.config/nvim/autoload/
 
 mkdir -p ~/.config/nvim
 ln -sf $BASE/coc-settings.json ~/.config/nvim/coc-settings.json
+
+touch ~/.vim_local
 
 vim +PlugInstall +qall

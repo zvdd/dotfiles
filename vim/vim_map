@@ -1,0 +1,72 @@
+" vim: ft=vim:
+
+" Yank & paste
+noremap  <c-y> "+yy
+vnoremap <c-y> "+y
+" inoremap <C-y> <C-o>"+P
+inoremap <c-v> <c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>
+
+" <leader>n | NERD Tree
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+" jk, jj | Escaping!
+inoremap jk <Esc>
+xnoremap jk <Esc>
+cnoremap jk <C-c>
+inoremap jj <ESC>
+
+" Movement in insert mode
+inoremap <C-h> <C-o>h
+inoremap <C-l> <C-o>a
+inoremap <C-j> <C-o>j
+inoremap <C-k> <C-o>k
+inoremap <C-^> <C-o><C-^>
+
+" Make Y behave like other capitals
+nnoremap Y y$
+
+" qq to record, Q to replay
+nnoremap Q @q
+
+" Save
+inoremap <C-s>     <C-O>:update<cr>
+nnoremap <C-s>     :update<cr>
+nnoremap <leader>s :update<cr>
+nnoremap <leader>w :update<cr>
+
+" Save & quit
+noremap <C-x> :x<cr>
+
+" Save and suspend
+noremap <leader>bg :w<cr><C-z>
+
+" Disable CTRL-A on tmux or on screen
+if $TERM =~ 'screen'
+  nnoremap <C-a> <nop>
+  nnoremap <Leader><C-a> <C-a>
+endif
+
+" Quit
+" noremap <C-c> :q<cr>
+inoremap <C-Q>     <esc>:q<cr>
+nnoremap <C-Q>     :q<cr>
+vnoremap <C-Q>     <esc>
+nnoremap <Leader>q :q<cr>
+nnoremap <Leader>Q :qa!<cr>
+
+" <leader>n | NERD Tree
+nnoremap <leader>n :NERDTreeToggle<cr>
+
+"----------------------------------------------------------------------------
+" nvim
+" ----------------------------------------------------------------------------
+if has('nvim')
+  tnoremap <a-a> <esc>a
+  tnoremap <a-b> <esc>b
+  tnoremap <a-d> <esc>d
+  tnoremap <a-f> <esc>f
+endif
+
+
+
+
