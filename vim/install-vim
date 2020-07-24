@@ -13,6 +13,8 @@ ln -sf $BASE/vimrc ~/.vimrc
 ln -sf $BASE/vim_base ~/.vim_base
 ln -sf $BASE/vim_plug ~/.vim_plug
 ln -sf $BASE/vim_map ~/.vim_map
+ln -snf $BASE/UltiSnips ~/.vim/UltiSnips
+ln -sf $BASE/gvimrc ~/.gvimrc
 
 # nvim
 mkdir -p ~/.config/nvim/autoload

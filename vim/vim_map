@@ -54,9 +54,40 @@ vnoremap <C-Q>     <esc>
 nnoremap <Leader>q :q<cr>
 nnoremap <Leader>Q :qa!<cr>
 
+
+noremap H 0
+noremap L $
+nnoremap <tab>   <c-w>w
+nnoremap <S-tab> <c-w>W
+" unoremap <C-p>   <c
+
+" Useful mappings for managing tabs
+map <leader>tc :tabnew<SPACE>
+map <leader>tq :tabclose<CR>
+map <leader>tn :tabnext<CR>
+map <leader>tp :tabNext<CR>
+" Lock up history commands quickly
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
+
+" Don't lose selection when shifting sidewards
+xnoremap < <gv
+xnoremap > >gv
+
+
 " <leader>n | NERD Tree
 nnoremap <leader>n :NERDTreeToggle<cr>
 
+
+" Emacs style key mapping
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <leader>a <End>
+inoremap <leader>e <End>
+inoremap <C-h> <BS>
+inoremap <C-d> <Del>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
 "----------------------------------------------------------------------------
 " nvim
 " ----------------------------------------------------------------------------
@@ -66,6 +97,7 @@ if has('nvim')
   tnoremap <a-d> <esc>d
   tnoremap <a-f> <esc>f
 endif
+
 
 
 

@@ -14,7 +14,7 @@ abbr .4="cd ../../../../"
 abbr .5="cd ../../../../../"
 abbr .6="cd ../../../../../../"
 
-abbr abbrrc="vim ~/.config/zsh/abbreviations"
+abbr abbrc="vim ~/.config/zsh/abbreviations"
 abbr cd.="gcd .."
 abbr cd..="gcd .."
 abbr csort="LC_ALL=C sort"
@@ -74,3 +74,4 @@ abbr vi2="vim -O2"
 abbr vv="vim \$(fzf)"
 abbr vw="gvim"
 abbr weather="curl wttr.in"
+

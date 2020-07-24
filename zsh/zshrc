@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 bindkey -e
 
-export PATH="/usr/local/sbin:$PATH"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -11,6 +10,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 eval "$(starship init zsh)"
 eval "$(pyenv init -)"
+export PATH="/usr/local/sbin:$PATH"
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
