@@ -1,0 +1,13 @@
+{
+  "yaml.schemas": {
+    "kubernetes": "*.y*ml",
+    "http://json.schemastore.org/ansible-stable-2.7": "*ansible*.y*ml"
+  },
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    }
+  }
+}

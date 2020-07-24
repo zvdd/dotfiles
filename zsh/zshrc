@@ -10,7 +10,7 @@ export NVM_DIR="$HOME/.nvm"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 eval "$(starship init zsh)"
-
+eval "$(pyenv init -)"
 # Setup fzf
 # ---------
 if [[ ! "$PATH" == */usr/local/opt/fzf/bin* ]]; then
@@ -68,3 +68,4 @@ zpl light-mode lucid depth='1' for blockf \
 
 
 source ~/.zsh_custom
+source ~/.zsh_aliases

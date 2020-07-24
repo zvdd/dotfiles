@@ -1,0 +1,75 @@
+#!/usr/bin/env zsh
+
+alias ..='cd ..'
+alias -g ...='../..'
+alias cd.='cd ..'
+alias cd..='cd ..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias .3="cd ../../../"
+alias .4="cd ../../../../"
+alias .5="cd ../../../../../"
+alias .6="cd ../../../../../../"
+
+alias ra='ranger'
+
+
+alias dot='\cd ~/dotfiles'
+alias tmp='\cd /tmp'
+
+# Edit dotfile in repo
+alias vimrc='vim ~/.vimrc'
+alias vimplug='vim ~/.vim_plug'
+alias vimbase='vim ~/.vim_base'
+alias vimmap='vim ~/.vim_map'
+alias gvimrc='vim ~/.gvimrc'
+alias vimlocal='vim ~/.vim_local'
+alias zshrc='vim ~/.zshrc'
+alias zshenv='vim ~/.zshenv'
+alias zshfzf='vim ~/.zsh_fzf_extra'
+alias zshalias='vim ~/.zsh_aliases'
+alias zshlocal='vim ~/.zsh_local'
+alias zprofile='vim ~/.zprofile'
+alias zshcustom='vim ~/.zsh_custom'
+# alias zshmisc='vim ~/.zsh_misc'
+alias zshfunctions='vim ~/.zshfunctions'
+# alias hostinfo='vim ~/.ssh/host_info'
+alias tmuxconf='vim ~/.tmux.conf'
+# alias ycmconf='vim ~/.ycm_extra_conf.py'
+alias emconf='em ~/.spacemacs'
+alias karaconf='vim ~/.config/karabiner.edn'
+
+alias cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
+
+# untar
+alias untar='tar xvf'
+
+alias md='mkdir -p'
+alias rd=rmdir
+alias cp="cp -iv"
+alias mv="mv -iv"
+alias ldir="ls -al | grep ^d"
+
+(( $+commands[tac]  )) || alias tac='tail -r'
+(( $+commands[nvim] )) && alias vim='nvim'
+alias svim='usudo vim'
+(( $+commands[bat] )) && alias cat='bat'
+
+alias ls='ls --color=auto'
+alias ll='ls --group-directories-first -l'
+alias la='ls --group-directories-first -l --all'
+alias l='ll'
+if (( $+commands[exa] )); then
+    alias ls='exa --time-style long-iso'
+    alias ll='ls -lgbh --git'
+    alias lg='ll -G'    # List by grid
+    alias llg='ll -G'
+    alias la='ll -a'
+    alias lag='llg -a'
+    alias ldot='ll -d .*'
+    alias lss='ll -s size'
+    alias lst='ll -s modified'
+    alias tree='ls --tree'
+fi
+
+
