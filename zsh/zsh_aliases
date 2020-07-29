@@ -73,3 +73,5 @@ if (( $+commands[exa] )); then
 fi
 
 
+alias gcl='git clone'
+alias pclone='pp | xargs git clone'
