@@ -1,0 +1,138 @@
+#!/usr/bin/env zsh
+# vim: foldmethod=marker foldenable:
+#=============================================================================
+#       Author: Wenxuan Zhang
+#        Email: wenxuangm@gmail.com
+#     HomePage: https://github.com/wfxr
+#=============================================================================
+
+function setup_env() {
+    # Get os info
+    # if (( $+commands[lsb_release] )); then
+        # export OSNAME=$(lsb_release -si)
+        # export OSVER=$(lsb_release -sr)
+    # elif [ -f /etc/lsb-release ]; then
+        # source /etc/lsb-release
+        # export OSNAME=$DISTRIB_ID
+        # export OSVER=$DISTRIB_RELEASE
+    # else
+        # export OSNAME=$(uname -s)
+        # export OSVER=$(uname -r)
+    # fi
+
+    # export PATH everywhere takes too long time
+    export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/usr/games:/usr/local/games:/bin:/sbin"
+    local _PATH="$PATH"
+
+    # True color
+    export COLORTERM=truecolor
+
+    # Ruby
+    #_PATH="$HOME/.gem/bin:$HOME/.rbenv/bin:$_PATH"
+
+    # C++
+    # export CPLUS_INCLUDE_PATH="/usr/local/include/c++/v1:$CPLUS_INCLUDE_PATH"
+    # export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/lib"
+    #export CC="${commands[clang]:-$CC}"
+    #export CXX="${commands[clang++]:-$CXX}"
+
+    # Rust
+    #_PATH="$HOME/.cargo/bin:$_PATH"
+    #export CARGO_HOME="$HOME/.cargo"
+    # export RUSTUP_DIST_SERVER="https://mirrors.ustc.edu.cn/rust-static"
+    # export RUST_SRC_PATH="$HOME/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src"
+    # [[ "$OSNAME" == 'Darwin' ]] && export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+
+    export TERM="xterm-256color"
+
+    # LANGUAGE must be set by en_US
+    export LANGUAGE="en_US.UTF-8"
+    export LANG="${LANGUAGE}"
+    export LC_ALL="${LANGUAGE}"
+    export LC_CTYPE="${LANGUAGE}"
+
+    # Editor
+    # For Terminal
+    export EDITOR="${commands[vim]:-$EDITOR}"
+    export EDITOR="${commands[nvim]:-$EDITOR}"
+    export CVSEDITOR="${EDITOR}"
+    export GIT_EDITOR="${EDITOR}"
+    # For GUI
+    export VISUAL="${EDITOR}"
+
+    # Homebrew Bottles中科大源
+    #export HOMEBREW_BOTTLE_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles"
+
+    # Golang
+    #export GOPATH="$HOME/go"
+    #_PATH="$GOPATH/bin:$_PATH"
+
+    # Less
+    export LESS="-R -f -F -X -i -P ?f%f:(stdin). ?lb%lb?L/%L.. [?eEOF:?pb%pb\%..]"
+    export LESSCHARSET="utf-8"
+    # Pager
+    export PAGER="${commands[less]:-$PAGER}"
+
+    # Word split
+    export WORDCHARS=''
+
+    # Custom zsh completions path
+    #export CUSTOM_FPATH="$HOME/.zsh_completions"
+    #export fpath=($fpath $CUSTOM_FPATH)
+
+    # LS COLORS
+    # https://github.com/ogham/exa/blob/adfee28fb9bb6f491c822ba4506fafef03909945/Vagrantfile#L163
+    export LS_COLORS="di=34:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+    # https://github.com/sharkdp/vivid
+    # if (( $+commands[vivid] )); then
+        # export LS_COLORS="$(vivid generate molokai)"
+        # https://the.exa.website/docs/colour-themes#colour-codes
+        # (( $+commands[exa] )) && export EXA_COLORS="$(vivid --color-mode 8-bit generate molokai)"
+    # fi
+
+    # For emacsclient
+    export ALTERNATE_EDITOR=""
+
+    # For lein
+    (( $+commands[drip] )) && export LEIN_JAVA_CMD='drip'
+
+    # pyenv
+    export PYENV_ROOT="$HOME/.pyenv"
+    export PYTHON_CONFIGURE_OPTS="--enable-shared"
+    _PATH="$HOME/.pyenv/shims:$PYENV_ROOT/bin:$_PATH"
+
+    # bat
+    export BAT_CONFIG_PATH="$HOME/.config/bat/config"
+    
+    # node
+    #export _PATH="$HOME/.nodenv/shims:$HOME/.nodenv/bin:$_PATH"
+
+    export PATH="$_PATH"
+
+    # kubectl
+    (( $+commands[kubectl] )) && [ -d ~/.kube ] && {
+        for config in ~/.kube/config*; do
+            KUBECONFIG="$KUBECONFIG:$config"
+        done
+        export KUBECONFIG
+    }
+
+
+setup_history() {
+    export HISTFILE="$HOME/.zsh_history" # History file
+    export HISTSIZE=100000               # History size in memory
+    export SAVEHIST=1000000              # The number of histsize
+    export LISTMAX=50                    # The size of asking history
+    setopt EXTENDED_HISTORY              # Write the history file in the ":start:elapsed;command" format.
+    setopt INC_APPEND_HISTORY            # Write to the history file immediately, not when the shell exits.
+    # setopt SHARE_HISTORY               # Share history between all sessions.
+    setopt HIST_IGNORE_SPACE             # Do not record an entry starting with a space.
+    setopt HIST_REDUCE_BLANKS            # Remove superfluous blanks before recording entry.
+    setopt HIST_VERIFY                   # Do not execute immediately upon history expansion.
+    setopt HIST_BEEP                     # Beep when accessing nonexistent history.
+    # Do not add in root
+    [[ "$UID" == 0 ]] && unset HISTFILE && SAVEHIST=0
+}
+
+setup_env; unset -f setup_env
+setup_history; unset -f setup_history

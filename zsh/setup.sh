@@ -10,7 +10,7 @@ ln -sf "$SDIR/zshrc"         ~/.zshrc
 # ln -sf "$SDIR/zpath"         ~/.zpath
 #ln -sf "$SDIR/zprofile"         ~/.zprofile
 #ln -sf "$SDIR/zshfunctions"  ~/.functions
-#ln -sf "$SDIR/zshenv"        ~/.zshenv
+ln -sf "$SDIR/zshenv"        ~/.zshenv
 # ln -sf "$SDIR/zsh_misc"      ~/.zsh_misc
 ln -sf "$SDIR/zsh_aliases"    ~/.zsh_aliases
 ln -sf "$SDIR/zsh_custom"    ~/.zsh_custom
