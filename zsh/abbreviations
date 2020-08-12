@@ -22,7 +22,6 @@ abbr dot="cd ~/dotfiles"
 abbr em="emacsclient -t"
 abbr emconf="em ~/.spacemacs"
 abbr f="fzf -m"
-
 abbr ra="ranger"
 abbr vimrc='vim ~/.vimrc'
 abbr vimplug='vim ~/.vim_plug'
@@ -37,6 +36,7 @@ abbr zshabbr='vim ~/.zsh_abbres'
 abbr zshlocal='vim ~/.zsh_local'
 abbr zprofile='vim ~/.zprofile'
 abbr zshcustom='vim ~/.zsh_custom'
+abbr alacrittyrc='vim ~/.config/alacritty/alacritty.yml'
 # abbr zshmisc='vim ~/.zsh_misc'
 abbr zshfunctions='vim ~/.zshfunctions'
 # abbr hostinfo='vim ~/.ssh/host_info'
