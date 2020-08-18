@@ -12,6 +12,22 @@
    :alone 120
    :held 70},
   :test {:default false :sim 50 :delay 500 :alone 500 :held 500}}
+  :tos       {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
+             :prev_app        {:key :tab :modi [:left_command] :lazy true}
+             :left_paren      {:key :9 :modi [:left_shift] :lazy true}
+             :right_paren     {:key :0 :modi [:left_shift] :lazy true}
+             :home_dir        [{:key :grave_accent_and_tilde :modi [:left_shift] :lazy true}
+                               {:key :slash}]
+             :regex_match_any [{:key :period}
+                               {:key :8 :modi [:left_shift] :lazy true}]
+             :select_dq       {:select_input_source
+                               {:input_mode_id   ""
+                                :input_source_id "com.apple.keylayout.DVORAK_QWERTYCMD"
+                                :language        "en"}}
+             :select_abc      {:select_input_source
+                               {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}}
+ :modifiers {:ro :right_option}
+ 
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%4s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""}
@@ -26,6 +42,24 @@
                 :us {:input_mode_id ""
                 :input_source_id "com.apple.keylayout.US"
                 :language "en"}}
+  :layers    {:tab-mode              {:key     :tab
+                                     :afterup [{:set ["yabai-move-mode" 0]}
+                                               {:set ["yabai-scale-mode" 0]}
+                                               {:set ["spec-mode" 0]}]
+                                     :condi   [:!comma-mode :!period-mode]}
+             :yabai-move-mode       {:key :f :condi :tab-mode}
+             :yabai-scale-mode      {:key :c :condi :tab-mode}
+             :spec-mode             {:key :s :condi :tab-mode}
+             ;; :yabai-insert-mode     {:key :i :condi :tab-mode}
+             :emacs-windmove-mode   {:key :q :condi [:Emacs :!comma-mode :!period-mode]}
+             :emacs-windresize-mode {:key :c :condi :emacs-windmove-mode}
+             :emacs-bufmove-mode    {:key :f :condi :emacs-windmove-mode}
+             :period-mode           {:key :period :afterup {:set ["period-comma-mode" 0]} :condi [:!emacs-s-mode :!tmux-windmove-mode :!k2-mode]}
+             :comma-mode            {:key :comma :condi [:!emacs-s-mode :!tmux-windmove-mode]}
+             :tmux-windmove-mode    {:key :q :condi [:Terminals :!comma-mode :!period-mode]}
+             :tmux-windresize-mode  {:key :c :condi :tmux-windmove-mode}
+             :k2-mode               {:key :2 :condi [:!tab-mode :!tmux-windmove-mode]}}
+ 
  :simlayers{
              :s-mode {:key :s}
              :e-mode {:key :e}
@@ -34,6 +68,23 @@
              :c-mode {:key :c}
              :a-mode {:key :a}
              :w-mode {:key :w}
+             :test-mode             {:key :9}
+             :contexts-f-mode       {:key :f}
+             :emacs-m-mode          {:key :m :condi :Emacs}
+             :emacs-v-mode          {:key :v :condi :Emacs}
+             :emacs-special-s-mode  {:key :s :condi :Emacs :afterup {:key :return_or_enter}}
+             :emacs-s-mode          {:key :s :condi :Emacs}
+             :vscode-s-mode         {:key :s :condi :VSCode}
+             :browser-s-mode        {:key :s :condi :Browsers}
+             :emacs-s-mode-terminal {:key :s :condi :Terminals}
+             :mouse_keys_mode_v4    {:key :a :afterup {:set ["mouse_keys_mode_v4_scroll" 0]}}
+             :vi-mode               {:key :d}
+             :vi-visual-mode        {:key :v :condi :!vim-mode-disabled-application}
+             :launch-mode           {:key :w}
+             ;; :q-mode {:key :q :condi [:!comma-mode :!period-mode]}
+             :alfred-mode           {:key :z}
+             :finder-alfred-mode    {:key :z :condi :Finder}
+             :browsers-alfred-mode  {:key :z :condi :Browsers}
              }
  :main [
         {:des "skey (essentials)"
@@ -323,6 +374,96 @@
          :rules [:c-mode
                  [:d :!!!g]]
                 }
+{:des   "mouse motion to scroll"
+              :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
+             #_{:des   "double press and hold key down in simlayer"
+                :rules [[:j "say 'j double press'" [["test-mode-j-dbpress-mode" 1]]]
+                        [:j ["say 'j press down'" ["test-mode-j-dbpress-mode" 1]] nil {:delayed {:canceled ["test-mode-j-dbpress-mode" 0]}}
+                         :invoked  ["test-mode-j-dbpress-mode" 0]
+                         :held    "say 'j held down'"]]}
+             #_{:des   "switch input method"
+                :rules [{:from        {:key_code :left_shift}
+                         :to          [{:key_code :left_shift}]
+                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}]
+                         :type        :basic}
+
+                        {:from        {:key_code :right_shift}
+                         :to          [{:key_code :right_shift}]
+                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.inputmethod\\.SCIM\\.ITABC$"}}]
+                         :type        :basic}
+                        ]}
+             {:des   "resize window, remap Rectangle"
+              :rules [:k2-mode
+                      [:return_or_enter :!COc]
+                      [:spacebar :!COf]
+                      [:y :!CTleft_arrow]        ;; upper left
+                      [:n :!CSTleft_arrow]       ;; lower left
+                      [:o :!CTright_arrow]       ;; upper right
+                      [:period :!CTSright_arrow] ;; lower right
+                      [:h :!COleft_arrow]        ;; left half
+                      [:l :!COright_arrow]       ;; right half
+                      [:k :!COup_arrow]          ;; top half
+                      [:j :!COdown_arrow]
+                      [:hyphen :!TOShyphen]
+                      [:equal_sign :!TOSequal_sign]
+                      [:open_bracket :!COTopen_bracket]
+                      [:close_bracket :!COTclose_bracket]]}
+
+             {:des   "vscode"
+              :rules [:VSCode
+                      [:##left_command :left_command nil {:alone [:!CSp ["vsc-m-x-on" 1]]}]
+                      :vsc-m-x-on
+                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
+                      [:!Tj :down_arrow]
+                      [:!Tk :up_arrow]
+                      [:escape [:escape ["vsc-m-x-on" 0]]]
+                      [:##left_control :left_control nil {:alone [:escape ["vsc-m-x-on" 0]]}]
+                      [:return_or_enter [:return_or_enter ["vsc-m-x-on" 0]]]
+                      :vscode-s-mode
+                      [:j :!CSopen_bracket]
+                      [:k :!CSclose_bracket]]}
+
+             {:des   "global C-h to backspace"
+              :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}
+             {:des   "contexts"
+              :rules [[[:m :l] [:f16 ["in-contexts" 1]]]
+                      [:semicolon :right_option nil {:alone :semicolon}]
+                      [:escape [:escape ["in-contexts" 0]] ["in-contexts" 1]]
+                      [{:pkey :button1} [{:pkey :button1} ["in-contexts" 0]] ["in-contexts" 1]]
+                      [:##left_control :left_control ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                      [:##caps_lock [:left_control] ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                      [:return_or_enter [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                      [:!Tm [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                      :contexts-f-mode
+                      [:j [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                      [:k [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                      [:j :down_arrow ["in-contexts" 1]]
+                      [:k :up_arrow ["in-contexts" 1]]
+                      [:e [:f :e]]
+                      [:l [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]]}
+             {:des   "in-alfred"
+              :rules [:in-alfred
+                      [:!Tw :!Odelete_or_backspace]
+                      [:!Ty :!Cv]
+                      [:!Tslash :!Cz]
+                      [:escape [:escape ["in-alfred" 0]]]
+                      [:return_or_enter [:return_or_enter ["in-alfred" 0]]]
+                      [:##left_control :left_control nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:##caps_lock [:left_control] nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:!Ctab [:!Ctab ["in-alfred" 0]]]
+                      [:!Cright_command [:!Ctab ["in-alfred" 0]]]
+                      [:!Tsemicolon [:!Treturn_or_enter ["in-alfred" 0]]]
+                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
+                      [:!Tj :down_arrow]
+                      [:!Tk :up_arrow]
+                      [:!Oh :left_arrow]
+                      [:!Oj :down_arrow]
+                      [:!Ok :up_arrow]
+                      [:!Ol :right_arrow]
+                      [:!OSh :!OSleft_arrow]
+                      [:!OSj :!OSdown_arrow]
+                      [:!OSk :!OSup_arrow]
+                      [:!OSl :!OSright_arrow]]}
         {:des "realforce right cmd -> Alfred"
          :rules [:REALFORCE
                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]]}

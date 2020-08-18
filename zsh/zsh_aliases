@@ -1,46 +1,6 @@
 #!/usr/bin/env zsh
 
-alias ..='cd ..'
-alias -g ...='../..'
-alias cd.='cd ..'
-alias cd..='cd ..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias .3="cd ../../../"
-alias .4="cd ../../../../"
-alias .5="cd ../../../../../"
-alias .6="cd ../../../../../../"
-
-alias ra='ranger'
-
-
-alias dot='\cd ~/dotfiles'
-alias tmp='\cd /tmp'
-
-# Edit dotfile in repo
-alias vimrc='vim ~/.vimrc'
-alias vimplug='vim ~/.vim_plug'
-alias vimbase='vim ~/.vim_base'
-alias vimmap='vim ~/.vim_map'
-alias gvimrc='vim ~/.gvimrc'
-alias vimlocal='vim ~/.vim_local'
-alias zshrc='vim ~/.zshrc'
-alias zshenv='vim ~/.zshenv'
-alias zshfzf='vim ~/.zsh_fzf_extra'
-alias zshalias='vim ~/.zsh_aliases'
-alias zshlocal='vim ~/.zsh_local'
-alias zprofile='vim ~/.zprofile'
-alias zshcustom='vim ~/.zsh_custom'
-# alias zshmisc='vim ~/.zsh_misc'
-alias zshfunctions='vim ~/.zshfunctions'
-# alias hostinfo='vim ~/.ssh/host_info'
-alias tmuxconf='vim ~/.tmux.conf'
-# alias ycmconf='vim ~/.ycm_extra_conf.py'
-alias emconf='em ~/.spacemacs'
-alias karaconf='vim ~/.config/karabiner.edn'
-
-alias cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
-
+(( $+commands[nvim] )) && alias vim='nvim'
 # untar
 alias untar='tar xvf'
 
@@ -51,7 +11,6 @@ alias mv="mv -iv"
 alias ldir="ls -al | grep ^d"
 
 (( $+commands[tac]  )) || alias tac='tail -r'
-(( $+commands[nvim] )) && alias vim='nvim'
 alias svim='usudo vim'
 (( $+commands[bat] )) && alias cat='bat'
 
@@ -72,6 +31,49 @@ if (( $+commands[exa] )); then
     alias tree='ls --tree'
 fi
 
+
+alias ..='cd ..'
+alias -g ...='../..'
+alias cd.='cd ..'
+alias cd..='cd ..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias .3="cd ../../../"
+alias .4="cd ../../../../"
+alias .5="cd ../../../../../"
+alias .6="cd ../../../../../../"
+
+alias ra='ranger'
+
+
+alias dot='\cd ~/dotfiles'
+alias tmp='\cd /tmp'
+
+# Edit dotfile in repo
+alias abbrc="vim ~/.config/zsh/abbreviations"
+alias vimrc='vim ~/.vimrc'
+alias vimplug='vim ~/.vim_plug'
+alias vimbase='vim ~/.vim_base'
+alias vimmap='vim ~/.vim_map'
+alias gvimrc='vim ~/.gvimrc'
+alias vimlocal='vim ~/.vim_local'
+alias zshrc='vim ~/.zshrc'
+alias zshenv='vim ~/.zshenv'
+alias zshfzf='vim ~/.zsh_fzf_extra'
+alias zshalias='vim ~/.zsh_aliases'
+alias zshlocal='vim ~/.zsh_local'
+alias zprofile='vim ~/.zprofile'
+alias zshcustom='vim ~/.zsh_custom'
+alias alacrittyrc='vim ~/.config/alacritty/alacritty.yml'
+# alias zshmisc='vim ~/.zsh_misc'
+alias zshfunctions='vim ~/.zshfunctions'
+# alias hostinfo='vim ~/.ssh/host_info'
+alias tmuxconf='vim ~/.tmux.conf'
+# alias ycmconf='vim ~/.ycm_extra_conf.py'
+alias emconf='em ~/.spacemacs'
+alias karaconf='vim ~/.config/karabiner.edn'
+
+alias cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
 
 alias gcl='git clone'
 alias pclone='pp | xargs git clone'
