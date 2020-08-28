@@ -69,3 +69,4 @@ zpl light-mode lucid depth='1' for blockf \
 
 source ~/.zsh_custom
 source ~/.zsh_aliases
+source /usr/local/share/zsh-abbr/zsh-abbr.zsh

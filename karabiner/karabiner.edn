@@ -34,6 +34,7 @@
  :devices{
           :hhkb [{:vendor_id 1278 :product_id 33}]
           :REALFORCE [{:vendor_id 2131 :product_id 328}]
+
           }
  :applications {
          :chromes ["^com\\.google\\.Chrome$" "^com\\.google\\.Chrome\\.canary$"]
@@ -68,6 +69,7 @@
              :c-mode {:key :c}
              :a-mode {:key :a}
              :w-mode {:key :w}
+             :o-mode {:key :o}
              :test-mode             {:key :9}
              :contexts-f-mode       {:key :f}
              :emacs-m-mode          {:key :m :condi :Emacs}
@@ -127,7 +129,7 @@
                 [:w :!Sw]
                 [:e :!Se]
                 [:r :!Sr]
-                [:t :!St]
+                ;[:t :!St]
                 [:y :!Sy]
                 [:u :!Su]
                 [:i :!Si]
@@ -144,7 +146,7 @@
                 [:g :!Sg]
                 [:h :!Sh]
                 [:j :!Sj]
-                [:k :!Sk]
+                ;[:k :!Sk]
                 [:l :!Sl]
                 ;[:semicolon :!Ssemicolon]
                 [:quote :!Squote]
@@ -490,6 +492,7 @@
          :rules [:w-mode
                 [:e [:km "open: Finder"]]
                 [:t [:km "open: 2Do"]]
+                [:b [:km "open: Books"]]
                 [:a :!OSC1] ; Open Dash
                 [:f [:km "open: Fantastical"]]
                 [:j [:km "open: iTerm"]]
@@ -503,6 +506,22 @@
                 [:n [:km "open: Sublime Text"]]
                 [:period [:km "open: SnippetsLab"]]
                 ]}
+        {:des "okey (alfred)"
+         :rules [:o-mode
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]
+                 [:hyphen :!Chyphen]
+                 [:equal_sign :!Cequal_sign]
+                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
+                 ]}
         {:des "dvorakCMDqwerty"
           :rules [:dq
                   [:s :o]]}
