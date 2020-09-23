@@ -5,12 +5,6 @@
    :delay 80
    :alone 120
    :held 70},
-  :dq
-  {:default false
-   :sim 50
-   :delay 80
-   :alone 120
-   :held 70},
   :test {:default false :sim 50 :delay 500 :alone 500 :held 500}}
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%4s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
@@ -18,11 +12,8 @@
  :devices{
           :hhkb [{:vendor_id 1278 :product_id 33}]
           :REALFORCE [{:vendor_id 2131 :product_id 328}]
-          :magic1 [{:vendor_id 76 :product_id 620}]
-          :magic2 [{:vendor_id 76 :product_id 615}]
-          :sculpt [{:vendor_id 1118 :product_id 1957}]
           }
-	 :applications {
+ :applications {
          :chromes ["^com\\.google\\.Chrome$" "^com\\.google\\.Chrome\\.canary$"]
          }
  :input-sources {
@@ -37,7 +28,6 @@
              :c-mode {:key :c}
              :a-mode {:key :a}
              :w-mode {:key :w}
-             :o-mode {:key :o}
              }
  :main [
         {:des "skey (essentials)"
@@ -327,80 +317,6 @@
          :rules [:c-mode
                  [:d :!!!g]]
                 }
-{:des   "mouse motion to scroll"
-              :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
-             #_{:des   "double press and hold key down in simlayer"
-                :rules [[:j "say 'j double press'" [["test-mode-j-dbpress-mode" 1]]]
-                        [:j ["say 'j press down'" ["test-mode-j-dbpress-mode" 1]] nil {:delayed {:canceled ["test-mode-j-dbpress-mode" 0]}}
-                         :invoked  ["test-mode-j-dbpress-mode" 0]
-                         :held    "say 'j held down'"]]}
-             #_{:des   "switch input method"
-                :rules [{:from        {:key_code :left_shift}
-                         :to          [{:key_code :left_shift}]
-                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}]
-                         :type        :basic}
-
-                        {:from        {:key_code :right_shift}
-                         :to          [{:key_code :right_shift}]
-                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.inputmethod\\.SCIM\\.ITABC$"}}]
-                         :type        :basic}
-                        ]}
-             {:des   "resize window, remap Rectangle"
-              :rules [:k2-mode
-                      [:return_or_enter :!COc]
-                      [:spacebar :!COf]
-                      [:y :!CTleft_arrow]        ;; upper left
-                      [:n :!CSTleft_arrow]       ;; lower left
-                      [:o :!CTright_arrow]       ;; upper right
-                      [:period :!CTSright_arrow] ;; lower right
-                      [:h :!COleft_arrow]        ;; left half
-                      [:l :!COright_arrow]       ;; right half
-                      [:k :!COup_arrow]          ;; top half
-                      [:j :!COdown_arrow]
-                      [:hyphen :!TOShyphen]
-                      [:equal_sign :!TOSequal_sign]
-                      [:open_bracket :!COTopen_bracket]
-                      [:close_bracket :!COTclose_bracket]]}
-
-             {:des   "vscode"
-              :rules [:VSCode
-                      [:##left_command :left_command nil {:alone [:!CSp ["vsc-m-x-on" 1]]}]
-                      :vsc-m-x-on
-                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
-                      [:!Tj :down_arrow]
-                      [:!Tk :up_arrow]
-                      [:escape [:escape ["vsc-m-x-on" 0]]]
-                      [:##left_control :left_control nil {:alone [:escape ["vsc-m-x-on" 0]]}]
-                      [:return_or_enter [:return_or_enter ["vsc-m-x-on" 0]]]
-                      :vscode-s-mode
-                      [:j :!CSopen_bracket]
-                      [:k :!CSclose_bracket]]}
-
-             {:des   "global C-h to backspace"
-              :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}
-             {:des   "in-alfred"
-              :rules [:in-alfred
-                      [:!Tw :!Odelete_or_backspace]
-                      [:!Ty :!Cv]
-                      [:!Tslash :!Cz]
-                      [:escape [:escape ["in-alfred" 0]]]
-                      [:return_or_enter [:return_or_enter ["in-alfred" 0]]]
-                      [:##left_control :left_control nil {:alone [:escape ["in-alfred" 0]]}]
-                      [:##caps_lock [:left_control] nil {:alone [:escape ["in-alfred" 0]]}]
-                      [:!Ctab [:!Ctab ["in-alfred" 0]]]
-                      [:!Cright_command [:!Ctab ["in-alfred" 0]]]
-                      [:!Tsemicolon [:!Treturn_or_enter ["in-alfred" 0]]]
-                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
-                      [:!Tj :down_arrow]
-                      [:!Tk :up_arrow]
-                      [:!Oh :left_arrow]
-                      [:!Oj :down_arrow]
-                      [:!Ok :up_arrow]
-                      [:!Ol :right_arrow]
-                      [:!OSh :!OSleft_arrow]
-                      [:!OSj :!OSdown_arrow]
-                      [:!OSk :!OSup_arrow]
-                      [:!OSl :!OSright_arrow]]}
         {:des "realforce right cmd -> Alfred"
          :rules [:REALFORCE
                 [:##right_option :right_command nil {:alone :!CTOSspacebar}]]}
@@ -427,7 +343,6 @@
          :rules [:w-mode
                 [:e [:km "open: Finder"]]
                 [:t [:km "open: 2Do"]]
-                [:b [:km "open: Books"]]
                 [:a :!OSC1] ; Open Dash
                 [:f [:km "open: Fantastical"]]
                 [:j [:km "open: iTerm"]]
@@ -441,23 +356,4 @@
                 [:n [:km "open: Sublime Text"]]
                 [:period [:km "open: SnippetsLab"]]
                 ]}
-        {:des "okey (alfred)"
-         :rules [:o-mode
-                 [:1 :!C1]
-                 [:2 :!C2]
-                 [:3 :!C3]
-                 [:4 :!C4]
-                 [:5 :!C5]
-                 [:6 :!C6]
-                 [:7 :!C7]
-                 [:8 :!C8]
-                 [:9 :!C9]
-                 [:0 :!C0]
-                 [:hyphen :!Chyphen]
-                 [:equal_sign :!Cequal_sign]
-                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
-                 ]}
-        {:des "dvorakCMDqwerty"
-          :rules [:dq
-                  [:s :o]]}
         ]}
