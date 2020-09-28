@@ -1,7 +1,0 @@
-[user]
-	name = Brenden Durham
-	email = bdurhamgm@gmail.com
-[credential]
-	helper = store
-[core]
-	excludesfile = /Users/brendendurham/.gitignore

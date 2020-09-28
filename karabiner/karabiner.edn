@@ -325,59 +325,9 @@
                 [:right_arrow :!CSright_arrow]]}
         {:des "C-mode (utility)"
          :rules [:c-mode
-                 [:d :!!!g]]
-                }
-{:des   "mouse motion to scroll"
-              :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
-             #_{:des   "double press and hold key down in simlayer"
-                :rules [[:j "say 'j double press'" [["test-mode-j-dbpress-mode" 1]]]
-                        [:j ["say 'j press down'" ["test-mode-j-dbpress-mode" 1]] nil {:delayed {:canceled ["test-mode-j-dbpress-mode" 0]}}
-                         :invoked  ["test-mode-j-dbpress-mode" 0]
-                         :held    "say 'j held down'"]]}
-             #_{:des   "switch input method"
-                :rules [{:from        {:key_code :left_shift}
-                         :to          [{:key_code :left_shift}]
-                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}]
-                         :type        :basic}
-
-                        {:from        {:key_code :right_shift}
-                         :to          [{:key_code :right_shift}]
-                         :to_if_alone [{:select_input_source {:input_source_id "^com\\.apple\\.inputmethod\\.SCIM\\.ITABC$"}}]
-                         :type        :basic}
-                        ]}
-             {:des   "resize window, remap Rectangle"
-              :rules [:k2-mode
-                      [:return_or_enter :!COc]
-                      [:spacebar :!COf]
-                      [:y :!CTleft_arrow]        ;; upper left
-                      [:n :!CSTleft_arrow]       ;; lower left
-                      [:o :!CTright_arrow]       ;; upper right
-                      [:period :!CTSright_arrow] ;; lower right
-                      [:h :!COleft_arrow]        ;; left half
-                      [:l :!COright_arrow]       ;; right half
-                      [:k :!COup_arrow]          ;; top half
-                      [:j :!COdown_arrow]
-                      [:hyphen :!TOShyphen]
-                      [:equal_sign :!TOSequal_sign]
-                      [:open_bracket :!COTopen_bracket]
-                      [:close_bracket :!COTclose_bracket]]}
-
-             {:des   "vscode"
-              :rules [:VSCode
-                      [:##left_command :left_command nil {:alone [:!CSp ["vsc-m-x-on" 1]]}]
-                      :vsc-m-x-on
-                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
-                      [:!Tj :down_arrow]
-                      [:!Tk :up_arrow]
-                      [:escape [:escape ["vsc-m-x-on" 0]]]
-                      [:##left_control :left_control nil {:alone [:escape ["vsc-m-x-on" 0]]}]
-                      [:return_or_enter [:return_or_enter ["vsc-m-x-on" 0]]]
-                      :vscode-s-mode
-                      [:j :!CSopen_bracket]
-                      [:k :!CSclose_bracket]]}
-
-             {:des   "global C-h to backspace"
-              :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}
+                 [:d :!!!g]]}
+            {:des   "global C-h to backspace"
+              :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}
              {:des   "in-alfred"
               :rules [:in-alfred
                       [:!Tw :!Odelete_or_backspace]
@@ -434,6 +384,7 @@
                 [:k [:km "open: Safari"]]
                 [:l [:km "open: Code"]]
                 [:semicolon [:km "open: MacVim"]]
+                [:t [:km "open: DEVONthink"]]
                 [:quote [:km "open: Emacs"]]
                 [:c [:km "open: Google Chrome"]]
                 [:v [:km "open: Vivaldi"]]
@@ -460,4 +411,4 @@
         {:des "dvorakCMDqwerty"
           :rules [:dq
                   [:s :o]]}
-        ]}
+]}
