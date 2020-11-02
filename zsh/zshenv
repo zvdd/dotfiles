@@ -1,7 +1,0 @@
-#!/usr/bin/env zsh
-
-export PATH="/Users/b/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-
