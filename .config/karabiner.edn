@@ -1,0 +1,77 @@
+{:profiles
+ {:Goku {:default true
+         :alone   80 ; hold for .. ms to register single tap
+         :held    50 ; TODO: not sure what it's for
+         :delay   0 ; time after which the key press is delayed
+         :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
+ :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
+             :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :open "open \"%s\""
+             }
+ :simlayers    {:tab-mode              {:key     :tab
+                                     :afterup [{:set ["yabai-move-mode" 0]}
+                                               {:set ["yabai-scale-mode" 0]}
+                                               {:set ["spec-mode" 0]}]
+                                     :condi   [:!comma-mode :!period-mode]}
+             :yabai-move-mode       {:key :f :condi :tab-mode}
+             :yabai-scale-mode      {:key :c :condi :tab-mode}
+             :spec-mode             {:key :s :condi :tab-mode}
+             }
+ :main      [{:des   "mouse motion to scroll"
+              :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
+               {:des   "yabai mode"
+              :rules [
+                      ;; :yabai-insert-mode
+                      ;; [:h "/usr/local/bin/yabai -m window --insert west"]
+                      ;; [:j "/usr/local/bin/yabai -m window --insert south"]
+                      ;; [:k "/usr/local/bin/yabai -m window --insert north"]
+                      ;; [:l "/usr/local/bin/yabai -m window --insert east"]
+
+                      ;; move windows
+                      :yabai-move-mode
+                      [:h "/usr/local/bin/yabai -m window --warp west"]
+                      [:j "/usr/local/bin/yabai -m window --warp south"]
+                      [:k "/usr/local/bin/yabai -m window --warp north"]
+                      [:l "/usr/local/bin/yabai -m window --warp east"]
+                      ;; scale windows
+                      :yabai-scale-mode
+                      [:h "~/local/bin/yabai-resize left"]
+                      [:j "~/local/bin/yabai-resize down"]
+                      [:k "~/local/bin/yabai-resize up"]
+                      [:l "~/local/bin/yabai-resize right"]
+                      :tab-mode
+                      [:grave_accent_and_tilde "launchctl kickstart -k \"gui/${UID}/homebrew.mxcl.yabai\""]
+                      ;; focus mode
+                      [:h "/usr/local/bin/yabai -m window --focus west"]
+                      [:j "/usr/local/bin/yabai -m window --focus south"]
+                      [:k "/usr/local/bin/yabai -m window --focus north"]
+                      [:l "/usr/local/bin/yabai -m window --focus east"]
+                      [:n "/usr/local/bin/yabai -m window --focus next"]
+                      [:p "/usr/local/bin/yabai -m window --focus prev"]
+
+                      ;; yabai workspace
+                      ;; [:1 "/usr/local/bin/yabai -m space --focus 1"]
+                      ;; [:2 "/usr/local/bin/yabai -m space --focus 2"]
+                      ;; [:3 "/usr/local/bin/yabai -m space --focus 3"]
+                      ;; [:4 "/usr/local/bin/yabai -m space --focus 4"]
+                      [:a "/usr/local/bin/yabai -m window --toggle float"]
+                      ;; [:0 "/usr/local/bin/yabai -m window --toggle sticky"]
+                      [:0 "/usr/local/bin/yabai -m window --toggle zoom-parent"]
+                      [:spacebar "/usr/local/bin/yabai -m window --toggle zoom-fullscreen"]
+                      [:b "/usr/local/bin/yabai -m window --layout bsp"]
+                      [:m "/usr/local/bin/yabai -m window --toggle zoom-parent"]
+                      [:x "/usr/local/bin/yabai -m window --close"]
+                      [:delete_or_backspace "/usr/local/bin/yabai -m window --close"]
+                      [:open_bracket "/usr/local/bin/yabai -m window --space prev"]
+                      [:close_bracket "/usr/local/bin/yabai -m window --space next"]]}
+             {:des   "totalspace 2"
+              :rules [
+                      ;; move windows
+                      :yabai-move-mode
+                      [:i :!STOleft_arrow]
+                      [:o :!STOright_arrow]
+                      :tab-mode
+                      ;; focus mode
+                      [:i :!OSleft_arrow]
+                      [:o :!OSright_arrow]]}
+ ]}
