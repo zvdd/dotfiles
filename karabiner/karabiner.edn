@@ -10,6 +10,22 @@
              :open "open \"%s\""
              :type       "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
              }
+ :tos       {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
+             :prev_app        {:key :tab :modi [:left_command] :lazy true}
+             :left_paren      {:key :9 :modi [:left_shift] :lazy true}
+             :right_paren     {:key :0 :modi [:left_shift] :lazy true}
+             :home_dir        [{:key :grave_accent_and_tilde :modi [:left_shift] :lazy true}
+                               {:key :slash}]
+             :regex_match_any [{:key :period}
+                               {:key :8 :modi [:left_shift] :lazy true}]
+             :select_cn       {:select_input_source
+                               {:input_mode_id   ""
+                                :input_source_id "com.apple.keylayout.US"
+                                :language        "en"}}
+             :select_abc      {:select_input_source
+                               {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}}
+ :modifiers {:ro :right_option}
+ 
  :layers    {:tab-mode              {:key     :tab
                                      :afterup [{:set ["yabai-move-mode" 0]}
                                                {:set ["yabai-scale-mode" 0]}
