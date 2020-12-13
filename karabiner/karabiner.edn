@@ -51,15 +51,19 @@
                 :e-mode {:key :e}
                 :d-mode {:key :d}
                 :s-mode {:key :s}
+                :a-mode {:key :a}
                 :g-mode {:key :g}
+                :r-mode {:key :r}
+                :n-mode {:key :n}
                 :f-mode {:key :f}
+                :v-mode {:key :v}
                 :o-mode {:key :o}}
              
  :main      [{:des   "mouse motion to scroll"
               :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
                 {:des   "contexts"
                  :rules [[[:m :l] [:f16 ["in-contexts" 1]]]
-                        [:semicolon :right_option nil {:alone :semicolon}]
+                      ;;[:semicolon :right_option nil {:alone :semicolon}]
                         [:escape [:escape ["in-contexts" 0]] ["in-contexts" 1]]
                         [{:pkey :button1} [{:pkey :button1} ["in-contexts" 0]] ["in-contexts" 1]]
                         [:##left_control :left_control ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
@@ -91,6 +95,9 @@
          :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
         {:des "left cmd -> cmd+tab"
          :rules [[:##left_command :left_command nil {:alone :!Ctab}]]}
+        {:des "n (alfred)"
+          :rules [:n-mode
+                 [:f [:alfred "search repos" "me.lachlan.githubjump"]]]}
         {:des "w/, (apps)"
          :rules [:w-mode
                 [:q [:km "open: qutebrowser"]]
@@ -298,7 +305,7 @@
                  [:n :!CTOg] ; Turn on/off notifications
                  [:m :!COslash]]} ; Show/hide notification centre
         {:des "okey (apps)"
-        :rules [:o-mode
+          :rules [:o-mode
                 [:1 :!C1]
                 [:2 :!C2]
                 [:3 :!C3]
@@ -310,6 +317,36 @@
                 [:i [:km "open: Music"]]
                 [:p [:km "open: Paste"]]
                 [:s [:km "open: Screens"]]]}
+        {:des "vkey (websites)"
+          :rules [:v-mode
+                 [:a [:km "w: GitHub"]]
+                 [:o [:km "w: Learning.Oreilly"]]]}
+        {:des "rkey (apps)"
+         :rules [:r-mode
+                 [:spacebar :!COSx] ; Selection -> Reddit
+                 [:q [:km "open: IINA"]]
+                 [:caps_lock [:km "open: Preview"]]
+                 ;[:caps_lock [:km "open: Keynote"]]
+                 [:2 [:km "open: PIA"]]
+                 [:o :!CO7] ; Open Typinator
+                 [:h [:km "open: Photos"]]
+                 [:e [:km "open: ScreenFlow"]]
+                 ;[:period [:km "open: Final Cut Pro"]]
+                 ;[:semicolon [:km "open: Soulver"]]
+                 [:u [:km "open: Flume"]]
+                 ;[:p [:km "open: Affinity Photo"]]
+                 [:m [:km "open: OBS"]]
+                 [:comma [:km "open: Arq"]]
+                 [:tab [:km "open: Transmission"]]
+                 [:y [:km "Edit keyboard shortcuts"]]
+                 [:a [:km "open: Alfred Preferences"]]
+                 [:i [:km "open: Pixave"]]
+                 [:l [:km "open: Reeder"]]
+                 [:semicolon [:km "open: Books"]]
+                 [:j [:km "open: Dictionary"]]
+                 [:k [:km "open: PDF Expert"]]
+                 [:w [:km "open: 1Password"]]
+                 [:n [:km "open: Timing"]]]}                 
              {:des   "in-alfred"
               :rules [:in-alfred
                       [:!Tw :!Odelete_or_backspace]
@@ -333,10 +370,7 @@
                       [:!OSj :!OSdown_arrow]
                       [:!OSk :!OSup_arrow]
                       [:!OSl :!OSright_arrow]]}]
- :input-sources      {:squirrel {:input_mode_id   "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel$"
-                                 :input_source_id "^com\\.googlecode\\.rimeime\\.inputmethod\\.Squirrel\\.Rime$"}
-                      :us       {:input_mode_id   ""
+ :input-sources      {:us       {:input_mode_id   ""
                                  :input_source_id "com.apple.keylayout.US"
                                  :language        "en"}
-                      :abc      {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}
-                      :cn       {:input_source_id "^com\\.apple\\.inputmethod\\.SCIM\\.ITABC$"}}}
+                      :abc      {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}}
