@@ -80,6 +80,7 @@
                 :f-mode {:key :f}
                 :v-mode {:key :v}
                 :m-mode {:key :m}
+                :q-mode {:key :q}
                 :o-mode {:key :o}}
              
  :main      [{:des   "mouse motion to scroll"
