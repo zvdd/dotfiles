@@ -102,9 +102,9 @@ scrolling:
 font:
   # Normal (roman) font face
   normal:
-   family: Pragmata Pro Mono
+   family: Operator Mono 
     # The `style` can be specified to pick a specific face.
-    # style: Regular
+  style: Book
 
   # Bold font face
   bold:
@@ -112,32 +112,32 @@ font:
     #
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
-   family: Pragmata Pro Mono
+   family: Operator Mono Lig
 
     # The `style` can be specified to pick a specific face.
     #style: Bold
 
   # Italic font face
   italic:
-     family: Pragmata Pro Mono
+     family: Operator Mono Lig
 
 
     # The `style` can be specified to pick a specific face.
     #style: Italic
 
   # Bold italic font face
-  #bold_italic:
+  bold_italic:
     # Font family
     #
     # If the bold italic family is not specified, it will fall back to the
     # value specified for the normal font.
-    #family: monospace
+    family: Operator Mono Lig
 
     # The `style` can be specified to pick a specific face.
     #style: Bold Italic
 
   # Point size
-  size: 14.0
+  size: 12.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -689,7 +689,7 @@ colors:
 #
 # If the same trigger is assigned to multiple actions, all of them are executed
 # in the order they were defined in.
-#key_bindings:
+key_bindings:
   #- { key: Paste,                                action: Paste          }
   #- { key: Copy,                                 action: Copy           }
   #- { key: L,         mods: Control,             action: ClearLogNotice }
@@ -782,7 +782,7 @@ colors:
   #- { key: Q,              mods: Command,            action: Quit             }
   #- { key: W,              mods: Command,            action: Quit             }
   #- { key: N,              mods: Command,            action: SpawnNewInstance }
-  #- { key: F,              mods: Command|Control,    action: ToggleFullscreen }
+   - { key: F,              mods: Command|Control,    action: ToggleFullscreen }
   #- { key: F,              mods: Command,            action: SearchForward    }
   #- { key: B,              mods: Command,            action: SearchBackward   }
 
