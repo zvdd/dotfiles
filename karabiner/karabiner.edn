@@ -82,6 +82,7 @@
                 :quote-mode {:key :quote}
                 :w-mode {:key :w}
                 :e-mode {:key :e}
+                :f-mode {:key :f}
                 :d-mode {:key :d}
                 :s-mode {:key :s}
              :z-mode {:key :z}
@@ -90,7 +91,6 @@
                 :g-mode {:key :g}
                 :r-mode {:key :r}
                 :n-mode {:key :n}
-                :f-mode {:key :f}
                 :v-mode {:key :v}
                 :m-mode {:key :m}
                 :q-mode {:key :q}
@@ -482,6 +482,10 @@
                  [:0 :!C0]
                  [:a :!!n] ; bartender: search menu bar items
                  [:equal_sign :!Cequal_sign]
+                [:u [:km "open: Ulysses"]]
+                [:i [:km "open: Music"]]
+                [:p [:km "open: Paste"]]
+                [:s [:km "open: Screens"]]
                  [:k [:km "open: Keycastr"]]
                  [:j [:alfred "search repos" "me.lachlan.githubjump"]]
                  [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
@@ -490,6 +494,105 @@
         {:des "C-mode (utility)"
          :rules [:c-mode
                  [:d :!!!g]]}
+        {:des "skey (essential)"
+         :rules [:s-mode
+                 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
+                 [:e :tab]
+                 [:r :!Stab]
+                 [:t :!Sreturn_or_enter]
+                 [:u :!COp] ; Selection -> HasteBin link
+                 [:i :!CTperiod] ; Contexts search active windows
+                 [:o :!Cx] ; Cut
+                 [:open_bracket [:km "Lowercase selected text"]]
+                 [:close_bracket [:km "Uppercase selected text"]]
+                 [:a :!Cc] ; Copy
+                 [:d :delete_or_backspace]
+                 [:f :return_or_enter]
+                 [:g :!Ctab]
+                 [:##h :left_arrow]
+                 [:##j :down_arrow]
+                 [:##k :up_arrow]
+                 [:##l :right_arrow]
+                 [:semicolon :!CTO9] ; Search Typinator
+                 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
+                 [:c :!Cdelete_or_backspace]
+                 [:v :left_shift]
+                 [:##b :!Cleft_arrow]
+                 [:n :!Cv] ; Paste
+                 [:##m :!Cright_arrow]
+                 [:spacebar [:open "/System/Applications/Siri.app"]]
+                 [:period :!COS0]]} ; Selection -> Typinator snippet
+        {:des "dkey (mouse-keys-mode)"
+         :rules [:d-mode
+                                        ; buttons
+                 [:v {:pkey :button1}]
+                 [:b {:pkey :button3}]
+                 [:n {:pkey :button2}]
+                                        ; movement
+                 [:h {:mkey {:x -1536}} :!mouse-scroll-mode ]
+                 [:j {:mkey {:y  1536}} :!mouse-scroll-mode ]
+                 [:k {:mkey {:y -1536}} :!mouse-scroll-mode ]
+                 [:l {:mkey {:x  1536}} :!mouse-scroll-mode ]
+                                        ; speed - hold 'a' for slower, 'f' for faster
+                 [:a {:mkey {:speed 0.5}} nil {:afterup {:mkey {:speed 1.0}} }]
+                 [:f {:mkey {:speed 2.0}} nil {:afterup {:mkey {:speed 1.0}} }]
+
+                                        ; scrolling
+                 [:s ["mouse-scroll-mode" 1] nil { :afterup ["mouse-scroll-mode" 0] }]
+                 [:h {:mkey {:hwheel -32}} :mouse-scroll-mode ]
+                 [:j {:mkey {:vwheel  32}} :mouse-scroll-mode ]
+                 [:k {:mkey {:vwheel -32}} :mouse-scroll-mode ]
+                 [:l {:mkey {:hwheel  32}} :mouse-scroll-mode ]
+                 ]}
+        {:des "dkey (mouse)"
+         :rules [:d-mode
+                 [:w [:km "Google Searchio selected word"]]
+                 [:u [:km "Google Lucky selected word"]]
+                 [:i :!Ckeypad_hyphen] ; Zoom out
+                 [:o :!Ckeypad_plus] ; Zoom in
+                 [:k {:mkey {:vwheel -60}}] ; Scroll up
+                 ;[:l [:km "Google selected word"]]
+                 [:semicolon [:km "Google clipboard"]]
+                 [:quote [:km "Select line and google"]]
+                 [:n [:km "Open URL in clipboard in Safari"]]
+                 [:comma :!TO8] ; Show Launchpad
+                 [:period :!CTO3] ; Mission control
+                 [:spacebar :!Wsemicolon]]} ; Dictation
+        {:des "fkey (essential)"
+         :rules [:f-mode
+                 [:q [:km "open: Photos"]]
+                 [:w [:km "open: Chrome Canary  / VS Code"]]
+                 [:a [:km "open: Figma"]]
+                 [:s [:km "edit: 2nd iTerm tab"]]
+                 [:h [:km "Make markdown link from selection {link}"]]
+                 [:j [:km "edit: 1st iTerm tab"]]
+                 [:k :return_or_enter]
+                 [:l :!Creturn_or_enter]
+                 [:semicolon [:km "edit: Karabiner"]]
+                 [:z :!Ospacebar] ; Switch language (Russian <-> English)
+                 [:n :!Freturn_or_enter]
+                 [:m :!Sreturn_or_enter]
+                 [:comma  [:km "Add safari link to selected markdown text"]]
+                 [:period :!CTO4] ; Alfred file action
+                 [:spacebar :!CTq]]} ; Selection -> Web Searches
+        {:des "gkey (actions)"
+         :rules [:g-mode
+                 [:q :!CT3] ; Search bartender menu items
+                 [:w :!CSgrave_accent_and_tilde] ; Switch between active windows (go up)
+                 [:e [:km "Go to test macro"]]
+                 [:r [:km "Test"]]
+                 [:caps_lock [:km "Go to KM group of current app from picklist"]]
+                 [:a [:km "Go to KM group of current app"]]
+                 [:s [:km "Dismiss notifications"]]
+                 [:d [:km "Make global macro"]] ; TODO: create global macro from Test (clear test, focus on naming new macro)
+                 [:h :!CSOa] ; Move window left
+                 [:j :!Cgrave_accent_and_tilde] ; Switch between active windows  (go down)
+                 [:k :!COSf] ; Maximize window
+                 [:l :!CSOd] ; Move window right
+                 [:semicolon :!COSs] ; Move window between different screen & maximize (iPad)
+                 [:z :!CO0] ; Show Dropzone dropdown
+                 [:n :!CTOg] ; Turn on/off notifications
+                 [:m :!COslash]]} ; Show/hide notification centre
         {:des   "global C-h to backspace"
          :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}
              {:des   "in-alfred"
@@ -522,4 +625,4 @@
                       :dq       {:input_mode_id ""
                                 :input_source_id "com.apple.keylayout.DVORAK-QWERTYCMD"
                                 :language "en"}} 
-                      }}
+                      }
