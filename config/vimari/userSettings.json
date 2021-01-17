@@ -19,6 +19,7 @@
         "scrollDownHalfPage": "d",
         "goToPageTop": "shift+k",
         "goToPageBottom": "shift+j",
+        
         "goToFirstInput": "z i",
         "goBack": "shift+h",
         "goForward": "shift+l",

@@ -35,8 +35,10 @@
           :hhkb [{:vendor_id 1278 :product_id 33}]
           :REALFORCE [{:vendor_id 2131 :product_id 328}]
           :magic1 [{:vendor_id 76 :product_id 620}]
-          :magic2 [{:vendor_id 76 :product_id 615}]
+          
           :sculpt [{:vendor_id 1118 :product_id 1957}]
+          :mbp [{:vendor_id 1452 :product_id 636}]
+          :magic [{:vendor_id 76 :product_id 615}]
           }
 	 :applications {
          :chromes ["^com\\.google\\.Chrome$" "^com\\.google\\.Chrome\\.canary$"]
