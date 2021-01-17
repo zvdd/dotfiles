@@ -1,0 +1,33 @@
+{:profiles
+ {:goku {:default true
+         :alone   80 ; hold for .. ms to register single tap
+         :held    50 ; TODO: not sure what it's for
+         :delay   0 ; time after which the key press is delayed
+         :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
+ :tos       {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
+             :prev_app        {:key :tab :modi [:left_command] :lazy true}
+             :left_paren      {:key :9 :modi [:left_shift] :lazy true}
+             :right_paren     {:key :0 :modi [:left_shift] :lazy true}
+             :home_dir        [{:key :grave_accent_and_tilde :modi [:left_shift] :lazy true}
+                               {:key :slash}]
+             :regex_match_any [{:key :period}
+                               {:key :8 :modi [:left_shift] :lazy true}]
+             :select_cn       {:select_input_source
+                               {:input_mode_id   ""
+                                :input_source_id "com.apple.keylayout.US"
+                                :language        "en"}}
+             :select_abc      {:select_input_source
+                               {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}} 
+ :modifiers {:ro :right_option}
+ 
+ :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
+             :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :open "open \"%s\""
+             :alf        "open /Applications/Alfred\\ 4.app && osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\"'"
+             :kb-maestro "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
+             :show       "osascript -e 'set appName to \"%s\"\nset startIt to false\ntell application \"System Events\"\n  if not (exists process appName) then\n    set startIt to true\n  else\n    set frontmost of process appName to true\n  end if\nend tell\nif startIt then\n  tell application appName to activate\nend if'\n"
+             :toggle     "osascript -e 'set appName to \"%s\"\nset startIt to false\ntell application \"System Events\"\n  if not (exists process appName) then\n    set startIt to true\n  else if frontmost of process appName then\n    set visible of process appName to false\n  else\n    set frontmost of process appName to true\n  end if\nend tell\nif startIt then\n  tell application appName to activate\nend if'"
+             :type       "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
+             ;; :focus      "/usr/local/bin/yabai -m display --focus \"%s\" & /usr/local/bin/yabai -m space --focus \"%s\""
+
+             }
