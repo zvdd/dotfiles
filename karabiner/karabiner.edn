@@ -4,6 +4,7 @@
          :held    50 ; TODO: not sure what it's for
          :delay   0 ; time after which the key press is delayed
          :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
+
  :tos       {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
              :prev_app        {:key :tab :modi [:left_command] :lazy true}
              :left_paren      {:key :9 :modi [:left_shift] :lazy true}
@@ -11,14 +12,18 @@
              :home_dir        [{:key :grave_accent_and_tilde :modi [:left_shift] :lazy true}
                                {:key :slash}]
              :regex_match_any [{:key :period}
-                               {:key :8 :modi [:left_shift] :lazy true}]
-             :select_cn       {:select_input_source
-                               {:input_mode_id   ""
-                                :input_source_id "com.apple.keylayout.US"
-                                :language        "en"}}
-             :select_abc      {:select_input_source
-                               {:input_source_id "^com\\.apple\\.keylayout\\.ABC$"}}} 
+                               {:key :8 :modi [:left_shift] :lazy true}]}
  :modifiers {:ro :right_option}
+ 
+  :devices{
+          :hhkb [{:vendor_id 1278 :product_id 33}]
+          :REALFORCE [{:vendor_id 2131 :product_id 328}]
+          :magic1 [{:vendor_id 76 :product_id 620}]
+          
+          :sculpt [{:vendor_id 1118 :product_id 1957}]
+          :mbp [{:vendor_id 1452 :product_id 636}]
+          :magic [{:vendor_id 76 :product_id 615}]
+          }
  
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
@@ -29,5 +34,587 @@
              :toggle     "osascript -e 'set appName to \"%s\"\nset startIt to false\ntell application \"System Events\"\n  if not (exists process appName) then\n    set startIt to true\n  else if frontmost of process appName then\n    set visible of process appName to false\n  else\n    set frontmost of process appName to true\n  end if\nend tell\nif startIt then\n  tell application appName to activate\nend if'"
              :type       "osascript -e 'tell application \"System Events\" to keystroke \"%s\" as text'"
              ;; :focus      "/usr/local/bin/yabai -m display --focus \"%s\" & /usr/local/bin/yabai -m space --focus \"%s\""
-
              }
+
+ :layers    {:tab-mode              {:key     :tab
+                                     :afterup [{:set ["yabai-move-mode" 0]}
+                                               {:set ["yabai-scale-mode" 0]}
+                                               {:set ["spec-mode" 0]}]
+                                     :condi   [:!comma-mode :!period-mode]}
+             :yabai-move-mode       {:key :f :condi :tab-mode}
+             :yabai-scale-mode      {:key :c :condi :tab-mode}
+             :spec-mode             {:key :s :condi :tab-mode}
+             ;; :yabai-insert-mode     {:key :i :condi :tab-mode}
+             :emacs-windmove-mode   {:key :q :condi [:Emacs :!comma-mode :!period-mode]}
+             :emacs-windresize-mode {:key :c :condi :emacs-windmove-mode}
+             :emacs-bufmove-mode    {:key :f :condi :emacs-windmove-mode}
+             :period-mode           {:key :period :afterup {:set ["period-comma-mode" 0]} :condi [:!emacs-s-mode :!tmux-windmove-mode :!k2-mode]}
+             :comma-mode            {:key :comma :condi [:!emacs-s-mode :!tmux-windmove-mode]}
+             :tmux-windmove-mode    {:key :q :condi [:Terminals :!comma-mode :!period-mode]}
+             :tmux-windresize-mode  {:key :c :condi :tmux-windmove-mode}
+             :k2-mode               {:key :2 :condi [:!tab-mode :!tmux-windmove-mode]}}
+ 
+ :simlayers {:test-mode             {:key :9}
+             :contexts-f-mode       {:key :f}
+             :emacs-m-mode          {:key :m :condi :Emacs}
+             :emacs-v-mode          {:key :v :condi :Emacs}
+             :emacs-special-s-mode  {:key :s :condi :Emacs :afterup {:key :return_or_enter}}
+             :emacs-s-mode          {:key :s :condi :Emacs}
+             :vscode-s-mode         {:key :s :condi :VSCode}
+             :browser-s-mode        {:key :s :condi :Browsers}
+             :emacs-s-mode-terminal {:key :s :condi :Terminals}
+             :mouse_keys_mode_v4    {:key :a :afterup {:set ["mouse_keys_mode_v4_scroll" 0]}}
+             :vi-mode               {:key :d}
+             :vi-visual-mode        {:key :v :condi :!vim-mode-disabled-application}
+             ;:launch-mode           {:key :w}
+             ;; :q-mode {:key :q :condi [:!comma-mode :!period-mode]}
+             :alfred-mode           {:key :z}
+             :finder-alfred-mode    {:key :z :condi :Finder}
+             :browsers-alfred-mode  {:key :z :condi :Browsers}
+              		:2-mode {:key :2}
+                :3-mode {:key :3}
+                :semicolon-mode {:key :semicolon}
+                :c-mode {:key :c}
+                :quote-mode {:key :quote}
+                :w-mode {:key :w}
+                :e-mode {:key :e}
+                :f-mode {:key :f}
+                :d-mode {:key :d}
+                :s-mode {:key :s}
+             :z-mode {:key :z}
+             :slash-mode {:key :slash}
+                :a-mode {:key :a}
+                :g-mode {:key :g}
+                :r-mode {:key :r}
+                :n-mode {:key :n}
+                :v-mode {:key :v}
+                :m-mode {:key :m}
+                :q-mode {:key :q}
+                :o-mode {:key :o}}
+             
+ :main      [{:des   "mouse motion to scroll"
+              :rules [{:type :mouse_motion_to_scroll :from {:modifiers {:mandatory [:left_command :left_shift]}} :options {:momentum_scroll_enabled true}}]}
+                {:des   "contexts"
+                 :rules [[[:m :l] [:f16 ["in-contexts" 1]]]
+                      ;;[:semicolon :right_option nil {:alone :semicolon}]
+                        [:escape [:escape ["in-contexts" 0]] ["in-contexts" 1]]
+                        [{:pkey :button1} [{:pkey :button1} ["in-contexts" 0]] ["in-contexts" 1]]
+                        [:##left_control :left_control ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                        [:##caps_lock [:left_control] ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                        [:return_or_enter [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                        [:!Tm [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                        :contexts-f-mode
+                        [:j [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                        [:k [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                        [:j :down_arrow ["in-contexts" 1]]
+                        [:k :up_arrow ["in-contexts" 1]]
+                        [:e [:f :e]]
+                        [:l [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]]}
+          {:des "quotekey (symbols)"
+          :rules [:quote-mode
+                [:o :open_bracket]
+                [:p :close_bracket]]}       
+        {:des "sdfsim"
+                :rules [[[:s :f] [:open "/System/Applications/Siri.app"]]
+                        [[:s :d] :!CTOSspacebar]]} ; Alfred       
+
+         {:des "jsim"
+         :rules [[[:j :s] [:alfred "search google" "net.deanishe.alfred-searchio"]]
+                 [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
+                 [[:j :k] [:!CTOSspacebar ["in-alfred" 1]]]
+                 [[:j :l] :!CTOSspacebar]]} ; Alfred
+        {:des "ksim"
+         :rules [[[:k :l] [:alfred "search dash" "com.kapeli.dash.workflow"]]
+                 [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
+        {:des "RF Modifiers right cmd -> Alfred/left opt -> cmd+tab"
+         :rules [:REALFORCE
+	        [:##right_option :right_command nil {:alone :!CTOSspacebar}]
+                [:##right_command :right_option]
+                [:##left_command :left_option]
+	        [:##left_option :left_command nil {:alone :!Ctab}]]}
+        {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
+         :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
+        {:des "right cmd -> Alfred"
+         :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
+        {:des "left cmd -> cmd+tab"
+         :rules [[:##left_command :left_command nil {:alone :!Ctab}]]}
+       {:des "mkey (dash)"
+         :rules [:m-mode
+                 [:caps_lock [:alfred "search alfred" "nikivi.utilities" "man "]]
+                 [:c [:alfred "search alfred" "nikivi.utilities" "css "]]
+                 [:s [:alfred "search alfred" "nikivi.utilities" "lodash "]]
+                 [:k [:alfred "search alfred" "nikivi.utilities" "docker "]]
+                 [:v [:alfred "search alfred" "nikivi.utilities" "vim "]]
+                 [:d [:alfred "search alfred" "nikivi.utilities" "node "]]
+                 [:e [:alfred "search alfred" "nikivi.utilities" "html "]]
+                 [:a [:alfred "search alfred" "nikivi.utilities" "apple "]]
+                 [:3 [:alfred "search alfred" "nikivi.utilities" "d3 "]]
+                 [:b [:alfred "search alfred" "nikivi.utilities" "bash "]]
+                 [:t [:alfred "search alfred" "nikivi.utilities" "ts "]]
+                 [:r [:alfred "search alfred" "nikivi.utilities" "react "]]
+                 [:g [:alfred "search alfred" "nikivi.utilities" "godoc "]]
+                 [:grave_accent_and_tilde [:alfred "search alfred" "com.kapeli.dash.workflow" "tldr: "]]]}
+        {:des "n (alfred)"
+          :rules [:n-mode
+                 [:f [:alfred "search repos" "me.lachlan.githubjump"]]]}
+                 ;[:d [:select_abc]]]}
+        {:des "w/, (apps)"
+         :rules [:w-mode
+                [:q [:km "open: qutebrowser"]]
+                [:e [:km "open: Finder"]]
+                [:t [:km "open: 2Do"]]
+                [:o [:km "open: Keyboard Maestro"]]
+                [:a :!OSC1] ; Open Dash
+                [:d [:km "open: Dash"]]
+                [:f [:km "open: Fantastical"]]
+                [:g [:km "open: GitKraken"]]
+                [:h [:km "open: Paw"]]
+                [:j [:km "open: Alacritty"]]
+                [:k [:km "open: Safari"]]
+                [:l [:km "open: Code"]]
+                [:semicolon [:km "open: MacVim"]]
+                [:quote [:km "open: Emacs"]]
+                [:c [:km "open: Google Chrome"]]
+                [:v [:km "open: Vivaldi"]]
+                [:b [:km "open: BetterTouchTool"]]
+                [:n [:km "open: Sublime Text"]]
+                [:period [:km "open: SnippetsLab"]]
+                ]}
+        {:des "colonkey (shift)"
+         :rules [:semicolon-mode
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde]
+                 [:1 :!S1]
+                 [:2 :!S2]
+                 [:3 :!S3]
+                 [:4 :!S4]
+                 [:5 :!S5]
+                 [:6 :!S6]
+                 [:7 :!S7]
+                 [:8 :!S8]
+                 [:9 :!S9]
+                 [:0 :!S0]
+                 [:hyphen :!Shyphen]
+                 [:equal_sign :!Sequal_sign]
+                 [:delete_or_backspace :!Sdelete_or_backspace]
+                 [:tab :!Stab]
+                 [:q :!Sq]
+                 [:w :!Sw]
+                 [:e :!Se]
+                 [:r :!Sr]
+                 [:t :!St]
+                 [:y :!Sy]
+                 [:u :!Su]
+                 [:i :!Si]
+                 [:o :!So]
+                 [:p :!Sp]
+                 [:open_bracket :!Sopen_bracket]
+                 [:close_bracket :!Sclose_bracket]
+                 [:backslash :!Sbackslash]
+                 [:caps_lock :!Scaps_lock]
+                 [:a :!Sa]
+                 [:s :!Ss]
+                 [:d :!Sd]
+                 [:f :!Sf]
+                 [:g :!Sg]
+                 [:h :!Sh]
+                 [:j :!Sj]
+                 [:k :!Sk]
+                 [:l :!Sl]
+                                        ;[:semicolon :!Ssemicolon]
+                 [:quote :!Squote]
+                 [:return_or_enter :!Sreturn_or_enter]
+                 [:left_shift :!Sleft_shift]
+                 [:z :!Sz]
+                 [:x :!Sx]
+                 [:c :!Sc]
+                 [:v :!Sv]
+                 [:b :!Sb]
+                 [:n :!Sn]
+                 [:m :!Sm]
+                 [:comma :!Scomma]
+                 [:period :!Speriod]
+                 [:slash :!Sslash]
+                 [:right_shift :!Sright_shift]
+                 [:fn :!Sfn]
+                 [:left_control :!Sleft_control]
+                 [:left_option :!Sleft_option]
+                 [:left_command :!Sleft_command]
+                 [:spacebar :!Sspacebar]
+                 [:right_command :!Sright_command]
+                 [:right_option :!Sright_option]
+                 [:left_arrow :!Sleft_arrow]
+                 [:up_arrow :!Sup_arrow]
+                 [:down_arrow :!Sdown_arrow]
+                 [:right_arrow :!Sright_arrow]]}
+         {:des "akey (ctrl)"
+                :rules [:a-mode
+                        [:grave_accent_and_tilde :!Tgrave_accent_and_tilde]
+                        [:1 :!T1]
+                        [:2 :!T2]
+                        [:3 :!T3]
+                        [:4 :!T4]
+                        [:5 :!T5]
+                        [:6 :!T6]
+                        [:7 :!T7]
+                        [:8 :!T8]
+                        [:9 :!T9]
+                        [:0 :!T0]
+                        [:hyphen :!Thyphen]
+                        [:equal_sign :!Tequal_sign]
+                        [:delete_or_backspace :!Tdelete_or_backspace]
+                        [:tab :!Ttab]
+                        [:q :!Tq]
+                        [:w :!Tw]
+                        [:e :!Te]
+                        [:r :!Tr]
+                        [:t :!Tt]
+                        [:y :!Ty]
+                        [:u :!Tu]
+                        [:i :!Ti]
+                        [:o :!To]
+                        [:p :!Tp]
+                        [:open_bracket :!Topen_bracket]
+                        [:close_bracket :!Tclose_bracket]
+                        [:backslash :!Tbackslash]
+                        [:caps_lock :!Tcaps_lock]
+                        ;[:a :!Ta]
+                        [:s :!Ts]
+                        [:d :!Td]
+                        [:f :!Tf]
+                        [:g :!Tg]
+                        [:h :!Th]
+                        [:j :!Tj]
+                        [:k :!Tk]
+                        [:l :!Tl]
+                        [:semicolon :!Tsemicolon]
+                        [:quote :!Tquote]
+                        [:return_or_enter :!Treturn_or_enter]
+                        [:left_shift :!Tleft_shift]
+                        [:z :!Tz]
+                        [:x :!Tx]
+                        [:c :!Tc]
+                        [:v :!Tv]
+                        [:b :!Tb]
+                        [:n :!Tn]
+                        [:m :!Tm]
+                        [:comma :!Tcomma]
+                        [:period :!Tperiod]
+                        [:slash :!Tslash]
+                        [:right_shift :!Tright_shift]
+                        [:fn :!Tfn]
+                        [:left_control :!Tleft_control]
+                        [:left_option :!Tleft_option]
+                        [:left_command :!Tleft_command]
+                        [:spacebar :!Tspacebar]
+                        [:right_command :!Tright_command]
+                        [:right_option :!Tright_option]
+                        [:left_arrow :!Tleft_arrow]
+                        [:up_arrow :!Tup_arrow]
+                        [:down_arrow :!Tdown_arrow]
+                        [:right_arrow :!Tright_arrow]]}
+                {:des "ekey (cmd)"
+                        :rules [:e-mode
+                                [:grave_accent_and_tilde :!Cgrave_accent_and_tilde]
+                                [:1 :!C1]
+                                [:2 :!C2]
+                                [:3 :!C3]
+                                [:4 :!C4]
+                                [:5 :!C5]
+                                [:6 :!C6]
+                                [:7 :!C7]
+                                [:8 :!C8]
+                                [:9 :!C9]
+                                [:0 :!C0]
+                                [:hyphen :!Chyphen]
+                                [:equal_sign :!Cequal_sign]
+                                [:delete_or_backspace :!Cdelete_or_backspace]
+                                [:tab :!Ctab]
+                                [:q :!Cq]
+                                [:w :!Cw]
+                                ;[:e :!Ce]
+                                [:r :!Cr]
+                                [:t :!Ct]
+                                [:y :!Cy]
+                                [:u :!Cu]
+                                [:i :!Ci]
+                                [:o :!Co]
+                                [:p :!Cp]
+                                [:open_bracket :!Copen_bracket]
+                                [:close_bracket :!Cclose_bracket]
+                                [:backslash :!Cbackslash]
+                                [:caps_lock :!Ccaps_lock]
+                                [:a :!Ca]
+                                [:s :!Cs]
+                                [:d :!Cd]
+                                [:f :!Cf]
+                                [:g :!Cg]
+                                [:h :!Ch]
+                                [:j :!Cj]
+                                [:k :!Ck]
+                                [:l :!Cl]
+                                [:semicolon :!Csemicolon]
+                                [:quote :!Cquote]
+                                [:return_or_enter :!Creturn_or_enter]
+                                [:left_shift :!Cleft_shift]
+                                [:z :!Cz]
+                                [:x :!Cx]
+                                [:c :!Cc]
+                                [:v :!Cv]
+                                [:b :!Cb]
+                                [:n :!Cn]
+                                [:m :!Cm]
+                                [:comma :!Ccomma]
+                                [:period :!Cperiod]
+                                [:slash :!Cslash]
+                                [:right_shift :!Cright_shift]
+                                [:fn :!Cfn]
+                                [:left_control :!Cleft_control]
+                                [:left_option :!Cleft_option]
+                                [:left_command :!Cleft_command]
+                                [:spacebar :!Cspacebar]
+                                [:right_command :!Cright_command]
+                                [:right_option :!Cright_option]
+                                [:left_arrow :!Cleft_arrow]
+                                [:up_arrow :!Cup_arrow]
+                                [:down_arrow :!Cdown_arrow]
+                                [:right_arrow :!Cright_arrow]]}
+        {:des "qkey (cmd + shift)"
+         :rules [:q-mode
+                 [:grave_accent_and_tilde :!CSgrave_accent_and_tilde]
+                 [:1 :!CS1]
+                 [:2 :!CS2]
+                 [:3 :!CS3]
+                 [:4 :!CS4]
+                 [:5 :!CS5]
+                 [:6 :!CS6]
+                 [:7 :!CS7]
+                 [:8 :!CS8]
+                 [:9 :!CS9]
+                 [:0 :!CS0]
+                 [:hyphen :!CShyphen]
+                 [:equal_sign :!CSequal_sign]
+                 [:delete_or_backspace :!CSdelete_or_backspace]
+                 [:tab :!CStab]
+                                        ;[:q :!CSq]
+                 [:w :!CSw]
+                 [:e :!CSe]
+                 [:r :!CSr]
+                 [:t :!CSt]
+                 [:y :!CSy]
+                 [:u :!CSu]
+                 [:i :!CSi]
+                 [:o :!CSo]
+                 [:p :!CSp]
+                 [:open_bracket :!CSopen_bracket]
+                 [:close_bracket :!CSclose_bracket]
+                 [:backslash :!CSbackslash]
+                 [:caps_lock :!CScaps_lock]
+                 [:a :!CSa]
+                 [:s :!CSs]
+                 [:d :!CSd]
+                 [:f :!CSf]
+                 [:g :!CSg]
+                 [:h :!CSh]
+                 [:j :!CSj]
+                 [:k :!CSk]
+                 [:l :!CSl]
+                 [:semicolon :!CSsemicolon]
+                 [:quote :!CSquote]
+                 [:return_or_enter :!CSreturn_or_enter]
+                 [:left_shift :!CSleft_shift]
+                 [:z :!CSz]
+                 [:x :!CSx]
+                 [:c :!CSc]
+                 [:v :!CSv]
+                 [:b :!CSb]
+                 [:n :!CSn]
+                 [:m :!CSm]
+                 [:comma :!CScomma]
+                 [:period :!CSperiod]
+                 [:slash :!CSslash]
+                 [:right_shift :!CSright_shift]
+                 [:fn :!CSfn]
+                 [:left_control :!CSleft_control]
+                 [:left_option :!CSleft_option]
+                 [:left_command :!CSleft_command]
+                 [:spacebar :!CSspacebar]
+                 [:right_command :!CSright_command]
+                 [:right_option :!CSright_option]
+                 [:left_arrow :!CSleft_arrow]
+                 [:up_arrow :!CSup_arrow]
+                 [:down_arrow :!CSdown_arrow]
+                 [:right_arrow :!CSright_arrow]]}
+        {:des "w/, (apps)"
+         :rules [:w-mode
+                 [:e [:km "open: Finder"]]
+                 [:r [:km "open: Path Finder"]]
+                 [:g [:km "open: GitKraken"]]
+                 [:t [:km "open: 2Do"]]
+                 [:b [:km "open: Books"]]
+                 [:a :!OSC1] ; Open Dash
+                 [:d [:km "open: DEVONthink"]]
+                 [:f [:km "open: Fantastical"]]
+                 [:j [:km "open: iTerm"]]
+                 [:k [:km "open: Alacritty"]]
+                 ;[:k [:km "open: Safari"]]
+                 [:l [:km "open: Code"]]
+                 [:semicolon [:km "open: MacVim"]]
+                 [:t [:km "open: DEVONthink"]]
+                 [:quote [:km "open: Emacs"]]
+                 [:c [:km "open: Google Chrome"]]
+                 [:v [:km "open: Vimr"]]
+                 [:b [:km "open: BetterTouchTool"]]
+                 [:o [:km "open: Onivim"]]
+                 [:n [:km "open: Sublime Text"]]
+                 [:period [:km "open: SnippetsLab"]]
+                 ]}
+        {:des "okey (alfred)"
+         :rules [:o-mode
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]
+                 [:a :!!n] ; bartender: search menu bar items
+                 [:equal_sign :!Cequal_sign]
+                [:u [:km "open: Ulysses"]]
+                [:i [:km "open: Music"]]
+                [:p [:km "open: Paste"]]
+                [:s [:km "open: Screens"]]
+                 [:k [:km "open: Keycastr"]]
+                 [:j [:alfred "search repos" "me.lachlan.githubjump"]]
+                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]]}
+        {:des "C-mode (utility)"
+         :rules [:c-mode
+                 [:d :!!!g]]}
+        {:des "skey (essential)"
+         :rules [:s-mode
+                 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
+                 [:e :tab]
+                 [:r :!Stab]
+                 [:t :!Sreturn_or_enter]
+                 [:u :!COp] ; Selection -> HasteBin link
+                 [:i :!CTperiod] ; Contexts search active windows
+                 [:o :!Cx] ; Cut
+                 [:open_bracket [:km "Lowercase selected text"]]
+                 [:close_bracket [:km "Uppercase selected text"]]
+                 [:a :!Cc] ; Copy
+                 ;[:d :delete_or_backspace]
+                 [:f :return_or_enter]
+                 [:g :!Ctab]
+                 [:##h :left_arrow]
+                 [:##j :down_arrow]
+                 [:##k :up_arrow]
+                 [:##l :right_arrow]
+                 [:semicolon :!CTO9] ; Search Typinator
+                 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
+                 [:c :!Cdelete_or_backspace]
+                 [:v :left_shift]
+                 [:##b :!Cleft_arrow]
+                 [:n :!Cv] ; Paste
+                 [:##m :!Cright_arrow]
+                 [:spacebar [:open "/System/Applications/Siri.app"]]
+                 [:period :!COS0]]} ; Selection -> Typinator snippet
+        {:des "dkey (mouse-keys-mode)"
+         :rules [:d-mode
+                                        ; buttons
+                 [:v {:pkey :button1}]
+                 [:b {:pkey :button3}]
+                 [:n {:pkey :button2}]
+                                        ; movement
+                 [:h {:mkey {:x -1536}} :!mouse-scroll-mode ]
+                 [:j {:mkey {:y  1536}} :!mouse-scroll-mode ]
+                 [:k {:mkey {:y -1536}} :!mouse-scroll-mode ]
+                 [:l {:mkey {:x  1536}} :!mouse-scroll-mode ]
+                                        ; speed - hold 'a' for slower, 'f' for faster
+                 [:a {:mkey {:speed 0.5}} nil {:afterup {:mkey {:speed 1.0}} }]
+                 [:f {:mkey {:speed 2.0}} nil {:afterup {:mkey {:speed 1.0}} }]
+
+                                        ; scrolling
+                 [:s ["mouse-scroll-mode" 1] nil { :afterup ["mouse-scroll-mode" 0] }]
+                 [:h {:mkey {:hwheel -32}} :mouse-scroll-mode ]
+                 [:j {:mkey {:vwheel  32}} :mouse-scroll-mode ]
+                 [:k {:mkey {:vwheel -32}} :mouse-scroll-mode ]
+                 [:l {:mkey {:hwheel  32}} :mouse-scroll-mode ]
+                 ]}
+        {:des "dkey (mouse)"
+         :rules [:d-mode
+                 [:w [:km "Google Searchio selected word"]]
+                 [:u [:km "Google Lucky selected word"]]
+                 [:i :!Ckeypad_hyphen] ; Zoom out
+                 [:o :!Ckeypad_plus] ; Zoom in
+                 [:k {:mkey {:vwheel -60}}] ; Scroll up
+                 ;[:l [:km "Google selected word"]]
+                 [:semicolon [:km "Google clipboard"]]
+                 [:quote [:km "Select line and google"]]
+                 [:n [:km "Open URL in clipboard in Safari"]]
+                 [:comma :!TO8] ; Show Launchpad
+                 [:period :!CTO3] ; Mission control
+                 [:spacebar :!Wsemicolon]]} ; Dictation
+        {:des "fkey (essential)"
+         :rules [:f-mode
+                 [:q [:km "open: Photos"]]
+                 [:w [:km "open: Chrome Canary  / VS Code"]]
+                 [:a [:km "open: Figma"]]
+                 [:s [:km "edit: 2nd iTerm tab"]]
+                 [:h [:km "Make markdown link from selection {link}"]]
+                 [:j [:km "edit: 1st iTerm tab"]]
+                 [:k :return_or_enter]
+                 [:l :!Creturn_or_enter]
+                 [:semicolon [:km "edit: Karabiner"]]
+                 [:z :!Ospacebar] ; Switch language (Russian <-> English)
+                 [:n :!Freturn_or_enter]
+                 [:m :!Sreturn_or_enter]
+                 [:comma  [:km "Add safari link to selected markdown text"]]
+                 [:period :!CTO4] ; Alfred file action
+                 [:spacebar :!CTq]]} ; Selection -> Web Searches
+        {:des "gkey (actions)"
+         :rules [:g-mode
+                 [:q :!CT3] ; Search bartender menu items
+                 [:w :!CSgrave_accent_and_tilde] ; Switch between active windows (go up)
+                 [:e [:km "Go to test macro"]]
+                 [:r [:km "Test"]]
+                 [:caps_lock [:km "Go to KM group of current app from picklist"]]
+                 [:a [:km "Go to KM group of current app"]]
+                 [:s [:km "Dismiss notifications"]]
+                 [:d [:km "Make global macro"]] ; TODO: create global macro from Test (clear test, focus on naming new macro)
+                 [:h :!CSOa] ; Move window left
+                 [:j :!Cgrave_accent_and_tilde] ; Switch between active windows  (go down)
+                 [:k :!COSf] ; Maximize window
+                 [:l :!CSOd] ; Move window right
+                 [:semicolon :!COSs] ; Move window between different screen & maximize (iPad)
+                 [:z :!CO0] ; Show Dropzone dropdown
+                 [:n :!CTOg] ; Turn on/off notifications
+                 [:m :!COslash]]} ; Show/hide notification centre
+        {:des   "switch input method ABC"
+                :rules [:left_shift [:left_shift {:alone [:select_input_source :us]}]]}
+        {:des   "global C-h to backspace"
+         :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}
+        {:des   "in-alfred"
+              :rules [:in-alfred
+                      [:!Tw :!Odelete_or_backspace]
+                      [:!Ty :!Cv]
+                      [:!Tslash :!Cz]
+                      [:escape [:escape ["in-alfred" 0]]]
+                      [:return_or_enter [:return_or_enter ["in-alfred" 0]]]
+                      [:##left_control :left_control nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:##caps_lock [:left_control] nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:!Ctab [:!Ctab ["in-alfred" 0]]]
+                      [:!Cright_command [:!Ctab ["in-alfred" 0]]]
+                      [:!Tsemicolon [:!Treturn_or_enter ["in-alfred" 0]]]
+                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
+                      [:!Tj :down_arrow]
+                      [:!Tk :up_arrow]
+                      [:!Oh :left_arrow]
+                      [:!Oj :down_arrow]
+                      [:!Ok :up_arrow]
+                      [:!Ol :right_arrow]
+                      [:!OSh :!OSleft_arrow]
+                      [:!OSj :!OSdown_arrow]
+                      [:!OSk :!OSup_arrow]
+                      [:!OSl :!OSright_arrow]]}]}
