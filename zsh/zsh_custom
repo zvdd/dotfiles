@@ -1,0 +1,823 @@
+#!/usr/bin/env zsh
+
+# -------------------------------------------------------------------
+# extract: extract of compressed-files
+extract()
+{
+  if [ -f $1 ] ; then
+    local lower=$(lc $1)
+
+    case $lower in
+      *.tar.bz2)   tar xvjf $1     ;;
+      *.tar.gz)    tar xvzf $1     ;;
+      *.bz2)       bunzip2 $1      ;;
+      *.rar)       unrar e $1      ;;
+      *.gz)        gunzip $1       ;;
+      *.tar)       tar xvf $1      ;;
+      *.tbz2)      tar xvjf $1     ;;
+      *.tgz)       tar xvzf $1     ;;
+      *.lha)       lha e $1        ;;
+      *.zip)       unzip $1        ;;
+      *.Z)         uncompress $1   ;;
+      *.7z)        7z x $1         ;;
+      *)           echo "'$1' cannot be extracted via >extract<"
+                   return 1        ;;
+    esac
+
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+# -------------------------------------------------------------------
+# os-info: show some info about your system
+os-info()
+{
+  lsb_release -a
+  uname -a
+
+  if [ -z /etc/lsb-release ]; then
+    cat /etc/lsb-release;
+  fi;
+
+  if [ -z /etc/issue ]; then
+    cat /etc/issue;
+  fi;
+
+  if [ -z /proc/version ]; then
+    cat /proc/version;
+  fi;
+}
+
+
+# -------------------------------------------------------------------
+# mkd: Create a new directory and enter it
+mkd()
+{
+  mkdir -p "$@" && cd "$_"
+}
+
+# -------------------------------------------------------------------
+# mkf: Create a new directory, enter it and create a file
+#
+# usage: mkf /tmp/lall/foo.txt
+mkf()
+{
+  mkd $(dirname "$@") && touch $@
+}
+
+# -------------------------------------------------------------------
+# passwdgen: a password generator
+#
+# usage: passwdgen 8 --> e.g.: f4lwka_2f
+passwdgen()
+{
+  if [ $1 ]; then
+    local length=$1
+  else
+    local length=16
+  fi
+
+  tr -dc A-Za-z0-9_ < /dev/urandom  | head -c${1:-${length}}
+}
+
+# -------------------------------------------------------------------
+# targz: Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+targz()
+{
+  local tmpFile="${@%/}.tar";
+  tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
+
+  local size=$(
+    stat -f"%z" "${tmpFile}" 2> /dev/null; # OS X `stat`
+    stat -c"%s" "${tmpFile}" 2> /dev/null;  # GNU `stat`
+  );
+
+  local cmd="";
+  if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+    # the .tar file is smaller than 50 MB and Zopfli is available; use it
+    cmd="zopfli";
+  else
+    if hash pigz 2> /dev/null; then
+      cmd="pigz";
+    else
+      cmd="gzip";
+    fi;
+  fi;
+
+  echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
+  "${cmd}" -v "${tmpFile}" || return 1;
+  [ -f "${tmpFile}" ] && rm "${tmpFile}";
+
+  local zippedSize=$(
+  	stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # OS X `stat`
+  	stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
+  );
+
+  echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+}
+
+# -------------------------------------------------------------------
+# duh: Sort the "du"-command output and use human-readable units.
+duh()
+{
+  local unit=""
+  local size=""
+
+  du -k "$@" | sort -n | while read size fname; do
+    for unit in KiB MiB GiB TiB PiB EiB ZiB YiB; do
+      if [ "$size" -lt 1024 ]; then
+        echo -e "${size} ${unit}\t${fname}"
+        break
+      fi
+      size=$((size/1024))
+    done
+  done
+}
+
+# -------------------------------------------------------------------
+# fs: Determine size of a file or total size of a directory
+fs()
+{
+  if du -b /dev/null > /dev/null 2>&1; then
+    local arg=-sbh
+  else
+    local arg=-sh
+  fi
+
+  if [[ -n "$@" ]]; then
+    du $arg -- "$@"
+  else
+    du $arg .[^.]* ./*
+  fi
+}
+
+# -------------------------------------------------------------------
+# ff: displays all files in the current directory (recursively)
+ff()
+{
+  find . -type f -iname '*'$*'*' -ls
+}
+
+# -------------------------------------------------------------------
+# fstr: find text in files
+fstr()
+{
+  OPTIND=1
+  local case=""
+  local usage="fstr: find string in files.
+  Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
+
+  while getopts :it opt
+  do
+        case "$opt" in
+        i) case="-i " ;;
+        *) echo "$usage"; return;;
+        esac
+  done
+
+  shift $(( $OPTIND - 1 ))
+  if [ "$#" -lt 1 ]; then
+    echo "$usage"
+    return 1
+  fi
+
+  find . -type f -name "${2:-*}" -print0 \
+    | xargs -0 egrep --color=auto -Hsn ${case} "$1" 2>&- \
+    | more
+}
+
+# -------------------------------------------------------------------
+# file_backup_compressed: create a compressed backup (with date)
+# in the current dir
+#
+# usage: file_backup_compressed test.txt
+file_backup_compressed()
+{
+  if [ $1 ]; then
+    if [ -z $1 ]; then
+      echo "$1: not found"
+      return 1
+    fi
+
+    tar czvf "./$(basename $1)-$(date +%y%m%d-%H%M%S).tar.gz" "$1"
+  else
+    echo "Missing argument"
+    return 1
+  fi
+}
+
+# -------------------------------------------------------------------
+# file_backup: creating a backup of a file (with date)
+file_backup()
+{
+  for FILE ; do
+    [[ -e "$1" ]] && cp "$1" "${1}_$(date +%Y-%m-%d_%H-%M-%S)" || echo "\"$1\" not found." >&2
+  done
+}
+
+# -------------------------------------------------------------------
+# file_information: output information to a file
+file_information()
+{
+  if [ $1 ]; then
+    if [ -z $1 ]; then
+      echo "$1: not found"
+      return 1
+    fi
+
+    echo $1
+    ls -l $1
+    file $1
+    ldd $1
+  else
+    echo "Missing argument"
+    return 1
+  fi
+}
+
+# ii: display useful host related informaton
+ii() {
+    echo -e "\nYou are logged on ${RED}$HOST"
+    echo -e "\nAdditionnal information:$NC " ; uname -a
+    echo -e "\n${RED}Users logged on:$NC " ; w -h
+    echo -e "\n${RED}Current date :$NC " ; date
+    echo -e "\n${RED}Machine stats :$NC " ; uptime
+    echo -e "\n${RED}Current network location :$NC " ; scselect
+    echo -e "\n${RED}Public facing IP Address :$NC " ; ip
+}
+
+# Create a folder and move into it in one command
+function mcd() { mkdir -p "$@" && cd "$_"; }
+
+# File search functions
+function ff() { find . -iname "*$1*" ${@:2} }
+function rr() { grep "$1" ${@:2} -R . }
+
+
+# fdd - cd to selected directory
+fdd() {
+  local dir
+  dir=$(find ${1:-.} -path '*/\.*' -prune \
+                  -o -type d -print 2> /dev/null | fzf +m) &&
+  cd "$dir"
+}
+# fh - search in your command history and execute selected command
+fh() {
+  eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}
+
+# ch - browse chrome history
+ch() {
+  local cols sep google_history open
+  cols=$(( COLUMNS / 3 ))
+  sep='{::}'
+
+  if [ "$(uname)" = "Darwin" ]; then
+    google_history="$HOME/Library/Application Support/Google/Chrome/Default/History"
+    open=open
+  else
+    google_history="$HOME/.config/google-chrome/Default/History"
+    open=xdg-open
+  fi
+  cp -f "$google_history" /tmp/h
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs $open > /dev/null 2> /dev/null
+}
+# b - browse chrome bookmarks
+b() {
+     bookmarks_path=~/Library/Application\ Support/Google/Chrome/Default/Bookmarks
+
+     jq_script='
+        def ancestors: while(. | length >= 2; del(.[-1,-2]));
+        . as $in | paths(.url?) as $key | $in | getpath($key) | {name,url, path: [$key[0:-2] | ancestors as $a | $in | getpath($a) | .name?] | reverse | join("/") } | .path + "/" + .name + "\t" + .url'
+
+    jq -r $jq_script < "$bookmarks_path" \
+        | sed -E $'s/(.*)\t(.*)/\\1\t\x1b[36m\\2\x1b[m/g' \
+        | fzf --ansi \
+        | cut -d$'\t' -f2 \
+        | xargs open
+}
+# Open man page as PDF
+function manpdf() {
+ man -t "${1}" | open -f -a /Applications/Preview.app/
+}
+
+# Change working directory to the top-most Finder window location
+function cdf() { # short for `cdfinder`
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+}
+
+# Create a .tar.gz archive, using `zopfli`, `pigz` or `gzip` for compression
+function targz() {
+	local tmpFile="${@%/}.tar";
+	tar -cvf "${tmpFile}" --exclude=".DS_Store" "${@}" || return 1;
+
+	size=$(
+		stat -f"%z" "${tmpFile}" 2> /dev/null; # macOS `stat`
+		stat -c"%s" "${tmpFile}" 2> /dev/null;  # GNU `stat`
+	);
+
+	local cmd="";
+	if (( size < 52428800 )) && hash zopfli 2> /dev/null; then
+		# the .tar file is smaller than 50 MB and Zopfli is available; use it
+		cmd="zopfli";
+	else
+		if hash pigz 2> /dev/null; then
+			cmd="pigz";
+		else
+			cmd="gzip";
+		fi;
+	fi;
+
+	echo "Compressing .tar ($((size / 1000)) kB) using \`${cmd}\`…";
+	"${cmd}" -v "${tmpFile}" || return 1;
+	[ -f "${tmpFile}" ] && rm "${tmpFile}";
+
+	zippedSize=$(
+		stat -f"%z" "${tmpFile}.gz" 2> /dev/null; # macOS `stat`
+		stat -c"%s" "${tmpFile}.gz" 2> /dev/null; # GNU `stat`
+	);
+
+	echo "${tmpFile}.gz ($((zippedSize / 1000)) kB) created successfully.";
+}
+
+# Determine size of a file or total size of a directory
+function fs() {
+	if du -b /dev/null > /dev/null 2>&1; then
+		local arg=-sbh;
+	else
+		local arg=-sh;
+	fi
+	if [[ -n "$@" ]]; then
+		du $arg -- "$@";
+	else
+		du $arg .[^.]* ./*;
+	fi;
+}
+
+# Compare original and gzipped file size
+function gz() {
+	local origsize=$(wc -c < "$1");
+	local gzipsize=$(gzip -c "$1" | wc -c);
+	local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
+	printf "orig: %d bytes\n" "$origsize";
+	printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
+}
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+}
+
+#function mcd() { mkdir -p -v "$1" && cd "$1" && pwd }
+function uppercase() { printf '%s\n' "${1^^}" }
+function lowercase() { printf '%s\n' "${1,,}" }
+
+function backup-t()  { rename -n 's/^(.*)$/$1.bak/g' $@ }
+function backup()    { rename    's/^(.*)$/$1.bak/g' $@ }
+function restore-t() { rename -n 's/^(.*).bak$/$1/g' $@ }
+function restore()   { rename    's/^(.*).bak$/$1/g' $@ }
+
+function dequote() { sed 's/\\"/"/g; s/^"\|"$//g' }
+function quote() { sed 's/"/\\"/g; s/^\|$/"/g' }
+
+# Change file extensions recursively in current directory
+#
+#   change-extension erb haml
+
+function change-extension() {
+  foreach f (**/*.$1)
+    mv $f $f:r.$2
+  end
+}
+
+
+(( ${+color} )) || autoload -Uz colors && colors
+
+function ltrim()    { sed 's/^\s\+//g' }
+function rtrim()    { sed 's/\s\+$//g' }
+function trim()     { ltrim | rtrim    }
+function trimtrim() { trim | tr -s ' ' }
+alias trimcut='trimtrim | cut -d" "'
+
+# Call default program to open something
+function xopen() {
+    emulate -L zsh
+    setopt shwordsplit
+    local open
+    case "$OSTYPE" in
+        (linux*) open='xdg-open'                              ;;
+        (darwin*) open='open'                                 ;;
+        (cygwin*) open='cygstart'                             ;;
+        (msys*) open='start ""'                               ;;
+        (*) echo "Platform $OSTYPE not supported" && return 1 ;;
+    esac
+    # Open as url when directly open failed.
+    # Useful when openning urls without 'http://' prefix
+    if [[ "$OSTYPE" == darwin* ]]; then
+        "$open" "$@" &>/dev/null || "$open" "http://$@" &>/dev/null
+    else
+        nohup "$open" "$@" &>/dev/null || nohup "$open" "http://$@" &>/dev/null
+    fi
+} && alias o='xopen'
+
+# remove broken symbolics
+function wfxr::rm-broken-links() {
+    local ls links
+    [[ $+commands[exa] ]] && ls=exa || ls=ls
+    IFS=$'\n' links=(`eval "find $1 -xtype l"`)
+    [[ -z $links ]] && return
+    $ls -l --color=always ${links[@]}
+    echo -n "Remove? [y/N]: "
+    read -q && rm -- ${links[@]}
+}
+function rm-broken-links-all() { wfxr::rm-broken-links               }
+function rm-broken-links()     { wfxr::rm-broken-links '-maxdepth 1' }
+
+# Tmux switch session
+function wfxr::tmux-switch() {
+    [[ ! $TMUX ]] && return 1 # Not in tmux session
+    local preview_cmd='<<< {} awk "{print \$2}" | xargs tmux list-windows -t | sed "s/\[.*\]//g" | column -t | sed "s/  \(\S\)/ \1/g"'
+    local curr=$(tmux display-message -p "#S")
+    local choice=$(tmux ls -F "#{session_name}" | grep -v $curr | nl -w2 -s' ' \
+        | fzf +s -e -1 -0 --height=14 --header=" * $curr" \
+                          --bind 'alt-t:down' --cycle \
+                          --preview="$preview_cmd" \
+                          --preview-window=right:60% \
+        | awk '{print $2}')
+    tmux switch-client -t $choice 2>/dev/null
+}
+# Tmux attach session
+function wfxr::tmux-attach() {
+    [[ $TMUX ]] && return 1 # Already in tmux session
+    local preview_cmd='<<< {} awk "{print \$2}" | xargs tmux list-windows -t | sed "s/\[.*\]//g" | column -t | sed "s/  \(\S\)/ \1/g"'
+    local choice=$(tmux ls -F "#{session_name}" | nl -w2 -s' ' \
+        | fzf +s -e -1 -0 --height=14 \
+                          --bind 'alt-t:down' --cycle \
+                          --preview="$preview_cmd" \
+                          --preview-window=right:60% \
+        | awk '{print $2}'
+        )
+    tmux attach-session -t $choice 2>/dev/null
+}
+# Tmux select window
+function wfxr::tmux-select-window() {
+    [[ ! $TMUX ]] && return 1
+    local preview_cmd='<<< {} awk "{print \$2}" | xargs tmux list-windows -t | sed "s/\[.*\]//g" | column -t | sed "s/  \(\S\)/ \1/g"'
+    local curr=$(tmux display-message -p "#W")
+    local choice=$(tmux list-windows -F "#I #W #F" | grep -v '*' | awk '{printf "%2d %s\n", $1, $2}' \
+        | fzf +s -e -1 -0 --height=10 --header=" * $curr"\
+                          --bind 'alt-w:down' --cycle \
+        | awk '{print $1}')
+    tmux select-window -t $choice 2>/dev/null
+    zle redisplay 2>/dev/null || true
+}
+# Tmux attach or create target session
+function t() {
+    if [[ $# -eq 0 ]]; then
+        if [[ $TMUX ]]; then
+            wfxr::tmux-switch
+        else
+            wfxr::tmux-attach
+        fi
+    else
+        if [[ $TMUX ]]; then
+            if ! tmux has-session -t "$1" 2>/dev/null; then
+                tmux new-session -d -s "$1"
+            fi
+            tmux switch-client -t "$1"
+        else
+            tmux new-session -A -s "$1"
+        fi
+    fi
+    zle redisplay 2>/dev/null || true
+}
+# https://issue.life/questions/37597191
+bindkey -s '^[t' 't\n'
+if [[ $TMUX ]]; then
+    zle -N t
+    bindkey '^[t' t
+    zle -N wfxr::tmux-select-window
+    bindkey '^[w' wfxr::tmux-select-window
+fi
+
+# Search through your LastPass vault with LastPass CLI and copy password to clipboard.
+function lpp() { lpass show -c --password $(lpass ls  | fzf | awk '{print $(NF)}' | sed 's/\]//g') }
+function lpa() { lpass show -c $(lpass ls  | fzf |  awk '{print $(NF)}' | sed 's/\]//g') }
+function lpr() { lpass show -c --field=Root $(lpass ls | fzf  | awk '{print $(NF)}' | sed 's/\]//g') }
+
+# Application launcher
+function fzf-dmenu() {
+    # note: xdg-open has a bug with .desktop files, so we cant use that shit
+    local selected="$(ls /usr/share/applications | sed 's/\(.*\)\.desktop/\1/g' | fzf -e).desktop"
+    [ $? -eq 0 ] && nohup `grep '^Exec' "/usr/share/applications/$selected" | tail -1 | sed 's/^Exec=//' | sed 's/%.//'` >/dev/null 2>&1&
+}
+# hotkey to run the function (Ctrl+v)
+#bindkey -s '^V' "fzf-dmenu\n"
+
+# Powerful fg
+function fzf-fg() {
+    local jobId=$(jobs -l | fzf --exact --exit-0 --select-1 --height=6 | sed "s/^\[\(.*\)\].*$/\1/g")
+    # continue only when a jobId selected
+    [ $jobId ] && fg %$jobId
+}
+bindkey -s '^[z' "fzf-fg\n"
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^[v' edit-command-line
+
+# edit
+function e() {
+    local files
+    IFS=$'\n' files=($(fzf -q "`echo $@`" -m -1 -0))
+    [[ $? -eq 0 ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+# mosh
+function mosh-kill() {
+    ps -C mosh-server -o uname,pid,ppid,start_time,etime --sort=-start_time | column -t \
+        | fzf --header-lines=2 -m | awk '{print $2}'\
+        | xargs kill -9
+}
+function wfxr::yank() {
+    <<< "$LBUFFER" | pbcopy
+    BUFFER="$LBUFFER"
+    CURSOR="$#BUFFER"
+    zle redisplay
+}
+zle     -N   wfxr::yank
+bindkey '^Y' wfxr::yank
+
+function wfxr::paste() {
+    LBUFFER="${LBUFFER}$(pbpaste)"
+    zle redisplay
+}
+zle     -N   wfxr::paste
+bindkey '^V' wfxr::paste
+
+function ipcn() { curl https://ip.cn/$1 }
+function ipshow() { ip addr show | grep 'inet\s\+' | grep -v "127.0.0.1" | awk '{print $2,$9}' | column -t }
+
+# ssh
+function fssh() {
+    [[ $+commands[mosh] ]] && ssh=ssh || ssh=mosh
+    [[ -f ~/.ssh/host_info ]] && host=$(column -t ~/.ssh/host_info | fzf --header-lines=1 | cut -d' ' -f1)
+    [[ -n $host ]] && $ssh $host
+}
+# bindkey -s '^s' 'fssh\n'
+function fsshcp() {
+    local curr=`showip | tail -1 | cut -d'/' -f1`
+    [[ -n $curr  ]] && local hosts=`grep -v '^\s*#' ~/.ssh/host_info | grep -v $curr | fzf -m | awk '{print $1}'`
+    [[ -n $hosts ]] && IFS=$'\n' local files=(`fzf -m`)
+    [[ -n $files ]] && echo $hosts | xargs -i{} scp ${files[@]} {}:
+}
+function fsshcmd() {
+    local curr=`showip | tail -1 | cut -d'/' -f1`
+    [[ -n $curr  ]] && local hosts=`grep -v '^\s*#' ~/.ssh/host_info | grep -v $curr | fzf -m | awk '{print $1}'`
+    host_count=`wc -l <<< $hosts`
+    [[ $host_count -gt 0 ]] && local cmd=(`echo -n |fzf --print-query`)
+    [[ -n $cmd   ]] && echo $hosts | xargs -P $host_count -n1 -i{} bash -c "ssh {} $cmd > {}.log"
+}
+function fssh-copy-id() {
+    local curr=`showip | tail -1 | cut -d'/' -f1`
+    [[ -n $curr  ]] && local hosts=`grep -v '^\s*#' ~/.ssh/host_info | grep -v $curr | fzf -m | awk '{print $1}'`
+    [[ -n $hosts ]] && local pub=`ls -d ~/.ssh/* | grep '\/id_.*pub$' | fzf`
+    [[ -n $pub   ]] && echo $hosts | xargs -i{} ssh-copy-id -i $pub {}
+}
+function colortest()  { curl -s 'https://raw.githubusercontent.com/stark/Color-Scripts/master/color-scripts/colortest' | bash }
+function colortest2() { curl -s 'https://raw.githubusercontent.com/JohnMorales/dotfiles/master/colors/24-bit-color.sh' | bash }
+function __unicode_translate() {
+    local CODE=$BUFFER[-4,-1]
+    [[ ! ${(U)CODE} =~ [0-9A-F]{4} ]] && return
+    CHAR=`echo -e "\\u$CODE"`
+    BUFFER=$BUFFER[1,-5]$CHAR
+    CURSOR=$#BUFFER
+    zle redisplay
+}
+zle -N __unicode_translate
+bindkey '^[u' __unicode_translate
+function unicode-map() {
+    ruby -e '0x100.upto(0xFFFF) do |i| puts "%04X%8d%6s" % [i, i, i.chr("UTF-8")] rescue true end' | fzf -m
+}
+# function theme-gnome() { wget -O gogh https://git.io/vQgMr && chmod +x gogh && ./gogh && rm gogh }
+function lswifi() { nmcli device wifi }
+function lsdelete() { lsof -n | grep -i deleted }
+function backup-t()  { rename -n 's/^(.*)$/$1.bak/g' $@ }
+function backup()    { rename    's/^(.*)$/$1.bak/g' $@ }
+function restore-t() { rename -n 's/^(.*).bak$/$1/g' $@ }
+function restore()   { rename    's/^(.*).bak$/$1/g' $@ }
+# Inline calculator
+function = { echo "$@" | tr 'x' '*' | bc -l }
+# Maven search
+function maven-search { xopen "http://mvnrepository.com/search?q="$@ }
+# cd downloads quickly
+function dwn {
+    [[ -d ~/downloads ]] && cd ~/downloads && return
+    [[ -d ~/Downloads ]] && cd ~/Downloads && return
+    mkdir ~/downloads    && cd ~/downloads && return
+}
+# cd application quickly
+function app {
+    [[ -d ~/application ]] || mkdir ~/application
+    cd ~/application
+}
+function frds() {
+    # eg:
+    # vpc-dmp-log rm-2ze8wqw9hu4o264f7.mysql.rds.aliyuncs.com:3306 30001 wenxuan@wfxr test,prod,wenxuan
+    local item=($(column -t ~/.ssh/rds_tunnel_list | fzf --header-lines=1))
+    url=$item[2]
+    port=$item[3]
+    proxy=$item[4]
+    users=(${(@s/,/)item[5]})
+    [[ -n $port ]] && user=$(echo ${(j:\n:)users} | fzf --prompt="User: ")
+    [[ -n $user ]] || return
+    fuser $port/tcp &>/dev/null || ssh -fCNL $port:$url $proxy
+    mycli -P $port -u $user
+}
+# csv viewer
+function csvcat() { csvlook "$@" | less -SF }
+# ghq
+function gcd() {
+    (( $+commands[exa] )) && ll='exa -lbhg --git --time-style long-iso --color=always' || ll='ls -l --time-style long-iso --color=always'
+    root=$(ghq root)
+    repo=$(ghq list| fzf --preview="$ll $root/{}" --preview-window=right:60%)
+    [[ -n "$repo" ]] && cd "$(ghq root)/$repo"
+}
+(( $+commands[numfmt] )) || alias numfmt=gnumfmt
+function num() {
+    if [[ $# -eq 0 ]]; then
+        tr '[:lower:]' '[:upper:]' | numfmt --from iec
+    else
+        numfmt --from iec "${(U)@}"
+    fi
+}
+function fnum() {
+    if [[ $# -eq 0 ]]; then
+        numfmt --to iec
+    else
+        numfmt --to iec "${@}"
+    fi
+}
+function color_cat() {
+    s="\e[38;5;${1}m$2"
+    echo -E "$s"
+    echo -e "$s"
+}
+function wfxr::wrapper::jq() {
+    [[ -t 1 ]] && jq -C "$@" | less -FR || jq "$@"
+} && alias jq='wfxr::wrapper::jq'
+function diffdays() {
+    d1=$(date -d "$1" +%s)
+    d2=$(date -d "$2" +%s)
+    echo $(( (d1 - d2) / 86400 ))
+}
+function rolling-times() {
+    local beg="$(date -I -d "$(head -n1 /var/log/pacman.log | grep -Po '(?<=^\[).*?(?=\])')")"
+    local now="$(date -I)"
+    echo "from $beg to $now, rolling $fg_bold[green]$(diffdays "$now" "$beg")$reset_color days."
+    echo -n "full system upgrade $fg_bold[cyan]$(grep -c "full system upgrade" /var/log/pacman.log)$reset_color times, "
+    echo "install package $fg[yellow]$(grep -c " installed " /var/log/pacman.log)$reset_color times."
+}
+function dequote() { sed 's/\\"/"/g; s/^"\|"$//g' }
+function quote() { sed 's/"/\\"/g; s/^\|$/"/g' }
+function vcurl() {
+    local TMPFILE="$(mktemp -t --suffix=.json)"
+    trap "\\rm -f '$TMPFILE'" EXIT INT TERM HUP
+    vim "$TMPFILE" >/dev/tty
+    curl "$@" < "$TMPFILE"
+}
+function kcurl() {
+    local BUFFER="/tmp/curl-body-buffer.json"
+    touch "$BUFFER" && vim "$BUFFER" >/dev/tty
+    curl "$@" < "$BUFFER"
+}
+function escli() {
+    local route="$@[-1]"
+    local args=$@[1,-2]
+    case "$route" in
+        _cat* | _nodes* | _cluster* )
+            http --body -a "$USER" "$@[1,-2]" "$ES_API_HOST/$route"
+            ;;
+        * )
+            local BUFFER="/tmp/curl-body-buffer.esquery.json"
+            touch "$BUFFER" && vim "$BUFFER" >/dev/tty
+            http --body -a "$USER" "$@[1,-2]" "$ES_API_HOST/$route" @"$BUFFER"
+            ;;
+    esac
+}
+function grepo() {
+    [[ "$#" -ne 0 ]] && return $(xopen "https://github.com/${(j:/:)@}")
+    local url
+    url=$(git remote get-url origin) || return $?
+    [[ "$url" =~ '^git@' ]] && url=$(echo "$url" | sed -e 's#:#/#' -e 's#git@#https://#')
+    xopen "$url"
+}
+function gclone() { git clone "https://github.com/${(j:/:)@}" }
+function gsearch() {
+    local header list repos
+    header='["Repostory", "Stars", "Description"]'
+    list="$(curl -fsSL "https://api.github.com/search/repositories?q=$1" |
+        command jq -r "$header, (.items[] | [.full_name, .stargazers_count, .description]) | @tsv" |
+        column -t -s $'\t')"
+    repos=("${(@f)$(echo "$list" | fzf -m -0 -1 --header-lines=1 | awk '{print $1}')}")
+    for repo in $repos; do
+        xopen "https://github.com/$repo"
+    done
+}
+
+function hhkb() {
+    setxkbmap -print | grep 'xkb_symbols.*+ctrl(swapcaps)' &>/dev/null && setxkbmap -option || setxkbmap -option "ctrl:swapcaps"
+}
+# Dump zsh hash map
+function dump_map() {
+    local cmd="
+        for k in \"\${(@k)$1}\"; do
+            echo $2 \"\$k => \$$1[\$k]\"
+        done
+    "
+    eval "$cmd"
+}
+function passgen() { openssl rand -base64 ${1:-10} | tr -d '=' }
+function md5gen() { printf "${@:-$(passgen 128)}" | md5sum | awk '{print $1}' }
+function vup() { amixer set PCM 5%+ }
+function vdn() { amixer set PCM 5%- }
+function vto() { amixer set PCM toggle }
+function iptables-uniq() { sudo iptables-save | awk '/^COMMIT$/ { delete x; }; !x[$0]++' }
+function iptables-traffic-monitor() { sudo iptables -nvL | grep spt | awk '{print $10,$3,$2,$1}' | column -t }
+
+function bkr() { (nohup "$@" &>/dev/null &) }
+function handshake() { curl -w "TCP handshake: %{time_connect}, SSL handshake: %{time_appconnect}\n" -so /dev/null "$@" }
+function git-tag-with-version() {
+    (
+    set -euo pipefail
+    IFS=$'\n\t'
+    ROOT=$(git rev-parse --show-toplevel)
+    cd "$ROOT"
+    if [[ -n $(git status -s) ]]; then
+        printf 'modified/untracked:\n\n'
+        git status -s
+        exit 1
+    fi
+    tag=$1
+    echo "$tag" > version
+    git add version
+    git commit --no-verify -m "$tag"
+    git tag "$tag"
+    )
+} && alias gtv=git-tag-with-version
+function pre-commit-hook-gen() {
+    (
+    cd "$(git rev-parse --show-toplevel)" || return 1
+    hook=.git/hooks/pre-commit
+    cat >"$hook" <<-'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+ROOT=$(git rev-parse --show-toplevel)
+cd "$ROOT"
+echo "SNAPSHOT" > version
+git add version
+EOF
+    chmod +x "$hook"
+    )
+}
+function zsh-bench() { for i ({1..${1:-5}}) time zsh -ilc echo &>/dev/null || true }
+# integrate z with fzf
+function j() {
+  if [[ -z "$*" ]]; then
+    cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+  else
+    _last_z_args="$@"
+    _z "$@"
+  fi
+}
+function jj() {
+  cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
+}
+function vim-plugins-profile() {
+    ruby <(curl -sSL https://raw.githubusercontent.com/hyiltiz/vim-plugins-profile/master/vim-plugins-profile.rb)
+}
+function get-window-class() { xprop | grep -i class }
+
+# jq repl
+fjq() {
+  local TEMP QUERY
+  TEMP=$(mktemp -t fjq)
+  cat > "$TEMP"
+  QUERY=$(
+    jq -C . "$TEMP" |
+      fzf --reverse --ansi --phony \
+      --prompt 'jq> ' --query '.' \
+      --preview "set -x; jq -C {q} \"$TEMP\"" \
+      --print-query | head -1
+  )
+  [ -n "$QUERY" ] && jq "$QUERY" "$TEMP"
+}

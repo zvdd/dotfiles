@@ -1,0 +1,248 @@
+#!/usr/bin/env zsh
+
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-abbr-included-in-description
+abbr chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+# copy working directory
+abbr cwd='pwd | tr -d "\r\n" | xclip -selection clipboard'
+
+# untar
+abbr untar='tar xvf'
+
+abbr md='mkdir -p'
+abbr rd=rmdir
+abbr cp="cp -iv"                       
+abbr mv="mv -iv" 
+abbr ldir="ls -al | grep ^d"           
+abbr agall='ag --silent --hidden -g ""'
+abbr agdot='ag --silent --hidden -g ".[^/]+"'
+abbr ..="cd .."
+abbr ...="cd ../.."
+abbr ....="cd ../../.."
+abbr .....="cd ../../../.."
+abbr -- -="cd -"
+abbr ..='cd ..'
+abbr -g ...='../..'
+abbr cd.='cd ..'
+abbr cd..='cd ..'
+abbr -g ....='../../..'
+abbr -g .....='../../../..'
+abbr .3="cd ../../../"
+abbr .4="cd ../../../../"
+abbr .5="cd ../../../../../"
+abbr .6="cd ../../../../../../"
+
+abbr abbrc="vim ~/.config/zsh/abbreviations"
+abbr cd.="gcd .."
+abbr cd..="gcd .."
+abbr csort="LC_ALL=C sort"
+abbr dot="cd ~/dotfiles"
+abbr em="emacsclient -t"
+abbr emconf="em ~/.spacemacs"
+abbr f="fzf -m"
+abbr vimrc='vim ~/.vimrc'
+abbr vimplug='vim ~/.vim_plug'
+abbr vimbase='vim ~/.vim_base'
+abbr vimmap='vim ~/.vim_map'
+abbr gvimrc='vim ~/.gvimrc'
+abbr vimlocal='vim ~/.vim_local'
+abbr zshrc='vim ~/.zshrc'
+abbr zshenv='vim ~/.zshenv'
+abbr zshfzf='vim ~/.zsh_fzf_extra'
+abbr zshabbr='vim ~/.zsh_abbres'
+abbr zshlocal='vim ~/.zsh_local'
+abbr zprofile='vim ~/.zprofile'
+abbr zshcustom='vim ~/.zsh_custom'
+abbr alacrittyrc='vim ~/.config/alacritty/alacritty.yml'
+# abbr zshmisc='vim ~/.zsh_misc'
+abbr zshfunctions='vim ~/.zshfunctions'
+# abbr hostinfo='vim ~/.ssh/host_info'
+abbr tmuxconf='vim ~/.tmux.conf'
+abbr emconf='em ~/.spacemacs'
+abbr karaconf='vim ~/.config/karabiner.edn'
+abbr gb="git branch"
+abbr gc="git commit -v"
+abbr gl="git pull"
+abbr gp="git push"
+abbr gpa="git push origin --all && git push origin --tags"
+abbr gpoat="git push origin --all && git push origin --tags"
+abbr gpom="git push origin master"
+abbr gpu="git push upstream"
+abbr gs="git stash"
+abbr gsn="git-semver-next"
+abbr gsp="git stash pop"
+abbr gst="git status"
+abbr gv="vim +GV +\"autocmd BufWipeout <buffer> qall\""
+abbr gvimrc="vim ~/.gvimrc"
+abbr localdocker="DOCKER_HOST= DOCKER_TLS_PATH= DOCKER_TLS_VERIFY= docker"
+abbr mkS="tmux kill-server"
+abbr mks="tmux kill-session -t"
+abbr o="xopen"
+abbr shopt=":"
+abbr tl="tmux list-sessions"
+abbr tmp="cd /tmp"
+abbr tmuxconf="vim ~/.tmux.conf"
+abbr tn="tmux new-session -s"
+abbr trimcut="trimtrim | cut -d\" \""
+abbr usudo="sudo -E -s "
+abbr vi="vim"
+abbr vi2="vim -O2"
+abbr vv="vim \$(fzf)"
+abbr vw="gvim"
+abbr weather="curl wttr.in"
+
+
+
+abbr sudo='sudo '
+abbr usudo='sudo -E -s '
+
+abbr dot='\cd ~/dotfiles'
+abbr tmp='\cd /tmp'
+
+# Edit dotfile in repo
+abbr vimrc='vim ~/.vimrc'
+abbr vimplug='vim ~/.vim_plug'
+abbr vimbase='vim ~/.vim_base'
+abbr vimmap='vim ~/.vim_map'
+abbr gvimrc='vim ~/.gvimrc'
+abbr vimlocal='vim ~/.vim_local'
+abbr zshrc='vim ~/.zshrc'
+abbr zshenv='vim ~/.zshenv'
+abbr zshfzf='vim ~/.zsh_fzf_extra'
+abbr zshabbr='vim ~/.zsh_abbres'
+abbr zshlocal='vim ~/.zsh_local'
+abbr zprofile='vim ~/.zprofile'
+abbr zshcustom='vim ~/.zsh_custom'
+abbr zshmisc='vim ~/.zsh_misc'
+abbr zshfunctions='vim ~/.zshfunctions'
+# abbr hostinfo='vim ~/.ssh/host_info'
+abbr tmuxconf='vim ~/.tmux.conf'
+# abbr ycmconf='vim ~/.ycm_extra_conf.py'
+abbr emconf='em ~/.spacemacs'
+abbr karaconf='vim ~/.config/karabiner.edn'
+
+abbr -- -="cd -"
+abbr ..='cd ..'
+abbr -g ...='../..'
+abbr cd.='cd ..'
+abbr cd..='cd ..'
+abbr -g ....='../../..'
+abbr -g .....='../../../..'
+abbr .3="cd ../../../"
+abbr .4="cd ../../../../"
+abbr .5="cd ../../../../../"
+abbr .6="cd ../../../../../../"
+
+abbr -g CA="2>&1 | cat -A"
+abbr -g C='| wc -l'
+abbr -g D="DISPLAY=:0.0"
+abbr -g DN=/dev/null
+abbr -g ED="export DISPLAY=:0.0"
+abbr -g EG='|& egrep'
+abbr -g EH='|& head'
+abbr -g EL='|& less'
+abbr -g ELS='|& less -S'
+abbr -g ETL='|& tail -20'
+abbr -g ET='|& tail'
+abbr -g F=' | fmt -'
+abbr -g G='| egrep'
+abbr -g H='| head'
+abbr -g HL='|& head -20'
+abbr -g Sk="*~(*.bz2|*.gz|*.tgz|*.zip|*.z)"
+abbr -g LL="2>&1 | less"
+abbr -g L="| less"
+abbr -g LS='| less -S'
+abbr -g MM='| most'
+abbr -g M='| more'
+abbr -g NE="2> /dev/null"
+abbr -g NS='| sort -n'
+abbr -g NUL="> /dev/null 2>&1"
+abbr -g PIPE='|'
+abbr -g R=' > /c/aaa/tee.txt '
+abbr -g RNS='| sort -nr'
+abbr -g S='| sort'
+abbr -g TL='| tail -20'
+abbr -g T='| tail'
+abbr -g US='| sort -u'
+abbr -g VM=/var/log/messages
+abbr -g X0G='| xargs -0 egrep'
+abbr -g X0='| xargs -0'
+abbr -g XG='| xargs egrep'
+abbr -g X='| xargs'
+
+(( $+commands[nvim] )) && abbr vim='nvim'
+(( $+commands[bat] )) && abbr cat='bat'
+
+abbr ls='ls --color=auto'
+abbr ll='ls --group-directories-first -l'
+abbr la='ls --group-directories-first -l --all'
+abbr l='ll'
+if (( $+commands[exa] )); then
+    abbr ls='exa --time-style long-iso'
+    abbr ll='ls -lgbh --git'
+    abbr lg='ll -G'    # List by grid
+    abbr llg='ll -G'
+    abbr la='ll -a'
+    abbr lag='llg -a'
+    abbr ldot='ll -d .*'
+    abbr lss='ll -s size'
+    abbr lst='ll -s modified'
+    abbr tree='ls --tree'
+fi
+
+abbr vv='vim $(fzf)'
+abbr vi=vim
+abbr vi2='vim -O2'
+abbr vw=gvim
+abbr em='emacsclient -t'
+abbr ew='emacsclient -c -a emacs'
+
+abbr gv='vim +GV +"autocmd BufWipeout <buffer> qall"'
+
+abbr f='fzf -m'
+
+# copy abbr
+abbr pc='pbcopy'
+abbr pp='pbpaste'
+abbr pcurl='pp | xargs curl -s '
+abbr pget='pp | xargs wget'
+abbr pclone='pp | xargs git clone'
+abbr peval='pp | bash'
+
+abbr mux=tmuxinator
+abbr tn='tmux new-session -s'
+abbr daily='tmuxinator daily'
+
+abbr weather='curl wttr.in'
+
+abbr tl='tmux list-sessions'
+
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/git/git.plugin.zsh
+abbr gpom='git push origin master'
+abbr gc='git commit -v'
+abbr gb='git branch'
+abbr gl='git pull'
+abbr gp='git push'
+abbr gpom='git push origin master'
+abbr gpoat='git push origin --all && git push origin --tags'
+abbr gpu='git push upstream'
+abbr gco='git checkout'
+abbr gst='git status'
+abbr gs='git stash'
+abbr gsp='git stash pop'
+
+abbr ra='ranger'
+abbr v='nvim'
+
+abbr mycli='LESS="-S $LESS" mycli'
+
+
+if [ -d "${HOME}/.Documentations/" ]; then
+    abbr H-Zsh='${BROWSER:-lynx} ${HOME}/.Documentations/Zsh/Doc/zsh_toc.html'
+    abbr H-ZshGuide='${BROWSER:-lynx}  ${HOME}/.Documentations/Zsh/guide/zshguide.html'
+    abbr H-ZshFAQ='${BROWSER:-lynx} /home/dope/.Documentations/Zsh/faq/zshfaq.txt'
+    abbr H-Vim='${BROWSER:-lynx} ${HOME}/.Documentations/vim/usr_toc.html'
+fi
+
+abbr dl='cd ~/Downloads'

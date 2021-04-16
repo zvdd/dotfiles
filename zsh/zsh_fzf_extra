@@ -1,0 +1,171 @@
+#!/usr/bin/env zsh
+################################################################################
+#    Author: Wenxuan                                                           #
+#     Email: wenxuangm@gmail.com                                               #
+#   Created: 2018-06-13 15:09                                                  #
+################################################################################
+[[ $- != *i* ]] && return
+
+#######################################################################
+#                                 ENV                                 #
+#######################################################################
+# export FZF_COMPLETION_TRIGGER=''
+# bindkey '\t' fzf-completion
+# bindkey '^I' "$fzf_default_completion"
+FZF_FILE_HIGHLIGHTER='cat'
+(( $+commands[rougify]   )) && FZF_FILE_HIGHLIGHTER='rougify'
+(( $+commands[coderay]   )) && FZF_FILE_HIGHLIGHTER='coderay'
+(( $+commands[highlight] )) && FZF_FILE_HIGHLIGHTER='highlight -lO ansi'
+(( $+commands[bat]       )) && FZF_FILE_HIGHLIGHTER='bat --color=always'
+export FZF_FILE_HIGHLIGHTER
+
+FZF_DIR_HIGHLIGHTER='ls -l --color=always'
+(( $+commands[tree] )) && FZF_DIR_HIGHLIGHTER='tree -CtrL2'
+(( $+commands[exa]  )) && FZF_DIR_HIGHLIGHTER='exa --color=always -TL2'
+(( $+commands[lsd]  )) && FZF_DIR_HIGHLIGHTER='lsd --color=always --tree --depth=2'
+export FZF_DIR_HIGHLIGHTER
+
+FZF_DEFAULT_COMMAND='(git ls-tree -r --name-only HEAD ||
+         find . -path "*/\.*" -prune -o -type f -print -o -type l -print | sed s/^..//) 2> /dev/null'
+(( $+commands[ag] )) && FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g "" 2>/dev/null'
+(( $+commands[fd] )) && FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git 2>/dev/null'
+export FZF_DEFAULT_COMMAND
+FZF_DEFAULT_OPTS="
+--prompt '❯ '
+--pointer '➤'
+--marker '┃'
+--border
+--color=fg:-1,bg:-1,hl:#ffaf5f,fg+:-1,bg+:-1,hl+:#ffaf5f
+--color=prompt:#5fff87,marker:#ff87d7,spinner:#ff87d7
+--info inline
+--height 80%
+--extended
+--ansi
+--reverse
+--cycle
+--bind alt-p:preview-up,alt-n:preview-down
+--bind alt-k:preview-up,alt-j:preview-down
+--bind ctrl-u:half-page-up,ctrl-d:half-page-down
+--bind alt-a:select-all,ctrl-r:toggle-all
+--bind ctrl-s:toggle-sort
+--bind ?:toggle-preview,alt-w:toggle-preview-wrap
+--bind \"ctrl-y:execute-silent(ruby -e 'puts ARGV' {+} | pbcopy)+abort\"
+--bind 'alt-e:execute($EDITOR {} >/dev/tty </dev/tty)'
+--bind change:top
+--preview \"($FZF_FILE_HIGHLIGHTER {} || $FZF_DIR_HIGHLIGHTER {}) 2>/dev/null | head -200\"
+--preview-window right:60%:hidden
+"
+export FZF_DEFAULT_OPTS
+export FZF_COMPLETION_TRIGGER='~~'
+(( $+commands[fd] )) && {
+    _fzf_compgen_path() { fd --hidden --follow --exclude ".git" . "$1" }
+    _fzf_compgen_dir() { fd --type d --hidden --follow --exclude ".git" . "$1" }
+}
+
+# FZF: Ctrl - T
+FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_COMMAND
+FZF_CTRL_T_OPTS="
+--preview \"($FZF_FILE_HIGHLIGHTER {} || $FZF_DIR_HIGHLIGHTER {}) 2>/dev/null | head -200\"
+--bind 'enter:execute(echo {})+abort'
+--bind 'alt-e:execute($EDITOR {} >/dev/tty </dev/tty)'
+--preview-window default:right:60%
+"
+export FZF_CTRL_T_OPTS
+
+# FZF: Ctrl - R
+FZF_CTRL_R_OPTS="
+--preview 'echo {}'
+--preview-window 'down:2:wrap'
+--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
+--header 'Press CTRL-Y to copy command into clipboard'
+--exact
+--expect=ctrl-x
+"
+export FZF_CTRL_R_OPTS
+
+# FZF: Alt - C
+FZF_ALT_C_COMMAND="command find -L . -mindepth 1 \
+    \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) \
+    -prune -o -type d -print 2> /dev/null | cut -b3-"
+(( $+commands[fd]      )) && FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git 2>/dev/null'
+(( $+commands[blsd]    )) && FZF_ALT_C_COMMAND='blsd $dir | grep -v "^\.$"'
+export FZF_ALT_C_COMMAND
+export FZF_ALT_C_OPTS="
+--exit-0
+--preview '($FZF_DIR_HIGHLIGHTER {}) | head -200 2>/dev/null'
+--preview-window=right:50%
+"
+
+# FZF: Alt - E
+FZF_ALT_E_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_E_COMMAND
+FZF_ALT_E_OPTS="
+--preview \"($FZF_FILE_HIGHLIGHTER {} || $FZF_DIR_HIGHLIGHTER {}) 2>/dev/null | head -200\"
+--bind 'alt-e:execute($EDITOR {} >/dev/tty </dev/tty)'
+--preview-window default:right:60%
+"
+export FZF_ALT_E_OPTS
+
+#######################################################################
+#                              FUNCTION                               #
+#######################################################################
+# ALT-E - Edit selected file
+wfxr::fzf-file-edit-widget() {
+    setopt localoptions pipefail 2> /dev/null
+    local files
+    files=$(eval "$FZF_ALT_E_COMMAND" |
+        FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_ALT_E_OPTS" fzf -m |
+        sed 's/^\s\+.\s//')
+    local ret=$?
+
+    [[ $ret -eq 0 ]] && echo $files | xargs sh -c "$EDITOR \$@ </dev/tty" $EDITOR
+
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+}
+zle     -N    wfxr::fzf-file-edit-widget
+bindkey '\ee' wfxr::fzf-file-edit-widget
+
+# CTRL-R - Paste the selected command from history into the command line
+wfxr::fzf-history-widget() {
+    local selected num
+    setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
+    selected=( $(fc -rl 1 | awk '{FIRST=$1; $1=""; if (!x[$0]++) {$1=FIRST; print $0}}' |
+        FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $FZF_CTRL_R_OPTS --query=${(qqq)LBUFFER} +m" $(__fzfcmd)) )
+    local ret=$?
+    if [ -n "$selected" ]; then
+        num=$selected[1]
+        if [ -n "$num" ]; then
+            zle vi-fetch-history -n $num
+        fi
+    fi
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
+}
+zle     -N   wfxr::fzf-history-widget
+bindkey '^R' wfxr::fzf-history-widget
+
+function Rg() {
+    rg --column --line-number --no-heading --color=always --smart-case "$1" |
+      fzf --ansi \
+          --delimiter : \
+          --bind 'alt-e:execute($EDITOR "$(echo {} | cut -d: -f1)" >/dev/tty </dev/tty)' \
+          --preview 'bat --style=numbers,header,changes,snip --color=always --highlight-line {2} {1}' \
+          --preview-window 'default:right:60%:~1:+{2}+3/2:border-left'
+}
+
+function RG() {
+    local RG_PREFIX INITIAL_QUERY
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    INITIAL_QUERY="$1"
+    FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY' || true" \
+        fzf --bind "change:reload:$RG_PREFIX {q} || true" \
+        --ansi --disabled --query "$INITIAL_QUERY" \
+        --delimiter : \
+        --bind 'alt-e:execute($EDITOR "$(echo {} | cut -d: -f1)" >/dev/tty </dev/tty)' \
+        --preview 'bat --style=numbers,header,changes,snip --color=always --highlight-line {2} {1}' \
+        --preview-window 'default:right:60%:~1:+{2}+3/2:border-left'
+}
