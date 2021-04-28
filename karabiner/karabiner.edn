@@ -1,9 +1,10 @@
 {:profiles
- {:goku {:default true
-         :alone   80 ; hold for .. ms to register single tap
-         :held    50 ; TODO: not sure what it's for
-         :delay   0 ; time after which the key press is delayed
-         :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
+;;  {:goku {:default true
+;;          :alone   80 ; hold for .. ms to register single tap
+;;          :held    50 ; TODO: not sure what it's for
+;;          :delay   0 ; time after which the key press is delayed
+;;          :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
+{:Goku {:default true :sim 50 :delay 500 :alone 500 :held 500}}
  :tos       {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
              :prev_app        {:key :tab :modi [:left_command] :lazy true}
              :left_paren      {:key :9 :modi [:left_shift] :lazy true}
@@ -17,7 +18,7 @@
                                 :input_source_id "com.apple.keylayout.US"
                                 :language        "en"}}
              :select_abc {:input :abc}}
- :modifiers {:ro :right_option} 
+ :modifiers {:ro :right_option}
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""
@@ -154,8 +155,10 @@
              :comma-mode            {:key :comma :condi [:!emacs-s-mode :!tmux-windmove-mode]}
              :tmux-windmove-mode    {:key :q :condi [:Terminals :!comma-mode :!period-mode]}
              :tmux-windresize-mode  {:key :c :condi :tmux-windmove-mode}
-             :k2-mode               {:key :2 :condi [:!tab-mode :!tmux-windmove-mode]}}
+             
+             }
  :simlayers {
+             :k2-mode               {:key :2 :condi [:!tab-mode :!tmux-windmove-mode]}
              :test-mode             {:key :9}
              :contexts-f-mode       {:key :f}
              :emacs-m-mode          {:key :m :condi :Emacs}
@@ -209,7 +212,20 @@
              :py-mode {:key :period :condi ["in-python" 1]}
              :elixir-mode {:key :period :condi ["in-elixir" 1]}
              }
- :main [{:des "test"
+ :main [ {:des "wkey (apps)"
+         :rules [:w-mode 
+                [:j [:km "open: alacritty"]]
+                ;[:j [:km "open: iTerm"]]
+                [:k [:show "Emacs"]]
+                ;[:d [:km "open: Postico"]]
+                [:d [:km "open: DEVONthink"]]]}
+        {:des "RF Modifiers right cmd -> Alfred/left opt -> cmd+tab"
+         :rules [:REALFORCE
+	        [:##right_option :right_command nil {:alone :!CTOSspacebar}]
+                [:##right_command :right_option]
+                [:##left_command :left_option]
+	        [:##left_option :left_command nil {:alone :!Ctab}]]}
+         {:des "test"
               :rules [[[:t :e :s :t] :select_us]]}
              {:des   "Keybase return"
               :rules [;; [[{:pkey :button5} {:pkey :button2}] {:pkey :button1}]
@@ -356,16 +372,16 @@
                       [:k :!CSclose_bracket]
                       [:h :!Copen_bracket]
                       [:l :!Cclose_bracket]]}
-             {:des   "Vi Mode [D as Trigger Key]"
-              :rules [:vi-mode
-                      [:##j :down_arrow]
-                      [:##k :up_arrow]
-                      [:##h :left_arrow]
-                      [:##l :right_arrow]
-                      [:##b :!Oleft_arrow]
-                      [:##w :!Oright_arrow]
-                      [:##0 :!Ta]
-                      [:##4 :!Te]]}
+        ;;      {:des   "Vi Mode [D as Trigger Key]"
+        ;;       :rules [:vi-mode
+        ;;               [:##j :down_arrow]
+        ;;               [:##k :up_arrow]
+        ;;               [:##h :left_arrow]
+        ;;               [:##l :right_arrow]
+        ;;               [:##b :!Oleft_arrow]
+        ;;               [:##w :!Oright_arrow]
+        ;;               [:##0 :!Ta]
+        ;;               [:##4 :!Te]]}
              {:des   "Vi Visual Mode"
               :rules [:vi-visual-mode
                       [:##j :!Sdown_arrow]
@@ -380,11 +396,6 @@
                       [:##close_bracket :!SOdown_arrow]]}
              {:des   "launcher mode"
               :rules [:launch-mode
-                      [:j [:open "/Applications/Alacritty.app"]]
-                      ;; [:j [:launch "iTerm"]]
-                      ;; [:k [:open "/Applications/Emacs.app"]]
-                      [:k [:show "Emacs"]]
-                      ;; [:k [:launch "Emacs"]]
                       [:quote [:opena "ClickUp"]]
                       [:t [:open "/Applications/Todoist.app"]]
                       [:p [:open "/Applications/Figma.app"]]
@@ -449,9 +460,9 @@
                       [:application :right_command nil {:alone :prev_app}]]}
              {:des   "Change left_option to f18 when used alone"
               :rules [[:left_option :left_option nil {:alone [:f18]}]]}
-             {:des   "Quit application by pressing command-q twice"
-              :rules [[:!C#Pq [:!Cq ["command-q" 0]] ["command-q" 1]]
-                      [:!C#Pq ["command-q" 1] nil {:delayed {:invoked ["command-q" 0] :canceled ["command-q" 0]}}]]}
+        ;      {:des   "Quit application by pressing command-q twice"
+        ;       :rules [[:!C#Pq [:!Cq ["command-q" 0]] ["command-q" 1]]
+        ;               [:!C#Pq ["command-q" 1] nil {:delayed {:invoked ["command-q" 0] :canceled ["command-q" 0]}}]]}
              {:des   "Change right_option to switch to second recent application when used alone"
               :rules [[:right_option :left_option nil {:alone ["osascript ~/Dropbox/sync/Automator/switch-to-second-previous-app.scpt"]}]]}
              {:des   "some simultaneous keys"
@@ -714,9 +725,9 @@
                  [:b :!Sb]
                  [:n :!Sn]
                  [:m :!Sm]]}
-        {:des "swap : and ;"
-         :rules [[:#Psemicolon :!Ssemicolon]
-                 [:!Ssemicolon :semicolon]]}
+       ; {:des "swap : and ;"
+        ; :rules [[:#Psemicolon :!Ssemicolon]
+         ;        [:!Ssemicolon :semicolon]]}
         {:des "left cmd -> cmd+tab"
          :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
         ;{:des "right cmd -> Alfred"
@@ -727,7 +738,8 @@
          :rules [[[:j :k] [:alfred "search google" "net.deanishe.alfred-searchio"]]
                  [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
                  ;[[:j :semicolon] :!COS9] ; Raycast
-                 [[:j :l] :!CTOSspacebar]]} ; Alfred
+                ;;  [[:j :l] :!CTOSspacebar]]} ; Alfred
+         ]}
         {:des "ksim"
          :rules [[[:k :l] [:alfred "search dash" "com.kapeli.dash.workflow"]]
                  [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
@@ -831,12 +843,12 @@
                  [:p [:km "open: Postgres"]]
                  [:caps_lock [:km "open: Finder"]]
                  [:a :!OSC1] ; Open Dash
-                 [:d [:km "open: Postico"]]
+                 
                  [:f [:km "open: 2Do"]]
                  [:g [:km "open: Linear"]]
                  ;[:h [:km "open: Safari Technology Preview"]]
                  [:h [:km "open: Android Emulator"]]
-                 [:j [:km "open: iTerm"]]
+                 
                  [:k [:km "open: Safari"]]
                  [:l [:km "open: VS Code"]]
                  [:semicolon [:km "open: Xcode"]]
@@ -897,7 +909,7 @@
         {:des "rkey (apps)"
          :rules [:r-mode
                  [:tab [:km "open: Transmission"]]
-                 [:q [:km "open: IINA"]]
+                  [:q [:km "open: IINA"]]
                  [:w [:km "open: 1Password"]]
                  [:e [:km "open: Keynote"]]
                  ;[:i [:km "open: Flume"]]

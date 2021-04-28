@@ -15,15 +15,6 @@
                                {:key :8 :modi [:left_shift] :lazy true}]}
  :modifiers {:ro :right_option}
  
-  :devices{
-          :hhkb [{:vendor_id 1278 :product_id 33}]
-          :REALFORCE [{:vendor_id 2131 :product_id 328}]
-          :magic1 [{:vendor_id 76 :product_id 620}]
-          
-          :sculpt [{:vendor_id 1118 :product_id 1957}]
-          :mbp [{:vendor_id 1452 :product_id 636}]
-          :magic [{:vendor_id 76 :product_id 615}]
-          }
  
  :templates {:alfred "osascript -e 'tell application \"Alfred 4\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
@@ -110,13 +101,7 @@
                         [:k :up_arrow ["in-contexts" 1]]
                         [:e [:f :e]]
                         [:l [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]]}
-          {:des "quotekey (symbols)"
-          :rules [:quote-mode
-                [:o :open_bracket]
-                [:p :close_bracket]]}       
-        {:des "sdfsim"
-                :rules [[[:s :f] [:open "/System/Applications/Siri.app"]]
-                        [[:s :d] :!CTOSspacebar]]} ; Alfred       
+  
 
          {:des "jsim"
          :rules [[[:j :s] [:alfred "search google" "net.deanishe.alfred-searchio"]]
@@ -126,18 +111,7 @@
         {:des "ksim"
          :rules [[[:k :l] [:alfred "search dash" "com.kapeli.dash.workflow"]]
                  [[:k :m] [:alfred "search youtube" "net.deanishe.alfred-searchio"]]]}
-        {:des "RF Modifiers right cmd -> Alfred/left opt -> cmd+tab"
-         :rules [:REALFORCE
-	        [:##right_option :right_command nil {:alone :!CTOSspacebar}]
-                [:##right_command :right_option]
-                [:##left_command :left_option]
-	        [:##left_option :left_command nil {:alone :!Ctab}]]}
-        {:des   "caps_lock to esc when pressed alone, to ctrl as modifier"
-         :rules [[:##caps_lock :left_control nil {:alone :escape}]]}
-        {:des "right cmd -> Alfred"
-         :rules [[:right_command :right_command nil {:alone :!CTOSspacebar}]]}
-        {:des "left cmd -> cmd+tab"
-         :rules [[:##left_command :left_command nil {:alone :!Ctab}]]}
+
        {:des "mkey (dash)"
          :rules [:m-mode
                  [:caps_lock [:alfred "search alfred" "nikivi.utilities" "man "]]
@@ -520,28 +494,7 @@
                  [:##m :!Cright_arrow]
                  [:spacebar [:open "/System/Applications/Siri.app"]]
                  [:period :!COS0]]} ; Selection -> Typinator snippet
-        {:des "dkey (mouse-keys-mode)"
-         :rules [:d-mode
-                                        ; buttons
-                 [:v {:pkey :button1}]
-                 [:b {:pkey :button3}]
-                 [:n {:pkey :button2}]
-                                        ; movement
-                 [:h {:mkey {:x -1536}} :!mouse-scroll-mode ]
-                 [:j {:mkey {:y  1536}} :!mouse-scroll-mode ]
-                 [:k {:mkey {:y -1536}} :!mouse-scroll-mode ]
-                 [:l {:mkey {:x  1536}} :!mouse-scroll-mode ]
-                                        ; speed - hold 'a' for slower, 'f' for faster
-                 [:a {:mkey {:speed 0.5}} nil {:afterup {:mkey {:speed 1.0}} }]
-                 [:f {:mkey {:speed 2.0}} nil {:afterup {:mkey {:speed 1.0}} }]
-
-                                        ; scrolling
-                 [:s ["mouse-scroll-mode" 1] nil { :afterup ["mouse-scroll-mode" 0] }]
-                 [:h {:mkey {:hwheel -32}} :mouse-scroll-mode ]
-                 [:j {:mkey {:vwheel  32}} :mouse-scroll-mode ]
-                 [:k {:mkey {:vwheel -32}} :mouse-scroll-mode ]
-                 [:l {:mkey {:hwheel  32}} :mouse-scroll-mode ]
-                 ]}
+        
         {:des "dkey (mouse)"
          :rules [:d-mode
                  [:w [:km "Google Searchio selected word"]]
@@ -591,8 +544,7 @@
                  [:z :!CO0] ; Show Dropzone dropdown
                  [:n :!CTOg] ; Turn on/off notifications
                  [:m :!COslash]]} ; Show/hide notification centre
-        {:des   "switch input method ABC"
-                :rules [:left_shift [:left_shift {:alone [:select_input_source :us]}]]}
+
         {:des   "global C-h to backspace"
          :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}
         {:des   "in-alfred"

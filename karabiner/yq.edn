@@ -305,7 +305,7 @@
               :rules [[:right_option :left_option nil {:alone ["osascript ~/Dropbox/sync/Automator/switch-to-second-previous-app.scpt"]}]]}
              {:des   "some simultaneous keys"
               :rules [[[:h :l] [[:alf "helpSearch" "com.tedwise.menubarsearch"] ["in-alfred" 1]]]
-                      [[:j :l] [:f19 ["in-alfred" 1]]]
+                      ;[[:j :l] [:f19 ["in-alfred" 1]]]
                       [[:l :n] [[:alf "winswitch" "ru.mandrigin.alfred.sww"] ["in-alfred" 1]]]]}
              {:des   "alfred mode"
               :rules [[:l :!COi :browsers-alfred-mode]
