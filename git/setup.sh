@@ -4,9 +4,9 @@ IFS=$'\n\t'
 
 SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) && cd "$SDIR"
 
-git config --global user.name "Wenxuan Zhang"
-git config --global user.email "wenxuangm@gmail.com"
-git config --global github.user "wfxr"
+git config --global user.name "Brenden Durham"
+git config --global user.email "paybdd@gmail.com"
+git config --global github.user "brendendurham"
 git config --global color.ui true
 
 # avoid entering password again and again
@@ -62,7 +62,7 @@ git config --global alias.lock '!git-crypt lock'
 git config --global alias.unlock '!git-crypt unlock'
 
 # signing
-git config --global user.signingkey wenxuangm@gmail.com
+git config --global user.signingkey paybdd@gmail.com
 git config --global commit.gpgsign true
 
 # pre-commit https://pre-commit.com
