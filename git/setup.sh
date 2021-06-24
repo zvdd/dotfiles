@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -euo pipefail	
 IFS=$'\n\t'
 
 SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) && cd "$SDIR"
@@ -9,12 +9,14 @@ git config --global user.email "paybdd@gmail.com"
 git config --global github.user "brendendurham"
 git config --global color.ui true
 
-# avoid entering password again and again
+	# avoid entering password again and again
 if [[ -z "${SSH_CLIENT-}" ]]; then
     case $OSTYPE in
         linux* )
-            git config --global credential.helper 'libsecret'
+            git config --global credential.helper libsecret
             ;;
+        darwin* )
+            git config --global credential.helper osxkeychain
     esac
 fi
 
@@ -62,8 +64,8 @@ git config --global alias.lock '!git-crypt lock'
 git config --global alias.unlock '!git-crypt unlock'
 
 # signing
-git config --global user.signingkey paybdd@gmail.com
-git config --global commit.gpgsign true
+git config --global user.signingkey 22D0DB983CCAD87D
+git config --global commit.gpgsign true 
 
 # pre-commit https://pre-commit.com
 pip install --upgrade pre-commit &&
@@ -78,3 +80,6 @@ git config --global diff.indentHeuristic on
 mkdir -p ~/bin
 ln -sf "$PWD/git-pager" ~/bin/git-pager
 git config --global core.pager 'git-pager'
+
+# Political correctness?
+git config --global init.defaultBranch main
