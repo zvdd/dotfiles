@@ -4,3 +4,29 @@
 # 2021-03-27
 
 # RC files 
+
+cd "$(dirname "${BASH_SOURCE[0]}")" || exit 1
+
+BASE=$(pwd)
+touch bashrc-extra
+for rc in *rc *profile tmux.conf agignore rubocop.yml Rprofile; do
+  mkdir -pv bak
+  [ -e ~/."$rc" ] && mv -v ~/."$rc" bak/."$rc"
+  ln -sfv "$BASE/$rc" ~/."$rc"
+done
+
+# git-prompt
+if [ ! -e ~/.git-prompt.sh ]; then
+  curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh -o ~/.git-prompt.sh
+fi
+
+
+# scripts
+mkdir -p ~/bin
+for bin in $BASE/bin/*; do
+  ln -svf "$bin" ~/bin
+done
+
+# leiningen
+mkdir -p ~/.lein
+ln -sfv "$BASE/profiles.clj" ~/.lein/
