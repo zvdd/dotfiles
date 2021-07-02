@@ -1,5 +1,6 @@
 {:profiles
- {:goku {:default true :alone 80 :held 50 :delay 0 :sim 30}}
+ {:goku {:default true :alone 80 :held 50 :delay 0 :sim 30}
+  :test {:default false :sim 50 :delay 500 :alone 500 :held 500}}
  :tos {:same_wind_app   {:key :grave_accent_and_tilde :modi [:left_command] :lazy true}
        :prev_app        {:key :tab :modi [:left_command] :lazy true}
        :left_paren      {:key :9 :modi [:left_shift] :lazy true}
@@ -28,25 +29,96 @@
              }
  :layers {:tmux-windmove-mode    {:key :q :condi [:Terminals :!comma-mode :!period-mode]}
           :tmux-windresize-mode  {:key :c :condi :tmux-windmove-mode}}
- :simlayers {:contexts-f-mode       {:key :f}
+ :simlayers {:contexts-f-mode {:key :f}
              :launch-mode {:key :w}
-             :vscode-s-mode         {:key :s :condi :VSCode}}
+             :vscode-s-mode {:key :s :condi :VSCode}
+             :o-mode {:key :o}}
  :main [{:des "fl to esc, fh to ..."
          :rules
          [[[:f :l] :escape]
           ;; [[:f :h] :escape]
           ]}
+        {:des "left cmd -> cmd+tab"
+         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
         {:des   "launcher mode"
          :rules [:launch-mode
                  ;; [:k [:open "/Applications/Emacs.app"]]
-                 ;; [:k [:show "Emacs"]]
+                ;; [:k [:show "Emacs"]]
                  [[:j [:opena "kitty"]]]}
-        {:des "left cmd -> cmd+tab"
-         :rules [[:left_command :left_command nil {:alone :!Ctab}]]}
+        {:des   "vscode"
+         :rules [:VSCode
+                [:##left_command :left_command nil {:alone [:!CSp ["vsc-m-x-on" 1]]}]
+                :vsc-m-x-on
+                [:!Tl [:return_or_enter ["in-alfred" 0]]]
+                [:!Tj :down_arrow]
+                [:!Tk :up_arrow]
+                [:escape [:escape ["vsc-m-x-on" 0]]]
+                [:##left_control :left_control nil {:alone [:escape ["vsc-m-x-on" 0]]}]
+                [:return_or_enter [:return_or_enter ["vsc-m-x-on" 0]]]
+                :vscode-s-mode
+                [:j :!CSopen_bracket]
+                [:k :!CSclose_bracket]]}
+        {:des   "contexts"
+         :rules [[[:m :l] [:f16 ["in-contexts" 1]]]
+                   [:semicolon :right_option nil {:alone :semicolon}]
+                   [:escape [:escape ["in-contexts" 0]] ["in-contexts" 1]]
+                   [{:pkey :button1} [{:pkey :button1} ["in-contexts" 0]] ["in-contexts" 1]]
+                   [:##left_control :left_control ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                   [:##caps_lock [:left_control] ["in-contexts" 1] {:alone [:escape ["in-contexts" 0]]}]
+                   [:return_or_enter [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                   [:!Tm [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]
+                   :contexts-f-mode
+                   [:j [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                   [:k [["in-contexts" 1] :f16] ["in-contexts" 0]]
+                   [:j :down_arrow ["in-contexts" 1]]
+                   [:k :up_arrow ["in-contexts" 1]]
+                   [:e [:f :e]]
+                   [:l [:return_or_enter ["in-contexts" 0]] ["in-contexts" 1]]]}
+        {:des   "in-alfred"
+              :rules [:in-alfred
+                      [:!Tw :!Odelete_or_backspace]
+                      [:!Ty :!Cv]
+                      [:!Tslash :!Cz]
+                      [:escape [:escape ["in-alfred" 0]]]
+                      [:return_or_enter [:return_or_enter ["in-alfred" 0]]]
+                      [:##left_control :left_control nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:##caps_lock [:left_control] nil {:alone [:escape ["in-alfred" 0]]}]
+                      [:!Ctab [:!Ctab ["in-alfred" 0]]]
+                      [:!Cright_command [:!Ctab ["in-alfred" 0]]]
+                      [:!Tsemicolon [:!Treturn_or_enter ["in-alfred" 0]]]
+                      [:!Tl [:return_or_enter ["in-alfred" 0]]]
+                      [:!Tj :down_arrow]
+                      [:!Tk :up_arrow]
+                      [:!Oh :left_arrow]
+                      [:!Oj :down_arrow]
+                      [:!Ok :up_arrow]
+                      [:!Ol :right_arrow]
+                      [:!OSh :!OSleft_arrow]
+                      [:!OSj :!OSdown_arrow]
+                      [:!OSk :!OSup_arrow]
+                      [:!OSl :!OSright_arrow]]}
+        {:des "okey (alfred)"
+         :rules [:o-mode
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:7 :!C7]
+                 [:8 :!C8]
+                 [:9 :!C9]
+                 [:0 :!C0]
+                 [:a :!!n] ; bartender: search menu bar items
+                 [:equal_sign :!Cequal_sign]
+                 [:k [:km "open: Keycastr"]]
+                 [:j [:alfred "search repos" "me.lachlan.githubjump"]]
+                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
+                 ]}
+     
         {:des   "global C-h to backspace"
          :rules [[:!Th :delete_or_backspace nil {:params {:alone 500 :held 500}}]]}]
  :devices {:macbook-air [{:product_id 641 :vendor_id 1452}]
-
            :hhkb [{:vendor_id 2131 :product_id 256}]}
 :applications       {:emacs-mode-disable-app        ["^org\\.gnu\\.Emacs$",
                                                       "^org\\.gnu\\.AquamacsEmacs$",
